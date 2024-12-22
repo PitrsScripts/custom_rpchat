@@ -136,3 +136,4 @@ AddEventHandler('rpchat:chat', function(job, msg)
     }
     TriggerClientEvent('rpchat:Send', -1, messageFull, job)
 end)
+
