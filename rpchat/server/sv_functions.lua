@@ -30,8 +30,6 @@ AddEventHandler('rpchat:sendToDiscord', function(command, message, color)
     local playerName = GetPlayerName(playerId)
     local embedConfig = Config.EmbedConfig
     local translation = embedConfig.translation
-
-    -- Získat Discord nickname z Discord API
     local discordNick = "Není propojeno"
     if discordId then
         discordNick = GetDiscordNickname(discordId) or "Není propojeno"
