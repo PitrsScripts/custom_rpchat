@@ -67,10 +67,10 @@ RegisterNetEvent('rpchat:sendMe', function(playerId, title, message, color)
             end)
             local playerName = GetPlayerName(source)
             TriggerEvent('chat:addMessage', { 
-                template = '<div style="margin-bottom: 2px; padding: 5px; background-color: rgba(10, 10, 10, 0.7); border-radius: 0px; color: white;"> <span style="background-color: rgba(0, 151, 255, 0.4); border-radius: 0px; padding: 2px 4px;">ME</span> ' .. playerName .. ' : <span style="color: white;">'.. message ..'</span></div>',
+                template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 0px; color: white;"> <span style="background-color: rgba(0, 151, 255, 0.4); border-radius: 0px; padding: 2px 4px;">ME</span> ' .. playerName .. ' - <span style="color: white;">'.. message ..'</span></div>',
                 args = { "[ME] - " .. playerName, message }
             })
-            TriggerServerEvent('rpchat:sendToDiscord', "me", playerName .. ": " .. message, 3447003) 
+            TriggerServerEvent('rpchat:sendToDiscord', "me", playerName .. "- " .. message, 3447003) 
             textOffset = textOffset + 0.3 
         end
     end
@@ -107,15 +107,16 @@ RegisterNetEvent('rpchat:sendDo', function(playerId, title, message, color)
             end)
             local playerName = GetPlayerName(target)
             TriggerEvent('chat:addMessage', {
-                template = '<div style="margin-bottom: 2px; padding: 5px; background-color: rgba(10, 10, 10, 0.7); border-radius: 0px; color: white;"> <span style="background-color: rgba(255, 255, 0, 0.4); border-radius: 0px; padding: 2px 4px;">DO</span> ' .. playerName .. ' : <span style="color: white;">'.. message ..'</span></div>',
+                template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 0px; color: white;"> <span style="background-color: rgba(255, 255, 0, 0.4); border-radius: 0px; padding: 2px 4px;">DO</span> ' .. playerName .. ' - <span style="color: white;">'.. message ..'</span></div>',
                 args = { "[DO] - " .. playerName, message }
             })
-            TriggerServerEvent('rpchat:sendToDiscord', "do", playerName .. ": " .. message, 16776960) 
+            TriggerServerEvent('rpchat:sendToDiscord', "do", playerName .. "- " .. message, 16776960) 
 
             textOffset = textOffset + 0.3
         end
     end
 end)
+
 function DrawText3D(x, y, z, text, color, offset)
     local onScreen, _x, _y = World3dToScreen2d(x, y, z + offset)
     if onScreen then
@@ -149,10 +150,10 @@ RegisterNetEvent('rpchat:sendLocalOOC', function(playerId, title, message, color
             local playerName = GetPlayerName(target)
 
             TriggerEvent('chat:addMessage', {
-                template = '<div style="margin-bottom: 2px; padding: 5px; background-color: rgba(10, 10, 10, 0.7); border-radius: 0px; color: white;"> <span style="background-color: rgba(128, 0, 128, 0.8); border-radius: 8px; padding: 2px 4px;">L-OOC</span> ' .. playerName .. ' : <span style="color: white;">' .. message .. '</span></div>',
+                template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 0px; color: white;"> <span style="background-color: rgba(255, 255, 0, 0.48); border-radius: 0px; padding: 2px 4px;">L-OOC</span> ' .. playerName .. ' - <span style="color: white;">' .. message .. '</span></div>',
                 args = { "L-OOC - " .. playerName, message }
             })
-            TriggerServerEvent('rpchat:sendToDiscord', "ooc", playerName .. ": " .. message, 8421504) 
+            TriggerServerEvent('rpchat:sendToDiscord', "ooc", playerName .. "- " .. message, 8421504) 
         end
     end
 end)
@@ -165,16 +166,16 @@ RegisterCommand('try', function()
 
     if result == 1 then
         TriggerEvent('chat:addMessage', {
-            template = '<div style="margin-bottom: 2px; padding: 5px; background-color: rgba(10, 10, 10, 0.7); border-radius: 0px; color: white;"> <span style="background-color: rgba(0, 255, 0, 0.4); border-radius: 0px; padding: 2px 4px;">TRY</span> ' .. playerName .. ' <span style="color: white;">: Ano</span></div>',
+            template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 0px; color: white;"> <span style="background-color: rgba(0, 255, 0, 0.4); border-radius: 0px; padding: 2px 4px;">TRY</span> ' .. playerName .. ' <span style="color: white;">- Ano</span></div>',
             args = {}
         })
         TriggerServerEvent('rpchat:sendToDiscord', "TRY", playerName .. ": Ano", 65280) 
     else
         TriggerEvent('chat:addMessage', {
-            template = '<div style="margin-bottom: 2px; padding: 5px; background-color: rgba(10, 10, 10, 0.7); border-radius: 0px; color: white;"> <span style="background-color: rgba(255, 0, 0, 0.4); border-radius: 0px; padding: 2px 4px;">TRY</span> ' .. playerName .. ' <span style="color: white;">: Ne</span></div>',
+            template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 0px; color: white;"> <span style="background-color: rgba(255, 0, 0, 0.4); border-radius: 0px; padding: 2px 4px;">TRY</span> ' .. playerName .. ' <span style="color: white;">- Ne</span></div>',
             args = {}
         })
-        TriggerServerEvent('rpchat:sendToDiscord', "try", playerName .. ": Ano", 65280) 
+        TriggerServerEvent('rpchat:sendToDiscord', "try", playerName .. "- Ano", 65280) 
     end
 end, false)
 --------------------------------
@@ -250,23 +251,25 @@ RegisterNetEvent('rpchat:sendOznameni', function(playerId, title, message, color
     
     if target ~= -1 then
         TriggerEvent('chat:addMessage', {
-            template = '<div style="margin-bottom: 2px; padding: 5px; background-color: rgba(10, 10, 10, 0.7); color: white;">' ..
-                        '<span style="background-color: rgba(255, 0, 0, 0.8); padding: 2px 4px; border-radius: 0px;">OZNÁMENÍ</span> ' ..
+            template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 0px; color: white;">' ..
+                        '<span style="background-color: rgba(255, 0, 0, 0.8); border-radius: 0px; padding: 2px 4px;">OZNÁMENÍ</span> ' ..
                         '<span style="color: white;">' .. message .. '</span></div>',
             args = { message }
         })
         TriggerServerEvent('rpchat:sendToDiscord', "oznameni", message, 16711680) 
     end
 end)
+
 RegisterNetEvent('rpchat:sendPrivateMessage', function(senderId, message)
     local senderName = GetPlayerName(GetPlayerFromServerId(senderId))
     TriggerEvent('chat:addMessage', {
-        template = '<div style="margin-bottom: 2px; padding: 5px; background-color: rgba(0, 0, 0, 0.7); color: white;">' ..
-                    '<span style="background-color: rgba(0, 255, 0, 0.8); padding: 2px 4px; border-radius: 0px;">MSG</span> ' ..
-                    '<span style="color: white;">' .. senderName .. ': ' .. message .. '</span></div>',
+        template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(0, 0, 0, 0.7); border-radius: 0px; color: white;">' ..
+                    '<span style="background-color: rgba(0, 255, 0, 0.8); border-radius: 0px; padding: 2px 4px;">MSG</span> ' ..
+                    '<span style="color: white;">' .. senderName .. '- ' .. message .. '</span></div>',
         args = { senderName, message }
     })
 end)
+
 --------------------------------
 --------------JOBS--------------
 --------------------------------

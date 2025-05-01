@@ -1,5 +1,8 @@
 local ESX = nil
 ESX = exports["es_extended"]:getSharedObject()
+
+
+
 ---------------------------------
 -----------DISCORD LOG-----------
 ---------------------------------
