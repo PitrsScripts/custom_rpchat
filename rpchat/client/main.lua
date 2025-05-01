@@ -263,7 +263,7 @@ end)
 RegisterNetEvent('rpchat:sendPrivateMessage', function(senderId, message)
     local senderName = GetPlayerName(GetPlayerFromServerId(senderId))
     TriggerEvent('chat:addMessage', {
-        template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(0, 0, 0, 0.7); border-radius: 0px; color: white;">' ..
+        template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 0px; color: white;">' ..
                     '<span style="background-color: rgba(0, 255, 0, 0.8); border-radius: 0px; padding: 2px 4px;">MSG</span> ' ..
                     '<span style="color: white;">' .. senderName .. '- ' .. message .. '</span></div>',
         args = { senderName, message }
