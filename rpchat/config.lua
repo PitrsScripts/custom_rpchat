@@ -1,7 +1,7 @@
-Config   = {}
+Config = {}
 
 Config.EmbedConfig = {
-    username = "RPCHAT BOT",
+    username = "PITRS RPCHAT BOT",
     color = {
         ["me"] = 3447003, -- Blue
         ["do"] = 16776960, -- Yellow
@@ -13,18 +13,17 @@ Config.EmbedConfig = {
         ["doc"] = 16777215 -- White
     },
     translation = {
-        player = "👤Hráč",
+        player = "👤Player",
         discordNickname = "🎮Discord",
-        time = "🕒Čas",
-        todayAt = "📅Dnes v",
-        message = "💬Zpráva"
+        time = "🕒Time",
+        todayAt = "📅Today at",
+        message = "💬Message"
     }
 }
 
-Config.DiscordBotToken = "MTMwOTY5NzU3OTg1NjE3MTA3OQ.G6gg5c.MPspQLfPV36UXK6bJLC0ozZtfVcqwUHEacNjgQ"
 
 Config.DiscordWebhookURLs = {
-    ["me"] = 'https://discord.com/api/webhooks/1319444935740751952/IHAztmoD-_tPkEydprE6z7BwipiGOAFY_m9fTt2DnWchi4qY_fv8zYZZ0Pgdbi5fmazt',
+    ["me"] = 'https://discord.com/api/webhooks/1367677678978859050/-OMRvaKqBSeQTz8Jm53m37lzh42UzvjuDD4XPbKou9YticvDMBGlWJVq2MyWbTLrhQHr',
     ["do"] = 'https://discord.com/api/webhooks/1319444993294864394/nnxFQJqaYKdSbD0y9HxtwXMJ_a72ohaHeqzS7QS3qF3NjInWxKOhoMybVnNWdtXDz5Ch',
     ["ooc"] = 'https://discord.com/api/webhooks/1309288002714865725/FTP7-1Vy_U4rreOoDzFGW8CVh3y7KyjuC2xdrx6G1mlh3VUIPBWBaPnctZ7-FTeh23ll',
     ["try"] = 'https://discord.com/api/webhooks/1319445206893989920/gOs9OZCKzBJBsVt5l2a9Ewd2BFYQJfO3vr-UfcGZ21FacWCN8JlaQpAqlGgFQzQuQFCP',
@@ -40,12 +39,15 @@ Config.AllowedGroups = {
     superadmin = true
 }
 --CHAT CONFIG
-Config.EnableAnnouncementsCommand = true --true/false
-Config.EnableMsgCommand = true --true/false
-Config.EnableSheriffCommand = true --true/false
-Config.firstname = false --use only first name
-Config.lastname = false --use only last name
-Config.job = false --use only job label
+Config.OocCommand = true --true / false
+Config.MeCommand = true --true / false
+Config.DoCommand = true --true / false
+Config.AnnouncementsCommand = true --true / false
+Config.MsgCommand = true --true / false
+Config.SheriffCommand = true --true / false
+Config.firstname = false -- use only first name
+Config.lastname = false -- use only last name
+Config.job = false -- use only job label
 --JOBS
 Config.ambulance = 'ambulance' -- job name for ambulance
 Config.sheriff = 'sheriff' -- job name for sheriff 

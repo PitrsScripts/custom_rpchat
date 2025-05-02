@@ -11,30 +11,48 @@ end)
 --OOC
 RegisterCommand('ooc', function(source, args, raw)
   if source == 0 then
-    print('rpchat: you can\'t use this command from rcon!')
-    return
+      --print('rpchat: you can\'t use this command from rcon!')
+      return
   end
+
+  if not Config.OocCommand then
+     -- print('rpchat: /ooc command is currently disabled.')
+      return
+  end
+
   args = table.concat(args, ' ')
   local name = GetCharacterName(source)
 
   TriggerClientEvent('rpchat:sendLocalOOC', -1, source, name, args, {196, 33, 246})
 end)
+
 --ME
 RegisterCommand('me', function(source, args, raw)
   if source == 0 then
-    print('rpchat: you can\'t use this command from rcon!')
-    return
+    -- print('rpchat: you can\'t use this command from rcon!')
+      return
   end
+
+  if not Config.MeCommand then
+     -- print('rpchat: /me command is currently disabled.')
+      return
+  end
+
   args = table.concat(args, ' ')
   local name = GetCharacterName(source)
 
-  TriggerClientEvent('rpchat:sendMe', -1, source, name, args, {196, 33, 246})
+ -- TriggerClientEvent('rpchat:sendMe', -1, source, name, args, {196, 33, 246})
 end)
+
 --DO
 RegisterCommand('do', function(source, args, raw)
   if source == 0 then
-    print('rpchat: you can\'t use this command from rcon!')
-    return
+     -- print('rpchat: you can\'t use this command from rcon!')
+      return
+  end
+  if not Config.DoCommand then
+      --print('rpchat: /do command is currently disabled.')
+      return
   end
 
   args = table.concat(args, ' ')
@@ -42,9 +60,10 @@ RegisterCommand('do', function(source, args, raw)
 
   TriggerClientEvent('rpchat:sendDo', -1, source, name, args, {255, 198, 0})
 end)
+
 --Sheriff
 RegisterCommand('lssd', function(source, args, rawCommand)
-  if not Config.EnableSheriffCommand then
+  if not Config.SheriffCommand then
       print('rpchat: The /lssd command is disabled in the config.')
       return
   end
@@ -64,7 +83,7 @@ RegisterCommand('lssd', function(source, args, rawCommand)
 end, false)
 --OZNAMENI
 RegisterCommand('oznameni', function(source, args, raw)
-  if not Config.EnableAnnouncementsCommand then
+  if not Config.AnnouncementsCommand then
       print('rpchat: The /oznameni command is disabled in the config.')
       return
   end
@@ -86,7 +105,7 @@ RegisterCommand('oznameni', function(source, args, raw)
 end)
 --MSG
 RegisterCommand('msg', function(source, args, raw)
-  if not Config.EnableMsgCommand then
+  if not Config.MsgCommand then
       print('rpchat: The /msg command is disabled in the config.')
       return
   end
