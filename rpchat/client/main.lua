@@ -11,6 +11,12 @@ Citizen.CreateThread(function()
 
     print("DEBUG: Pitrs Rpchat Loaded")
 end)
+AddEventHandler('onClientResourceStart', function (resourceName)
+    if(GetCurrentResourceName() ~= resourceName) then
+      return
+    end
+    print('The resource ' .. resourceName .. ' has been started on the client.')
+  end)  
 ------------------------------------------------------------------------------------------------
 --------------OFFSET----------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------
@@ -174,13 +180,13 @@ RegisterCommand('try', function()
             template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 0px; color: white;"> <span style="background-color: rgba(0, 255, 0, 0.4); border-radius: 0px; padding: 2px 4px;">TRY</span> ' .. playerName .. ' <span style="color: white;">- Ano</span></div>',
             args = {}
         })
-        TriggerServerEvent('rpchat:sendToDiscord', "TRY", playerName .. ": Ano", 65280) 
+        TriggerServerEvent('rpchat:sendToDiscord', "try", playerName .. ": Ano", 65280)
     else
         TriggerEvent('chat:addMessage', {
             template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 0px; color: white;"> <span style="background-color: rgba(255, 0, 0, 0.4); border-radius: 0px; padding: 2px 4px;">TRY</span> ' .. playerName .. ' <span style="color: white;">- Ne</span></div>',
             args = {}
         })
-        TriggerServerEvent('rpchat:sendToDiscord', "try", playerName .. "- Ano", 65280) 
+        TriggerServerEvent('rpchat:sendToDiscord', "try", playerName .. ": Ne", 16711680) -- Červená barva
     end
 end, false)
 ------------------------------------------------------------------------------------------------

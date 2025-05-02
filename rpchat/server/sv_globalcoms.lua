@@ -41,7 +41,7 @@ RegisterCommand('me', function(source, args, raw)
   args = table.concat(args, ' ')
   local name = GetCharacterName(source)
 
- -- TriggerClientEvent('rpchat:sendMe', -1, source, name, args, {196, 33, 246})
+  TriggerClientEvent('rpchat:sendMe', -1, source, name, args, {196, 33, 246})
 end)
 
 --DO

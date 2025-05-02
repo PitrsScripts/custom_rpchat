@@ -33,7 +33,7 @@ AddEventHandler('rpchat:sendToDiscord', function(command, message, color)
     end
 
     if webhookURL ~= 'HOOK' then
-        print(string.format("^5[RPCHAT] ^7Sending message to Discord for command ^3%s ^7with color ^1%s", command, color))
+       -- print(string.format("^5[RPCHAT] ^7Sending message to Discord for command ^3%s ^7with color ^1%s", command, color))
     else
         print("^5[PITRS RPCHAT] ^7No webhook configured for this command: ^3" .. command)
     end
