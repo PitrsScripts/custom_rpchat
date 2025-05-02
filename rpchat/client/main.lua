@@ -15,7 +15,7 @@ AddEventHandler('onClientResourceStart', function (resourceName)
     if(GetCurrentResourceName() ~= resourceName) then
       return
     end
-    print('The resource ' .. resourceName .. ' has been started on the client.')
+   --print('The resource ' .. resourceName .. ' has been started on the client.')
   end)  
 ------------------------------------------------------------------------------------------------
 --------------OFFSET----------------------------------------------------------------------------
