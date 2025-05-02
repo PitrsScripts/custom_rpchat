@@ -11,7 +11,7 @@ Config.EmbedConfig = {
             success = 65280,     --  Green for /try success
             failure = 16711680   --  Red for /try failure
         },
-        ["doc"] = 16777215 -- ⚪ White for /doc
+        ["doc"] = 16777215 --  White for /doc
     },
     translation = {
         player = "👤Player",
@@ -21,8 +21,6 @@ Config.EmbedConfig = {
         message = "💬Message"
     }
 }
-
-
 
 
 -- 🔗 DISCORD WEBHOOK URLS
@@ -35,6 +33,15 @@ Config.DiscordWebhookURLs = {
     ["msg"] = 'https://discordapp.com/api/webhooks/1322049028094951544/be7a2SvMciz9HJn8TMG7UYTZ5jPl5i56D_AB_JELkBWeBaQL5A_W7b9HkpJKTpflktin'
 }
 
+-- 🕒 **AUTO MESSAGES** - Automatic messages settings
+Config.AutoMessages = true
+Config.AutoMessageInterval = 1 -- In minutes (for testing)
+Config.AutoMessagesList = { -- List of messages that will be sent randomly
+    "Make sure to join our discord! discord.gg/invite",
+   -- "You can use the /report command to report any problems!",
+}
+
+
 -- 👥 PERMISSIONS - ALLOWED GROUPS
 Config.AllowedGroups = {
     admin = true,
@@ -43,6 +50,7 @@ Config.AllowedGroups = {
 }
 
 -- 💬 CHAT COMMANDS TOGGLE
+Config.CommandCooldown = 3        -- Cooldown Commands
 Config.OocCommand = true           -- Enables /ooc
 Config.MeCommand = true            -- Enables /me
 Config.DoCommand = true            -- Enables /do

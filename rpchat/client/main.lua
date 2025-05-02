@@ -238,7 +238,7 @@ RegisterCommand('doc', function(source, args, rawCommand)
             Citizen.Wait(0)
         
             local targetCoords = GetEntityCoords(targetPed)
-            local x, y, z = targetCoords.x, targetCoords.y, targetCoords.z + 1.2 -- zvýšená výška
+            local x, y, z = targetCoords.x, targetCoords.y, targetCoords.z + 1.2 
         
             local currentTime = GetGameTimer()
             if currentTime - lastUpdate >= updateInterval then
@@ -281,7 +281,6 @@ RegisterNetEvent('rpchat:sendPrivateMessage', function(senderId, message)
         args = { senderName, message }
     })
 end)
-
 ------------------------------------------------------------------------------------------------
 --------------JOBS------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------
@@ -300,3 +299,14 @@ end)
        -- TriggerEvent('chat:addMessage', messageFull)
   --  end
 --end)
+------------------------------------------------------------------------------------------------
+--------------AUTO MESSAGE----------------------------------------------------------------------
+------------------------------------------------------------------------------------------------
+RegisterNetEvent('rpchat:sendAutoMessage', function(message)
+    TriggerEvent('chat:addMessage', {
+        template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 0px; color: white;">' ..
+                    '<span style="background-color: rgba(0, 151, 255, 0.4); border-radius: 0px; padding: 2px 4px;">CHAT</span> ' .. 
+                    '<span style="color: white;">' .. message .. '</span></div>',
+        args = { "[Chat]", message }
+    })
+end)
