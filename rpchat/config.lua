@@ -22,6 +22,9 @@ Config.EmbedConfig = {
     }
 }
 
+
+
+
 -- 🔗 DISCORD WEBHOOK URLS
 Config.DiscordWebhookURLs = {
     ["me"] = 'https://discord.com/api/webhooks/1367677678978859050/-OMRvaKqBSeQTz8Jm53m37lzh42UzvjuDD4XPbKou9YticvDMBGlWJVq2MyWbTLrhQHr',
