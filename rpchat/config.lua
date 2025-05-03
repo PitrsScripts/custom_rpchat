@@ -34,7 +34,7 @@ Config.DiscordWebhookURLs = {
 }
 
 -- 🕒 **AUTO MESSAGES** - Automatic messages settings
-Config.AutoMessages = true
+Config.AutoMessages = false
 Config.AutoMessageInterval = 1 -- In minutes (for testing)
 Config.AutoMessagesList = { -- List of messages that will be sent randomly
     "Make sure to join our discord! discord.gg/invite",
