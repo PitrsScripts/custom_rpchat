@@ -3,20 +3,23 @@ local textOffset = 0
 ------------------------------------------------------------------------------------------------
 --------------ESX-------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------
+function debugPrint(msg)
+    if Config.Debug then
+        print(msg)
+    end
+end
 Citizen.CreateThread(function()
     while ESX == nil do
         ESX = exports["es_extended"]:getSharedObject()
         Citizen.Wait(0)
     end
-
-    print("DEBUG: Pitrs Rpchat Loaded")
+    debugPrint("DEBUG: RpChat Loaded")
 end)
 AddEventHandler('onClientResourceStart', function (resourceName)
     if(GetCurrentResourceName() ~= resourceName) then
       return
     end
-   --print('The resource ' .. resourceName .. ' has been started on the client.')
-  end)  
+end)  
 ------------------------------------------------------------------------------------------------
 --------------OFFSET----------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------
@@ -203,7 +206,7 @@ RegisterCommand('doc', function(source, args, rawCommand)
         if target > 50 then
             lib.notify({
                 title = 'Chyba',
-                description = 'Maximální povolené číslo je 50.',
+                description = 'The maximum number allowed is 50.',
                 type = 'error'
             })
             return
@@ -216,7 +219,7 @@ RegisterCommand('doc', function(source, args, rawCommand)
             local bgWidth = 0.02 + (textLength / 250)
             local bgHeight = 0.027
     
-            local offsetX = 0.005 -- posun doprava
+            local offsetX = 0.005 
     
             SetTextScale(0.35, 0.35)
             SetTextFont(16)
@@ -253,23 +256,22 @@ RegisterCommand('doc', function(source, args, rawCommand)
             end
         end        
     end)
-    TriggerServerEvent('rpchat:sendToDiscord', "doc", "Příkaz vykonán s cílem: " .. target, 16777215) 
+    TriggerServerEvent('rpchat:sendToDiscord', "doc", "Pcarried out in order to: " .. target, 16777215) 
 end, false)
 ------------------------------------------------------------------------------------------------
 --------------ADMIN-----------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------
-RegisterNetEvent('rpchat:sendOznameni', function(playerId, title, message, color)
+RegisterNetEvent('rpchat:sendAnnouncement', function(playerId, title, message, color)
     local source = PlayerId()
     local target = GetPlayerFromServerId(playerId)
     
     if target ~= -1 then
         TriggerEvent('chat:addMessage', {
             template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 5px; color: white;">' ..
-                        '<span style="background-color: rgba(255, 0, 0, 0.8); border-radius: 5px; padding: 2px 4px; color: black;">OZNÁMENÍ</span> ' ..
+                        '<span style="background-color: rgba(255, 0, 0, 0.8); border-radius: 5px; padding: 2px 4px; color: black;">Announcement</span> ' ..
                         '<span style="color: white;">' .. message .. '</span></div>',
             args = { message }
         })
-        TriggerServerEvent('rpchat:sendToDiscord', "oznameni", message, 16711680) 
     end
 end)
 

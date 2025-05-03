@@ -5,33 +5,47 @@ local ESX = exports["es_extended"]:getSharedObject()
 -----------DISCORD LOG-------------------------------------------------
 -----------------------------------------------------------------------
 Citizen.CreateThread(function()
+    if not Config.Debug then return end
+
     print("^5[PITRS RPCHAT] ^7Checking Discord webhooks on startup...")
 
     local isWebhookConfigured = false
 
     for command, webhookURL in pairs(Config.DiscordWebhookURLs) do
-        if webhookURL ~= 'HOOK' then
+        if webhookURL and webhookURL ~= 'HOOK' then
             isWebhookConfigured = true
         end
     end
 
     if isWebhookConfigured then
-        print("^5[PITRS RPCHAT] ^7Discord log is set up successfully..")
+        print("^5[PITRS RPCHAT] ^7Discord log is set up successfully.")
     else
         print("^5[PITRS RPCHAT] ^7No Discord log set, please configure config.lua")
     end
 end)
 
+-----------------------------------------------------------------------
+-----------DEBUG FUNCTION----------------------------------------------
+-----------------------------------------------------------------------
+local function debugPrint(message)
+    if Config.Debug then
+        print("^5[PITRS RPCHAT DEBUG] ^7" .. message)
+    end
+end
+
+-----------------------------------------------------------------------
+-----------SEND TO DISCORD EVENT--------------------------------------
+-----------------------------------------------------------------------
 RegisterServerEvent('rpchat:sendToDiscord')
 AddEventHandler('rpchat:sendToDiscord', function(command, message, color)
     local webhookURL = Config.DiscordWebhookURLs[command]
     if not webhookURL then
-        print("No webhook URL found for command: " .. command)
+        debugPrint("No webhook URL found for command: " .. command)
         return
     end
 
     if webhookURL == 'HOOK' then
-        print("^5[PITRS RPCHAT] ^7No webhook configured for this command: ^3" .. command)
+        debugPrint("No webhook configured for this command: " .. command)
         return
     end
 
@@ -47,7 +61,6 @@ AddEventHandler('rpchat:sendToDiscord', function(command, message, color)
     end
 
     if not discordId then
-       -- print("No Discord ID found for playerId: " .. tostring(playerId))
         discordId = "Not connected"
     end
 
@@ -82,9 +95,9 @@ AddEventHandler('rpchat:sendToDiscord', function(command, message, color)
 
     PerformHttpRequest(webhookURL, function(err, text, headers)
         if err == 200 or err == 204 then
-           -- print("^2[PITRS RPCHAT] Zpráva byla úspěšně odeslána na Discord.")
+            debugPrint("Message sent successfully to Discord.")
         else
-           -- print("^1[PITRS RPCHAT] Chyba při odesílání zprávy na Discord webhook: " .. tostring(err))
+            debugPrint("Error sending message to Discord webhook: " .. tostring(err))
         end
     end, 'POST', json.encode({
         username = embedConfig.username,
@@ -92,39 +105,9 @@ AddEventHandler('rpchat:sendToDiscord', function(command, message, color)
         embeds = embed
     }), { ['Content-Type'] = 'application/json' })
 end)
-----------------------------------------------------------------------------
--------DISCORD PLAYER NAME FUNCTION-----------------------------------------
-----------------------------------------------------------------------------
-
-function GetDiscordNickname(discordId)
-    local url = "https://discord.com/api/v6/users/" .. discordId
-
-    local headers = {
-        ["Authorization"] = "Bot " .. discordBotToken,
-        ["Content-Type"] = "application/json"
-    }
-
-    local response = nil
-
-    PerformHttpRequest(url, function(err, text, headers)
-        if err == 200 then
-            local data = json.decode(text)
-            response = data.username .. "#" .. data.discriminator
-        else
-           -- print("Error getting Discord nickname: " .. err)
-        end
-    end, 'GET', '', headers)
-
-    while response == nil do
-        Citizen.Wait(0)
-    end
-
-    return response
-end
-----------------------------------------------------------------------------
------------PLAYER NAME FUNCTION---------------------------------------------
-----------------------------------------------------------------------------
-
+-----------------------------------------------------------------------
+-----------PLAYER NAME FUNCTION---------------------------------------
+-----------------------------------------------------------------------
 function GetCharacterName(source)
     local Player = ESX.GetPlayerFromId(source)
     if Player then
@@ -158,3 +141,4 @@ function GetJobName(source)
         return Player.job.label  -- Accesses the job directly from Player object
     end
 end
+

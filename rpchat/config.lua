@@ -1,5 +1,72 @@
 Config = {}
 
+Config.Debug = false -- true/false
+
+Config.Blacklisted = { 
+    "negr", 
+    "negrik", 
+    "negricek", 
+    "negrice", 
+    "negrum", 
+    "negrove", 
+    "negri", 
+    "negro", 
+    "negros", 
+    "neg3r", 
+    "n3gr", 
+    "n3gro", 
+    "n3gros", 
+    "n3gri", 
+    "n3grik", 
+    "n3gricek", 
+    "n3grice", 
+    "n3grum", 
+    "n3grove", 
+    "neg*r", 
+    "ne*gri", 
+    "n*gro", 
+    "n*grum", 
+    "n3g*r", 
+    "ne-gr", 
+    "ne_gro", 
+    "n-e-g-r", 
+    "n_e_g_r", 
+    "n.e.g.r", 
+    "n3-g-r", 
+    "n3_g_r", 
+    "discord.gg", 
+    "discord.com", 
+    "discordapp.com", 
+    "discord", 
+    "d1scord", 
+    "d1sc0rd", 
+    "d1sc0rd.gg", 
+    "d1sc-app", 
+    "d!scord", 
+    "d!scord.gg", 
+    "d!sc-app", 
+    "d.iscord", 
+    "d-i-s-c-o-r-d", 
+    "d_i_s_c_o_r_d", 
+    "d.i.s.c.o.r.d", 
+    "d1s-c0rd", 
+    "d1s_c0rd", 
+    "disc0rd", 
+    "disc-ord", 
+    "disc_ord", 
+    "discordgg", 
+    "discord-gg", 
+    "discord_gg", 
+    "dsc.gg", 
+    "dscgg", 
+    "d.sc.gg", 
+    "ds-c.gg", 
+    "ds_c.gg", 
+    "ds-c_g_g", 
+    "examplebadword", 
+    "anotherbadword"
+}
+
 -- 🌐 DISCORD EMBED SETTINGS
 Config.EmbedConfig = {
     username = "PITRS RPCHAT BOT",
@@ -25,12 +92,13 @@ Config.EmbedConfig = {
 
 -- 🔗 DISCORD WEBHOOK URLS
 Config.DiscordWebhookURLs = {
-    ["me"] = 'https://discord.com/api/webhooks/1367677678978859050/-OMRvaKqBSeQTz8Jm53m37lzh42UzvjuDD4XPbKou9YticvDMBGlWJVq2MyWbTLrhQHr',
-    ["do"] = 'https://discord.com/api/webhooks/1368206384310779975/QV7AgNbc0UnHrXrj75cD7QLpIakKHVlW3Ofxt40pUMnkqDnCZH8YlyQk9HQAA2Vxut0v',
-    ["ooc"] = 'https://discord.com/api/webhooks/1368206496512606443/6RfY6ta7xe_9rBVkGNh8fyxuGukd8YJEWGFzPHhMenfVaTt8gUejHiORYjeonA5iUZuM',
-    ["try"] = 'https://discord.com/api/webhooks/1367687968940363826/eRY4xY_va6b2xBrNb_RUXcXp0U5Sghf8Ark-au7JStxXudUWo9UKM7Zt3_7-m-GhZ06L',
+    ["me"] = 'https://discord.com/api/webhooks/1368209826269630495/BFR-HLwpi92cqxqDZLsEHsi4qO8t7eG6lTbMbZx5uWeCR2Mbv6VDHBWUYIgE0YLstILo',
+    ["do"] = 'https://discord.com/api/webhooks/1368209780383944734/0OWZrk5rLq9tRaIaxp9AlrMQfaylH8Mf8am3ZJjmGTLK-QyQ1bSMf5018iBRGV6-HffG',
+    ["ooc"] = 'https://discord.com/api/webhooks/1368209643548971008/saYD_Fle0eX-LXl3jePaQczjs9FSW1RU-wm6DXt3OPW_SHbGSIhgmPlI1HxoK_JPkhNv',
+    ["try"] = 'https://discord.com/api/webhooks/1368209742140538982/Jazq90X2fT82lWF6v9ImqtPsU6pQo6ROtIbwKFD_tt1E7yLQQs6CkWFV6mi6poFYyP7x',
     ["doc"] = 'https://discord.com/api/webhooks/1319445152015581335/0O2mZqoDv9hnbfNIzWylMO2BQbXGK8eT7Ax5NU38-C_yB-sCCWsyPd_92cOA8-rAY7hA',
-    ["msg"] = 'https://discordapp.com/api/webhooks/1322049028094951544/be7a2SvMciz9HJn8TMG7UYTZ5jPl5i56D_AB_JELkBWeBaQL5A_W7b9HkpJKTpflktin'
+    ["msg"] = 'https://discord.com/api/webhooks/1368209703527776320/DjDJ5sG6cEKDvhrFeBNUg4EO82hUUrxb_oV7G3yYDr_UhSMoKmeIorn3DWtYvx5HKX-h',
+    ["announcement"] = 'https://discord.com/api/webhooks/1368213424684793886/U-cwKAfMstasc3n-PtTKqxyLCb0e77nyQJ3zwSOu9GmF_8iuOe-mb-Pb_aOfYQHA1uWZ'
 }
 
 -- 🕒 **AUTO MESSAGES** - Automatic messages settings
@@ -50,7 +118,7 @@ Config.AllowedGroups = {
 }
 
 -- 💬 CHAT COMMANDS TOGGLE
-Config.CommandCooldown = 6        -- Cooldown Commands
+Config.CommandCooldown = 0         -- Cooldown Commands
 Config.OocCommand = true           -- Enables /ooc
 Config.MeCommand = true            -- Enables /me
 Config.DoCommand = true            -- Enables /do
@@ -59,9 +127,9 @@ Config.MsgCommand = true           -- Enables /msg
 Config.SheriffCommand = true       -- Enables /sheriff
 
 -- 🧾 CHAT DISPLAY OPTIONS
-Config.firstname = false -- Show only first name
-Config.lastname = false  -- Show only last name
-Config.job = false       -- Show only job name (label)
+--Config.firstname = false -- Show only first name
+--Config.lastname = false  -- Show only last name
+--Config.job = false       -- Show only job name (label)
 
 -- 🚓 JOB NAMES (for job-specific features)
 Config.ambulance = 'ambulance'
