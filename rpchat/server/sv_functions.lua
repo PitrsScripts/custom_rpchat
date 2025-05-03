@@ -1,7 +1,5 @@
 local ESX = nil
-ESX = exports["es_extended"]:getSharedObject()
-
-local discordBotToken = "MTMwOTY5NzU3OTg1NjE3MTA3OQ.G6gg5c.MPspQLfPV36UXK6bJLC0ozZtfVcqwUHEacNjgQ"
+local ESX = exports["es_extended"]:getSharedObject()
 
 -----------------------------------------------------------------------
 -----------DISCORD LOG-------------------------------------------------
@@ -20,7 +18,7 @@ Citizen.CreateThread(function()
     if isWebhookConfigured then
         print("^5[PITRS RPCHAT] ^7Discord log is set up successfully..")
     else
-        print("^5[PITRS RPCHAT] ^7No Discord log set please configure config.lua")
+        print("^5[PITRS RPCHAT] ^7No Discord log set, please configure config.lua")
     end
 end)
 
@@ -32,10 +30,9 @@ AddEventHandler('rpchat:sendToDiscord', function(command, message, color)
         return
     end
 
-    if webhookURL ~= 'HOOK' then
-       -- print(string.format("^5[RPCHAT] ^7Sending message to Discord for command ^3%s ^7with color ^1%s", command, color))
-    else
+    if webhookURL == 'HOOK' then
         print("^5[PITRS RPCHAT] ^7No webhook configured for this command: ^3" .. command)
+        return
     end
 
     local playerId = source
@@ -50,17 +47,13 @@ AddEventHandler('rpchat:sendToDiscord', function(command, message, color)
     end
 
     if not discordId then
-        print("No Discord ID found for playerId: " .. tostring(playerId))
+       -- print("No Discord ID found for playerId: " .. tostring(playerId))
         discordId = "Not connected"
     end
 
     local playerName = GetPlayerName(playerId)
     local embedConfig = Config.EmbedConfig
     local translation = embedConfig.translation
-    local discordNick = "Not connected"
-    if discordId then
-        discordNick = GetDiscordNickname(discordId) or "Not connected"
-    end
 
     local embed = {
         {
@@ -73,15 +66,11 @@ AddEventHandler('rpchat:sendToDiscord', function(command, message, color)
                 },
                 {
                     ["name"] = translation.discordNickname,
-                    ["value"] = discordNick
+                    ["value"] = (discordId ~= "Not connected") and ("<@" .. discordId .. ">") or "Not connected"
                 },
                 {
                     ["name"] = translation.time,
-                    ["value"] = os.date("%Y-%m-%d %H:%M:%S")
-                },
-                {
-                    ["name"] = translation.todayAt,
-                    ["value"] = os.date("%H:%M")
+                    ["value"] = os.date("%H:%M:%S")
                 },
                 {
                     ["name"] = translation.message,
@@ -92,14 +81,14 @@ AddEventHandler('rpchat:sendToDiscord', function(command, message, color)
     }
 
     PerformHttpRequest(webhookURL, function(err, text, headers)
-        if err ~= 200 then
-            --print("Error posting to Discord webhook: " .. err)
+        if err == 200 or err == 204 then
+           -- print("^2[PITRS RPCHAT] Zpráva byla úspěšně odeslána na Discord.")
         else
-           -- print("Message has been successfully sent to Discord.")
+           -- print("^1[PITRS RPCHAT] Chyba při odesílání zprávy na Discord webhook: " .. tostring(err))
         end
     end, 'POST', json.encode({
-        username = embedConfig.username,  -- Název bota
-        avatar_url = "https://cdn.discordapp.com/attachments/1367682516244369508/1367682545948557312/150464632.png?ex=68157921&is=681427a1&hm=4aad44ff457d9c7f06dd798eb3e1ce992d3952ec10cf9e4a5add80fbafd386c2&", 
+        username = embedConfig.username,
+        avatar_url = "https://cdn.discordapp.com/attachments/1367682516244369508/1367682545948557312/150464632.png?ex=6816caa1&is=68157921&hm=9157e009449d8dd42d1c8f0203ef5f0921038ca2430708cc237821d0e921875e",
         embeds = embed
     }), { ['Content-Type'] = 'application/json' })
 end)
@@ -122,7 +111,7 @@ function GetDiscordNickname(discordId)
             local data = json.decode(text)
             response = data.username .. "#" .. data.discriminator
         else
-            print("Error getting Discord nickname: " .. err)
+           -- print("Error getting Discord nickname: " .. err)
         end
     end, 'GET', '', headers)
 

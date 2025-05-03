@@ -28,26 +28,14 @@ end
 AddEventHandler('chatMessage', function(source, name, message)
     if string.sub(message, 1, string.len('/')) ~= '/' then
         CancelEvent()
+
+        if not handleCooldown(source, 'local chat') then
+            return
+        end
+
         TriggerClientEvent('rpchat:sendLocalOOC', -1, source, name, message, {30, 144, 255})
     end
 end)
-
--- OOC
-RegisterCommand('ooc', function(source, args, raw)
-    if source == 0 then
-        return
-    end
-
-    if not Config.OocCommand then
-        return
-    end
-
-    args = table.concat(args, ' ')
-    local name = GetCharacterName(source)
-
-    TriggerClientEvent('rpchat:sendLocalOOC', -1, source, name, args, {196, 33, 246})
-end)
-
 -- ME
 RegisterCommand('me', function(source, args, raw)
     if source == 0 then
@@ -113,7 +101,6 @@ RegisterCommand('lssd', function(source, args, rawCommand)
         })
     end
 end, false)
-
 -- Oznameni
 RegisterCommand('oznameni', function(source, args, raw)
     if not Config.AnnouncementsCommand then

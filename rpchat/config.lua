@@ -26,8 +26,8 @@ Config.EmbedConfig = {
 -- 🔗 DISCORD WEBHOOK URLS
 Config.DiscordWebhookURLs = {
     ["me"] = 'https://discord.com/api/webhooks/1367677678978859050/-OMRvaKqBSeQTz8Jm53m37lzh42UzvjuDD4XPbKou9YticvDMBGlWJVq2MyWbTLrhQHr',
-    ["do"] = 'https://discord.com/api/webhooks/1319444993294864394/nnxFQJqaYKdSbD0y9HxtwXMJ_a72ohaHeqzS7QS3qF3NjInWxKOhoMybVnNWdtXDz5Ch',
-    ["ooc"] = 'https://discord.com/api/webhooks/1309288002714865725/FTP7-1Vy_U4rreOoDzFGW8CVh3y7KyjuC2xdrx6G1mlh3VUIPBWBaPnctZ7-FTeh23ll',
+    ["do"] = 'https://discord.com/api/webhooks/1368206384310779975/QV7AgNbc0UnHrXrj75cD7QLpIakKHVlW3Ofxt40pUMnkqDnCZH8YlyQk9HQAA2Vxut0v',
+    ["ooc"] = 'https://discord.com/api/webhooks/1368206496512606443/6RfY6ta7xe_9rBVkGNh8fyxuGukd8YJEWGFzPHhMenfVaTt8gUejHiORYjeonA5iUZuM',
     ["try"] = 'https://discord.com/api/webhooks/1367687968940363826/eRY4xY_va6b2xBrNb_RUXcXp0U5Sghf8Ark-au7JStxXudUWo9UKM7Zt3_7-m-GhZ06L',
     ["doc"] = 'https://discord.com/api/webhooks/1319445152015581335/0O2mZqoDv9hnbfNIzWylMO2BQbXGK8eT7Ax5NU38-C_yB-sCCWsyPd_92cOA8-rAY7hA',
     ["msg"] = 'https://discordapp.com/api/webhooks/1322049028094951544/be7a2SvMciz9HJn8TMG7UYTZ5jPl5i56D_AB_JELkBWeBaQL5A_W7b9HkpJKTpflktin'
@@ -50,7 +50,7 @@ Config.AllowedGroups = {
 }
 
 -- 💬 CHAT COMMANDS TOGGLE
-Config.CommandCooldown = 3        -- Cooldown Commands
+Config.CommandCooldown = 6        -- Cooldown Commands
 Config.OocCommand = true           -- Enables /ooc
 Config.MeCommand = true            -- Enables /me
 Config.DoCommand = true            -- Enables /do
