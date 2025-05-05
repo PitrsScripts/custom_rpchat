@@ -77,14 +77,12 @@ RegisterNetEvent('rpchat:sendMe', function(playerId, title, message, color)
                     end
                 end
             end)
+
             local playerName = GetPlayerName(source)
             TriggerEvent('chat:addMessage', { 
                 template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 5px; color: white;"> <span style="background-color: rgb(168, 96, 202); border-radius: 5px; padding: 2px 4px; color: black;">ME</span> ' .. playerName .. ' - <span style="color: white;">'.. message ..'</span></div>',
                 args = { "[ME] - " .. playerName, message }
             })
-
-            TriggerServerEvent('rpchat:sendToDiscord', "me", playerName .. " - " .. message, 3447003)
-            textOffset = textOffset + 0.3
         end
     end
 end)
@@ -119,15 +117,11 @@ RegisterNetEvent('rpchat:sendDo', function(playerId, title, message, color)
                     end
                 end
             end)
-
             local playerName = GetPlayerName(target)
             TriggerEvent('chat:addMessage', {
                 template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 5px; color: white;"> <span style="background-color: rgb(0, 169, 211); border-radius: 5px; padding: 2px 4px; color: black;">DO</span> ' .. playerName .. ' - <span style="color: white;">'.. message ..'</span></div>',
                 args = { "[DO] - " .. playerName, message }
             })
-            TriggerServerEvent('rpchat:sendToDiscord', "do", playerName .. " - " .. message, 16776960)
-
-            textOffset = textOffset + 0.3
         end
     end
 end)
@@ -168,75 +162,32 @@ RegisterNetEvent('rpchat:sendLocalOOC', function(playerId, title, message, color
                 template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 5px; color: white;"> <span style="background-color: rgb(243, 243, 53); border-radius: 5px; padding: 2px 4px; color: black;">L-OOC</span> ' .. playerName .. ' - <span style="color: white;">' .. message .. '</span></div>',
                 args = { "L-OOC - " .. playerName, message }
             })
-            TriggerServerEvent('rpchat:sendToDiscord', "ooc", playerName .. "- " .. message, 8421504) 
         end
     end
 end)
 ------------------------------------------------------------------------------------------------
 ---------------TRY------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------
-RegisterCommand('try', function()
-    local result = math.random(1, 2)
-    local playerName = GetPlayerName(PlayerId())
-
-    if result == 1 then
-        TriggerEvent('chat:addMessage', {
-            template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 5px; color: white;"> <span style="background-color: rgba(0, 255, 0, 0.4); border-radius: 5px; padding: 2px 4px; color: black;">TRY</span> ' .. playerName .. ' <span style="color: white;">- Ano</span></div>',
-            args = {}
-        })
-        TriggerServerEvent('rpchat:sendToDiscord', "try", playerName .. ": Ano", 65280)
-    else
-        TriggerEvent('chat:addMessage', {
-            template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 5px; color: white;"> <span style="background-color: rgba(255, 0, 0, 0.4); border-radius: 5px; padding: 2px 4px; color: black;">TRY</span> ' .. playerName .. ' <span style="color: white;">- Ne</span></div>',
-            args = {}
-        })
-        TriggerServerEvent('rpchat:sendToDiscord', "try", playerName .. ": Ne", 16711680) 
-    end
-end, false)
+RegisterNetEvent('rpchat:showTryMessage', function(playerName, response, bgColor)
+    TriggerEvent('chat:addMessage', {
+        template = string.format(
+            '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 5px; color: white;">' ..
+            ' <span style="background-color: %s; border-radius: 5px; padding: 2px 4px; color: black;">TRY</span> %s <span style="color: white;">- %s</span></div>',
+            bgColor, playerName, response
+        ),
+        args = {}
+    })
+end)
 ------------------------------------------------------------------------------------------------
 ---------------DOC------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------
-RegisterCommand('doc', function(source, args, rawCommand)
-    local count = 1
-    local targetPed = PlayerPedId()
-    local target = 20
-
-    if args[1] then
-        target = tonumber(args[1])
-        if target > 50 then
-            lib.notify({
-                title = 'Chyba',
-                description = 'The maximum number allowed is 50.',
-                type = 'error'
-            })
-            return
-        end
-    end
-    function DrawText3D(x, y, z, text, color)
-        local onScreen, _x, _y = World3dToScreen2d(x, y, z)
-        if onScreen then
-            local textLength = string.len(text)
-            local bgWidth = 0.02 + (textLength / 250)
-            local bgHeight = 0.027
-    
-            local offsetX = 0.005 
-    
-            SetTextScale(0.35, 0.35)
-            SetTextFont(16)
-            SetTextProportional(1)
-            SetTextColour(color[1], color[2], color[3], color[4])
-            SetTextEntry("STRING")
-            SetTextCentre(1)
-            AddTextComponentString(text)
-            DrawText(_x + offsetX, _y)
-    
-            DrawRect(_x + offsetX, _y + 0.012, bgWidth, bgHeight, 0, 0, 0, 150)
-        end
-    end    
+RegisterNetEvent('rpchat:sendDocMessage')
+AddEventHandler('rpchat:sendDocMessage', function(count, target)
     Citizen.CreateThread(function()
         local startTime = GetGameTimer()
         local updateInterval = 1000
         local lastUpdate = 0
+        local targetPed = PlayerPedId()
 
         while count <= target do
             Citizen.Wait(0)
@@ -256,8 +207,29 @@ RegisterCommand('doc', function(source, args, rawCommand)
             end
         end        
     end)
-    TriggerServerEvent('rpchat:sendToDiscord', "doc", "Pcarried out in order to: " .. target, 16777215) 
-end, false)
+end)
+
+function DrawText3D(x, y, z, text, color)
+    local onScreen, _x, _y = World3dToScreen2d(x, y, z)
+    if onScreen then
+        local textLength = string.len(text)
+        local bgWidth = 0.02 + (textLength / 250)
+        local bgHeight = 0.027
+
+        local offsetX = 0.005 
+
+        SetTextScale(0.35, 0.35)
+        SetTextFont(16)
+        SetTextProportional(1)
+        SetTextColour(color[1], color[2], color[3], color[4])
+        SetTextEntry("STRING")
+        SetTextCentre(1)
+        AddTextComponentString(text)
+        DrawText(_x + offsetX, _y)
+
+        DrawRect(_x + offsetX, _y + 0.012, bgWidth, bgHeight, 0, 0, 0, 150)
+    end
+end
 ------------------------------------------------------------------------------------------------
 --------------ADMIN-----------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------
