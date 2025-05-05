@@ -1,13 +1,16 @@
 Config = {}
 
+
+-- [Debug Commands]
 Config.Debug = true -- true/false
 
+-- [Blacklisted World]
 Config.Blacklisted = { 
  "negr"
 }
 
 
--- 🔗 DISCORD WEBHOOK URLS
+-- [Discord Logs]
 Config.DiscordWebhookURLs = {
     ["me"] = 'https://discord.com/api/webhooks/1368209826269630495/BFR-HLwpi92cqxqDZLsEHsi4qO8t7eG6lTbMbZx5uWeCR2Mbv6VDHBWUYIgE0YLstILo',
     ["do"] = 'https://discord.com/api/webhooks/1368209780383944734/0OWZrk5rLq9tRaIaxp9AlrMQfaylH8Mf8am3ZJjmGTLK-QyQ1bSMf5018iBRGV6-HffG',
@@ -54,12 +57,10 @@ Config.AnnouncementsCommand = true -- true/false
 Config.MsgCommand = true           -- true/false
 Config.SheriffCommand = true       -- true/false
 
--- 🧾 CHAT DISPLAY OPTIONS
---Config.firstname = false -- Show only first name
---Config.lastname = false  -- Show only last name
---Config.job = false       -- Show only job name (label)
-
--- 🚓 JOB NAMES (for job-specific features)
+-- [Jobs]
+--Config.firstname = false -- Show only first name [Do not Change]
+--Config.lastname = false  -- Show only last name  [Do not Change]
+--Config.job = false       -- Show only job name (label)  [Do not Change]
 Config.ambulance = 'ambulance'
 Config.sheriff = 'sheriff'
 Config.police = 'police'
