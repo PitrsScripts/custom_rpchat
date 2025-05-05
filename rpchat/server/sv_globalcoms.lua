@@ -26,7 +26,8 @@ end
 -- BlackListed Word
 local function containsBlacklistedWord(message)
     for _, word in ipairs(Config.Blacklisted) do
-        if string.find(string.lower(message), string.lower(word)) then
+        local pattern = "%f[%a]" .. word .. "%f[%A]"
+        if string.find(string.lower(message), pattern) then
             return true
         end
     end
@@ -111,8 +112,6 @@ AddEventHandler('chatMessage', function(source, name, message)
         end
     end
 end)
-
-
 -- ME
 RegisterCommand('me', function(source, args, raw)
     if source == 0 then
@@ -136,12 +135,9 @@ RegisterCommand('me', function(source, args, raw)
         return
     end
     local playerName = GetPlayerName(source)
-    TriggerClientEvent('chat:addMessage', -1, {
-        template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 5px; color: white;"> <span style="background-color: rgb(168, 96, 202); border-radius: 5px; padding: 2px 4px; color: black;">ME</span> ' .. playerName .. ' - <span style="color: white;">'.. message ..'</span></div>',
-        args = { "[ME] - " .. playerName, message }
-    })
-    local webhookURL = Config.DiscordWebhookURLs["me"]
+    TriggerClientEvent('rpchat:sendMe', -1, source, "ME", message, {168, 96, 202})
 
+    local webhookURL = Config.DiscordWebhookURLs["me"]
     local discordId
     local identifiers = GetPlayerIdentifiers(source)
 
@@ -202,9 +198,7 @@ RegisterCommand('me', function(source, args, raw)
         }), { ['Content-Type'] = 'application/json' })
     end
 end)
-
-
--- DO
+-- DO 
 RegisterCommand('do', function(source, args, raw)
     if source == 0 then
         return
@@ -521,7 +515,7 @@ RegisterCommand('msg', function(source, args, raw)
 
     if webhookURL then
         PerformHttpRequest(webhookURL, function(err, text, headers) end, 'POST', json.encode({
-            username = "Pitrs RP CHAT",  
+            username = "PITRS RP CHAT",  
             avatar_url = "https://cdn.discordapp.com/attachments/1367682516244369508/1367682545948557312/150464632.png",  
             embeds = {
                 {
@@ -537,6 +531,8 @@ RegisterCommand('msg', function(source, args, raw)
 end)
 -- TRY
 RegisterCommand('try', function(source, args, rawCommand)
+    if not Config.TryCommand then return end  -- Pokud je příkaz vypnutý v configu, nepokračuje
+
     local result = math.random(1, 2)
     local playerName = GetPlayerName(source)
     local response = (result == 1) and "Ano" or "Ne"
@@ -567,10 +563,7 @@ RegisterCommand('try', function(source, args, rawCommand)
     }}
     local webhookURL = Config.DiscordWebhookURLs["try"]
     if webhookURL then
-        PerformHttpRequest(webhookURL, function(err, text, headers)
-            if err ~= 200 and err ~= 204 then
-            end
-        end, 'POST', json.encode({
+        PerformHttpRequest(webhookURL, function(err, text, headers) end, 'POST', json.encode({
             username = "PITRS RPCHAT BOT",
             avatar_url = "https://cdn.discordapp.com/attachments/1367682516244369508/1367682545948557312/150464632.png",
             embeds = embed
@@ -608,11 +601,11 @@ RegisterCommand('doc', function(source, args, rawCommand)
 
     if webhookURL then
         PerformHttpRequest(webhookURL, function(err, text, headers) end, 'POST', json.encode({
-            username = "Doc Command Bot",
+            username = "PITRS RPCHAT BOT",
             avatar_url = "https://cdn.discordapp.com/attachments/1367682516244369508/1367682545948557312/150464632.png",
             embeds = {
                 {
-                    title = "PITRS RPCHAT BOT",
+                    title = "Doc Bot",
                     description = string.format("**Sender:** %s (ID: %d)\n**Target Count:** %d", senderName, source, target),
                     color = 0x000000 
                 }
@@ -621,9 +614,57 @@ RegisterCommand('doc', function(source, args, rawCommand)
     end
     TriggerClientEvent('rpchat:sendDocMessage', source, count, target)
 end, false)
+-- STAFF
+RegisterCommand("staff", function(source, args, rawCommand)
+    if not Config.StaffCommand then
+        return
+    end
+    local xPlayer = ESX.GetPlayerFromId(source)
+    local playerGroup = xPlayer.getGroup()
+    if not Config.AllowedGroups[playerGroup] then
+        TriggerClientEvent('chat:addMessage', source, {
+            args = { "^1SYSTEM", "You do not have permission to use this command." }
+        })
+        return
+    end
 
-
-
+    local message = table.concat(args, " ")
+    local senderName = GetPlayerName(source)
+    for _, playerId in ipairs(GetPlayers()) do
+        local target = ESX.GetPlayerFromId(tonumber(playerId))
+        if target and Config.AllowedGroups[target.getGroup()] then
+            TriggerClientEvent("rpchat:receiveStaffMessage", target.source, senderName, message)
+        end
+    end
+    local discordId = "Not connected"
+    for _, identifier in ipairs(GetPlayerIdentifiers(source)) do
+        if string.match(identifier, "discord:") then
+            discordId = "<@" .. string.sub(identifier, 9) .. ">"
+            break
+        end
+    end
+    local embed = {
+        {
+            ["color"] = 16760576, 
+            ["title"] = "Staff Chat Message",
+            ["fields"] = {
+                { name = "Player", value = senderName, inline = true },
+                { name = "Discord", value = discordId, inline = true },
+                { name = "Group", value = playerGroup, inline = true },
+                { name = "Message", value = message, inline = false }
+            },
+            ["timestamp"] = os.date("!%Y-%m-%dT%H:%M:%SZ")
+        }
+    }
+    local webhookURL = Config.DiscordWebhookURLs["staff"]
+    if webhookURL then
+        PerformHttpRequest(webhookURL, function(err, text, headers) end, 'POST', json.encode({
+            username = "PITRS RPCHAT BOT",
+            avatar_url = "https://cdn.discordapp.com/attachments/1367682516244369508/1367682545948557312/150464632.png",
+            embeds = embed
+        }), { ['Content-Type'] = 'application/json' })
+    end
+end, false)
 -- AUTO MESSAGE CHAT
 RegisterServerEvent('rpchat:chat')
 AddEventHandler('rpchat:chat', function(job, msg)

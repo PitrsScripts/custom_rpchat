@@ -1,9 +1,9 @@
 Config = {}
 
-Config.Debug = false -- true/false
+Config.Debug = true -- true/false
 
 Config.Blacklisted = { 
-
+ "negr"
 }
 
 
@@ -17,7 +17,8 @@ Config.DiscordWebhookURLs = {
     ["msg"] = 'https://discord.com/api/webhooks/1368209703527776320/DjDJ5sG6cEKDvhrFeBNUg4EO82hUUrxb_oV7G3yYDr_UhSMoKmeIorn3DWtYvx5HKX-h',
     ["announcement"] = 'https://discord.com/api/webhooks/1368213424684793886/U-cwKAfMstasc3n-PtTKqxyLCb0e77nyQJ3zwSOu9GmF_8iuOe-mb-Pb_aOfYQHA1uWZ',
     ["lssd"] = 'WEBHOOK',
-    ["doc"] = 'https://discord.com/api/webhooks/1368984791973888030/RT5Th6MLOlJKqA9ar7w6GdT-__WzXNWQkFy-RR39RZMJYYPmkrvacRmRrncdEJqNYqI8'
+    ["doc"] = 'https://discord.com/api/webhooks/1368984791973888030/RT5Th6MLOlJKqA9ar7w6GdT-__WzXNWQkFy-RR39RZMJYYPmkrvacRmRrncdEJqNYqI8',
+    ["staff"] = 'https://discord.com/api/webhooks/1369000698083147868/yUsLVAlzKbQ5wLs8CQwMD3qQVUvxrkOK2suYNUeVV8jyn8BPyyqgPppy9kx8m4o6-VYZ'
 }
 
 -- 🕒 **AUTO MESSAGES** - Automatic messages settings
@@ -29,22 +30,29 @@ Config.AutoMessagesList = { -- List of messages that will be sent randomly
 }
 
 
--- 👥 PERMISSIONS - ALLOWED GROUPS
+-- [Staff Groups]
+
+
 Config.AllowedGroups = {
     admin = true,
-    moderator = true,
-    superadmin = true
+   -- moderator = true,
+   -- superadmin = true
 }
 
--- 💬 CHAT COMMANDS TOGGLE
-Config.CommandCooldown = 0         -- Cooldown Commands
-Config.OocCommand = true           -- Enables /ooc
-Config.MeCommand = true            -- Enables /me
-Config.DoCommand = true            -- Enables /do
-Config.DocCommand = true           -- Enables /doc
-Config.AnnouncementsCommand = true -- Enables /announcements
-Config.MsgCommand = true           -- Enables /msg
-Config.SheriffCommand = true       -- Enables /sheriff
+
+
+-- [Chat Commands]
+Config.CommandsDistance = 20       -- Distance Show commands
+Config.CommandCooldown = 0         -- Cooldown Commands seconds
+Config.OocCommand = true           -- true/false
+Config.MeCommand = true            -- true/false
+Config.DoCommand = true            -- true/false
+Config.DocCommand = true           -- true/false
+Config.TryCommand = true           -- true/false
+Config.StaffCommand = true         -- true/false
+Config.AnnouncementsCommand = true -- true/false
+Config.MsgCommand = true           -- true/false
+Config.SheriffCommand = true       -- true/false
 
 -- 🧾 CHAT DISPLAY OPTIONS
 --Config.firstname = false -- Show only first name
