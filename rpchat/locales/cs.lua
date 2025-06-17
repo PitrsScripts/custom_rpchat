@@ -50,4 +50,9 @@ Locale['permission_denied_title'] = 'Přístup odepřen'
 Locale['blacklisted_word_title'] = 'Zakázané slovo'
 Locale['blacklisted_word_description'] = 'Vaše zpráva obsahuje zakázané slovo a nebyla odeslána.'
 
+Locale['doc_command_disabled_title'] = 'Příkaz zakázán'
+Locale['doc_command_disabled_description'] = 'Příkaz /doc je momentálně zakázán.'
+Locale['doc_max_allowed_title'] = 'Chyba'
+Locale['doc_max_allowed_description'] = 'Maximální povolený počet je 50.'
+
 return Locale

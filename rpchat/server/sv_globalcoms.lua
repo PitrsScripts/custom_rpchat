@@ -4,7 +4,7 @@ local lastCommand = {}
 local Config = {}
 
 local Locales = {}
-local currentLocale = "cs" 
+local currentLocale = "cs" -- default locale
 
 local function loadLocale()
     local localeFile = LoadResourceFile(GetCurrentResourceName(), 'locales/' .. currentLocale .. '.lua')
@@ -797,8 +797,8 @@ end)
 RegisterCommand('doc', function(source, args, rawCommand)
     if not Config.DocCommand then
         TriggerClientEvent('ox_lib:notify', source, {
-            title = 'Command Disabled',
-            description = 'The /doc command is currently disabled.',
+            title = _U('doc_command_disabled_title'),
+            description = _U('doc_command_disabled_description'),
             type = 'error',
             duration = 5000
         })
@@ -816,8 +816,8 @@ RegisterCommand('doc', function(source, args, rawCommand)
         target = tonumber(args[1])
         if target > 50 then
             TriggerClientEvent('ox_lib:notify', source, {
-                title = 'Chyba',
-                description = 'The maximum number allowed is 50.',
+                title = _U('doc_max_allowed_title'),
+                description = _U('doc_max_allowed_description'),
                 type = 'error'
             })
             return
