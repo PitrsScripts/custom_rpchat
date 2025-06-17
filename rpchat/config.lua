@@ -1,7 +1,7 @@
 Config = {}
 
--- Set the active locale: "en" for English, "cs" for Czech
-Config.Locale = "en"
+
+Config.Locale = "en" -- en,cs
 
 -- [Blacklisted World]
 Config.Blacklisted = { 
