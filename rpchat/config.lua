@@ -12,7 +12,7 @@ Config.Blacklisted = {
 
 -- [Discord Logs]
 Config.DiscordWebhookURLs = {
-    ["me"] = WEBHOOK',
+    ["me"] = 'WEBHOOK',
     ["do"] = 'WEBHOOK',
     ["local_chat"] = 'WEBHOOK',
     ["try"] = 'WEBHOOK',
