@@ -4,7 +4,7 @@ local lastCommand = {}
 local Config = {}
 
 local Locales = {}
-local currentLocale = "cs" -- default locale
+local currentLocale = "cs" 
 
 local function loadLocale()
     local localeFile = LoadResourceFile(GetCurrentResourceName(), 'locales/' .. currentLocale .. '.lua')
