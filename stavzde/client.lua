@@ -13,8 +13,11 @@ end)
 
 local displayedMessages = {}
 
-TriggerEvent('chat:addSuggestion', '/zde', 'Add a message here/Remove a message that is here.', {})
-TriggerEvent('chat:addSuggestion', '/stav', 'Adds a message that will be displayed on your profile to show your status if it is not normal.', {})
+-- Removed chat suggestions and replaced with ox_lib notifications
+Citizen.CreateThread(function()
+    exports.ox_lib:notify({type = 'inform', description = 'Use /zde to add or remove a message here.'})
+    exports.ox_lib:notify({type = 'inform', description = 'Use /stav to add a message that will be displayed on your profile to show your status if it is not normal.'})
+end)
 
 RegisterCommand('zde', function(source, args, rawCommand)
     if playerLoaded then
@@ -32,7 +35,7 @@ RegisterCommand('zde', function(source, args, rawCommand)
             end
 
             if playerMessages > 5 then
-                exports['mythic_notify']:DoHudText('inform', 'You cannot post another message here. You would exceed the limit.')
+                exports.ox_lib:notify({type = 'inform', description = 'You cannot post another message here. You would exceed the limit.'})
             else
                 local msg = ''
                 for i = 1,#args do
@@ -48,12 +51,12 @@ RegisterCommand('zde', function(source, args, rawCommand)
 
         elseif displayedMessages[roundedCoords].owner == GetPlayerServerId(PlayerId()) then
             TriggerServerEvent('chat:removeDisplayedMessage', roundedCoords)
-            exports['mythic_notify']:DoHudText('inform', 'You are disabling text display here.')
+            exports.ox_lib:notify({type = 'inform', description = 'You are disabling text display here.'})
         else
-            exports['mythic_notify']:DoHudText('inform', 'Here is the text.')
+            exports.ox_lib:notify({type = 'inform', description = 'Here is the text.'})
         end
     else
-        exports['mythic_notify']:DoHudText('inform', 'You must be spawned to write /here.')
+        exports.ox_lib:notify({type = 'inform', description = 'You must be spawned to write /here.'})
     end
     
 end, false)
