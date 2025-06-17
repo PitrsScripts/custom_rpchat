@@ -7,7 +7,7 @@ Whether you're typing out actions with /me, describing the world with /do, or co
 ### ✨ Features
 🗣️ Immersive Roleplay Commands
  
-** Supports all major RP commands:
+** Supports all major RP commands: **
 
 * /me, /do, /try, /doc
 
