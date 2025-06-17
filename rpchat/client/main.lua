@@ -68,6 +68,42 @@ RegisterNetEvent('rpchat:sendMe', function(playerId, title, message, color)
     end
 end)
 ------------------------------------------------------------------------------------------------
+--------------POLICE----------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------
+RegisterNetEvent('rpchat:sendPolice', function(playerId, title, message, color)
+    local source = PlayerId()
+    local target = GetPlayerFromServerId(playerId)
+    if target ~= -1 then
+        local sourcePed, targetPed = PlayerPedId(), GetPlayerPed(target)
+        local sourceCoords, targetCoords = GetEntityCoords(sourcePed), GetEntityCoords(targetPed)
+        if targetPed == source or #(sourceCoords - targetCoords) < Config.CommandsDistance then  
+            local playerName = GetPlayerName(target) 
+            TriggerEvent('chat:addMessage', { 
+                template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 5px; color: white;"> <span style="background-color: rgb(0, 100, 150); border-radius: 5px; padding: 2px 4px; color: black;">LSPD</span> <span style="color: white;">'.. message ..'</span></div>',
+                args = { "[LSPD]", message }
+            })
+        end
+    end
+end)
+------------------------------------------------------------------------------------------------
+--------------SHERIFF---------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------
+RegisterNetEvent('rpchat:sendSheriff', function(playerId, title, message, color)
+    local source = PlayerId()
+    local target = GetPlayerFromServerId(playerId)
+    if target ~= -1 then
+        local sourcePed, targetPed = PlayerPedId(), GetPlayerPed(target)
+        local sourceCoords, targetCoords = GetEntityCoords(sourcePed), GetEntityCoords(targetPed)
+        if targetPed == source or #(sourceCoords - targetCoords) < Config.CommandsDistance then  
+            local playerName = GetPlayerName(target) 
+            TriggerEvent('chat:addMessage', { 
+                template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 5px; color: white;"> <span style="background-color: rgb(255, 165, 0); border-radius: 5px; padding: 2px 4px; color: black;">LSSD</span> <span style="color: white;">'.. message ..'</span></div>',
+                args = { "[LSSD]", message }
+            })
+        end
+    end
+end)
+------------------------------------------------------------------------------------------------
 ----------------DO------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------
 RegisterNetEvent('rpchat:sendDo', function(playerId, title, message, color)
@@ -98,6 +134,24 @@ RegisterNetEvent('rpchat:sendDo', function(playerId, title, message, color)
             TriggerEvent('chat:addMessage', {
                 template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 5px; color: white;"> <span style="background-color: rgb(0, 169, 211); border-radius: 5px; padding: 2px 4px; color: black;">DO</span> ' .. playerName .. ' - <span style="color: white;">'.. message ..'</span></div>',
                 args = { "[DO] - " .. playerName, message }
+            })
+        end
+    end
+end)
+------------------------------------------------------------------------------------------------
+--------------AMBULANCE-------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------
+RegisterNetEvent('rpchat:sendAmbulance', function(playerId, title, message, color)
+    local source = PlayerId()
+    local target = GetPlayerFromServerId(playerId)
+    if target ~= -1 then
+        local sourcePed, targetPed = PlayerPedId(), GetPlayerPed(target)
+        local sourceCoords, targetCoords = GetEntityCoords(sourcePed), GetEntityCoords(targetPed)
+        if targetPed == source or #(sourceCoords - targetCoords) < Config.CommandsDistance then  
+            local playerName = GetPlayerName(target) 
+            TriggerEvent('chat:addMessage', { 
+                template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 5px; color: white;"> <span style="background-color: rgb(255, 255, 255); border-radius: 5px; padding: 2px 4px; color: black;">EMS</span> <span style="color: white;">'.. message ..'</span></div>',
+                args = { "[EMS]", message }
             })
         end
     end
@@ -218,24 +272,6 @@ RegisterNetEvent('rpchat:sendPrivateMessage', function(senderId, message)
     })
 end)
 ------------------------------------------------------------------------------------------------
---------------JOBS------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------
---RegisterCommand('police', function(source, args, rawCommand)
-   -- local msg = rawCommand:sub(6)
-   -- local job = PlayerData.job.name
-   -- if PlayerData.job.name == "police" and PlayerData.job.onduty then
-    --    TriggerServerEvent('esx_rpchat:chat', job, msg)
-   -- end						
---end, false)
-
---RegisterNetEvent('esx_rpchat:Send')
---AddEventHandler('esx_rpchat:Send', function(messageFull, job)
-    --local PlayerData = ESX.GetPlayerData()
-    --if PlayerData.job.name == job and PlayerData.job.onduty then
-       -- TriggerEvent('chat:addMessage', messageFull)
-  --  end
---end)
-------------------------------------------------------------------------------------------------
 --------------AUTO MESSAGE----------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------
 RegisterNetEvent('rpchat:sendAutoMessage', function(message)
@@ -252,39 +288,46 @@ end)
 function DrawText3DMe(x, y, z, text, color)
     local onScreen, _x, _y = World3dToScreen2d(x, y, z + 1.2) 
     if onScreen then
-        local textLength = string.len(text)
-        local bgWidth = 0.02 + (textLength / 250)
-        local bgHeight = 0.027
-        local offsetX = 0.005 
         SetTextScale(0.35, 0.35)
         SetTextFont(16)
         SetTextProportional(1)
-        SetTextColour(color[1], color[2], color[3], color[4])
-        SetTextEntry("STRING")
         SetTextCentre(1)
+
+        BeginTextCommandWidth("STRING")
         AddTextComponentString(text)
-        DrawText(_x + offsetX, _y)
-        DrawRect(_x + offsetX, _y + 0.012, bgWidth, bgHeight, 0, 0, 0, 150)
+        local textWidth = EndTextCommandGetWidth(1) 
+
+        local bgWidth = textWidth + 0.010
+        local bgHeight = 0.027
+        SetTextEntry("STRING")
+        AddTextComponentString(text)
+        SetTextColour(color[1], color[2], color[3], color[4])
+        DrawText(_x, _y)
+        DrawRect(_x, _y + 0.012, bgWidth, bgHeight, 0, 0, 0, 150)
     end
 end
+
 function DrawText3DDo(x, y, z, text, color)
-    local onScreen, _x, _y = World3dToScreen2d(x, y, z + 1.2) 
+    local onScreen, _x, _y = World3dToScreen2d(x, y, z + 1.2)
     if onScreen then
-        local textLength = string.len(text)
-        local bgWidth = 0.02 + (textLength / 250)
-        local bgHeight = 0.027
-        local offsetX = 0.005 
         SetTextScale(0.35, 0.35)
         SetTextFont(16)
         SetTextProportional(1)
-        SetTextColour(color[1], color[2], color[3], color[4])
-        SetTextEntry("STRING")
-        SetTextCentre(1)
+        SetTextCentre(true)
+
+        BeginTextCommandWidth("STRING")
         AddTextComponentString(text)
-        DrawText(_x + offsetX, _y)
-        DrawRect(_x + offsetX, _y + 0.012, bgWidth, bgHeight, 0, 0, 0, 150)
+        local textWidth = EndTextCommandGetWidth(1)
+        local bgWidth = textWidth + 0.010
+        local bgHeight = 0.027
+        SetTextEntry("STRING")
+        AddTextComponentString(text)
+        SetTextColour(color[1], color[2], color[3], color[4])
+        DrawText(_x, _y)
+        DrawRect(_x, _y + 0.012, bgWidth, bgHeight, 0, 0, 0, 150)
     end
 end
+
 function DrawText3DDoc(x, y, z, text, color)
     local onScreen, _x, _y = World3dToScreen2d(x, y, z)
     if onScreen then

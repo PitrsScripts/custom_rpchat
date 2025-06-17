@@ -1,6 +1,66 @@
 local ESX = nil
 local lastCommand = {} 
 
+local Config = {}
+
+local Locales = {}
+local currentLocale = "cs" -- default locale
+
+local function loadLocale()
+    local localeFile = LoadResourceFile(GetCurrentResourceName(), 'locales/' .. currentLocale .. '.lua')
+    if localeFile then
+        local env = {}
+        env.Locales = {}
+        local chunk, err = load(localeFile, 'locale', 't', env)
+        if not chunk then
+            print("Failed to load locale chunk: " .. tostring(err))
+            return
+        end
+        local ok, result = pcall(chunk)
+        if not ok then
+            print("Failed to execute locale chunk: " .. tostring(result))
+            return
+        end
+        if result then
+            Locales = result
+        else
+            print("Locale table not found in locale file")
+        end
+    else
+        print("Locale file not found: " .. currentLocale)
+    end
+end
+
+-- Load config.lua as a global table
+local configFile = LoadResourceFile(GetCurrentResourceName(), 'config.lua')
+if configFile then
+    local env = {}
+    local chunk, err = load(configFile, 'config', 't', env)
+    if chunk then
+        local ok, err = pcall(chunk)
+        if ok and env.Config then
+            Config = env.Config
+            currentLocale = Config.Locale or currentLocale
+        else
+            print("Failed to execute config chunk or Config table missing: " .. tostring(err))
+        end
+    else
+        print("Failed to load config chunk: " .. tostring(err))
+    end
+else
+    print("Config file not found")
+end
+
+loadLocale()
+
+function _U(key)
+    if Locales[key] then
+        return Locales[key]
+    else
+        return key
+    end
+end
+
 ESX = exports["es_extended"]:getSharedObject()
 
 -- Cooldown Commands
@@ -10,8 +70,8 @@ local function handleCooldown(source, commandName)
         local remainingTime = Config.CommandCooldown - (currentTime - lastCommand[source])
         
         local data = {
-            title = 'Cooldown',
-            description = 'Please wait ' .. remainingTime .. ' seconds before using ' .. commandName .. ' again.',
+            title = _U('cooldown_title'),
+            description = string.format(_U('cooldown_description'), remainingTime, commandName),
             type = 'error',
             duration = 3000  
         }
@@ -33,14 +93,14 @@ local function containsBlacklistedWord(message)
     end
     return false
 end
--- CHAT
+
 AddEventHandler('chatMessage', function(source, name, message)
     if string.sub(message, 1, string.len('/')) ~= '/' then
         CancelEvent()
         if containsBlacklistedWord(message) then
             TriggerClientEvent('ox_lib:notify', source, {
-                title = 'Blacklisted Word',
-                description = 'Your message contains a blacklisted word and was not sent.',
+                title = Locale.blacklisted_word_title,
+                description = Locale.blacklisted_word_description,
                 type = 'error',
                 duration = 5000
             })
@@ -117,20 +177,20 @@ RegisterCommand('me', function(source, args, raw)
     if source == 0 then
         return
     end
-    if not Config.MeCommand then
-        return
-    end
-    local message = table.concat(args, ' ')
+        if not Config.MeCommand then
+            return
+        end
+        local message = table.concat(args, ' ')
 
-    if containsBlacklistedWord(message) then
-        TriggerClientEvent('ox_lib:notify', source, {
-            title = 'Blacklisted Word',
-            description = 'Your message contains a blacklisted word and was not sent.',
-            type = 'error',
-            duration = 5000
-        })
-        return
-    end
+        if containsBlacklistedWord(message) then
+            TriggerClientEvent('ox_lib:notify', source, {
+                title = Locale.blacklisted_word_title,
+                description = Locale.blacklisted_word_description,
+                type = 'error',
+                duration = 5000
+            })
+            return
+        end
     if not handleCooldown(source, '/me') then
         return
     end
@@ -211,8 +271,8 @@ RegisterCommand('do', function(source, args, raw)
     local message = table.concat(args, ' ')
     if containsBlacklistedWord(message) then
         TriggerClientEvent('ox_lib:notify', source, {
-            title = 'Blacklisted Word',
-            description = 'Your message contains a blacklisted word and was not sent.',
+            title = Locale.blacklisted_word_title,
+            description = Locale.blacklisted_word_description,
             type = 'error',
             duration = 5000
         })
@@ -295,7 +355,12 @@ end)
 -- Sheriff
 RegisterCommand('lssd', function(source, args, rawCommand)
     if not Config.SheriffCommand then
-        print('rpchat: The /lssd command is disabled in the config.')
+        TriggerClientEvent('ox_lib:notify', source, {
+            title = _U('command_disabled_title'),
+            description = string.format(_U('command_disabled_description'), "/lssd"),
+            type = 'error',
+            duration = 5000
+        })
         return
     end
 
@@ -308,8 +373,8 @@ RegisterCommand('lssd', function(source, args, rawCommand)
     
     if containsBlacklistedWord(toSay) then
         TriggerClientEvent('ox_lib:notify', source, {
-            title = 'Blacklisted Word',
-            description = 'Your message contains a blacklisted word and was not sent.',
+            title = Locale.blacklisted_word_title,
+            description = Locale.blacklisted_word_description,
             type = 'error',
             duration = 5000 
         })
@@ -317,10 +382,7 @@ RegisterCommand('lssd', function(source, args, rawCommand)
     end
 
     if xPlayer.getJob().name == Config.sheriff then
-        TriggerClientEvent('chat:addMessage', -1, {
-            template = '<div style="font-weight:bold;font-size:1.35vh;color: #54E0FF; margin: 0.05vw;">👮 LSSD Announcement: <b style=color:#ffffff;font-weight:normal>{0}</b></div>',
-            args = { toSay }
-        })
+        TriggerClientEvent('rpchat:sendSheriff', -1, source, GetPlayerName(source), toSay, {0, 169, 211})
         local playerName = GetPlayerName(source)
         local discordId = "Not connected"
         local identifiers = GetPlayerIdentifiers(source)
@@ -332,7 +394,7 @@ RegisterCommand('lssd', function(source, args, rawCommand)
         end
 
         local embed = {{
-            ["color"] = 56828, 
+            ["color"] = 16753920,  -- Changed to orange color
             ["timestamp"] = os.date("!%Y-%m-%dT%H:%M:%S"),
             ["fields"] = {
                 { ["name"] = "Player", ["value"] = playerName },
@@ -349,18 +411,168 @@ RegisterCommand('lssd', function(source, args, rawCommand)
                 end
             end, 'POST', json.encode({
                 username = "PITRS RPCHAT BOT",
-                avatar_url = "https://cdn-icons-png.flaticon.com/512/2991/2991154.png",
+                avatar_url = "https://cdn.discordapp.com/attachments/1367682516244369508/1367682545948557312/150464632.png?ex=6816caa1&is=68157921&hm=9157e009449d8dd42d1c8f0203ef5f0921038ca2430708cc237821d0e921875e",
                 embeds = embed
             }), { ['Content-Type'] = 'application/json' })
         end
     else 
-        TriggerClientEvent('chat:addMessage', source, {
-            template = '<div style="color: #FF3E32; margin: 0.05vw;"><i class="fas fa-exclamation"></i>  You need to be a sheriff officer to use this command. <i class="fas fa-exclamation"></i></div>',
-            args = {}
+        TriggerClientEvent('ox_lib:notify', source, {
+            title = _U('permission_denied_title'),
+            description = _U('permission_denied_description_sheriff'),
+            type = 'error',
+            duration = 5000
         })
     end
 end, false)
 
+
+-- Police
+RegisterCommand('lspd', function(source, args, rawCommand)
+    if not Config.PoliceCommand then
+        TriggerClientEvent('ox_lib:notify', source, {
+            title = _U('command_disabled_title'),
+            description = string.format(_U('command_disabled_description'), "/lspd"),
+            type = 'error',
+            duration = 5000
+        })
+        return
+    end
+
+    if not handleCooldown(source, '/lspd') then
+        return
+    end
+
+    local xPlayer = ESX.GetPlayerFromId(source)
+    local toSay = table.concat(args, ' ')
+
+
+    if containsBlacklistedWord(toSay) then
+        TriggerClientEvent('ox_lib:notify', source, {
+            title = Locale.blacklisted_word_title,
+            description = Locale.blacklisted_word_description,
+            type = 'error',
+            duration = 5000
+        })
+        return
+    end
+
+    if xPlayer.getJob().name == Config.police then
+        local playerName = GetPlayerName(source)
+        local discordId = "Not connected"
+        local identifiers = GetPlayerIdentifiers(source)
+        for _, identifier in ipairs(identifiers) do
+            if string.match(identifier, "discord:") then
+                discordId = string.sub(identifier, 9)
+                break
+            end
+        end
+
+        TriggerClientEvent('rpchat:sendPolice', -1, source, playerName, toSay, {0, 169, 211})
+
+        local embed = {{
+            ["color"] = 56828,
+            ["timestamp"] = os.date("!%Y-%m-%dT%H:%M:%S"),
+            ["fields"] = {
+                { ["name"] = "Player", ["value"] = playerName },
+                { ["name"] = "Discord Nickname", ["value"] = (discordId ~= "Not connected") and ("<@" .. discordId .. ">") or "Not connected" },
+                { ["name"] = "Time", ["value"] = os.date("%H:%M:%S") },
+                { ["name"] = "LSPD Message", ["value"] = toSay }
+            }
+        }}
+
+        local webhookURL = Config.DiscordWebhookURLs["police"]
+        if webhookURL then
+            PerformHttpRequest(webhookURL, function(err, text, headers)
+                if err ~= 200 and err ~= 204 then
+                end
+            end, 'POST', json.encode({
+                username = "PITRS RPCHAT BOT",
+                avatar_url = "https://cdn.discordapp.com/attachments/1367682516244369508/1367682545948557312/150464632.png?ex=6816caa1&is=68157921&hm=9157e009449d8dd42d1c8f0203ef5f0921038ca2430708cc237821d0e921875e",
+                embeds = embed
+            }), { ['Content-Type'] = 'application/json' })
+        end
+    else
+        TriggerClientEvent('ox_lib:notify', source, {
+            title = _U('permission_denied_title'),
+            description = _U('permission_denied_description_police'),
+            type = 'error',
+            duration = 5000
+        })
+    end
+end, false)
+
+-- Ambulance
+RegisterCommand('ems', function(source, args, rawCommand)
+    if not Config.AmbulanceCommand then
+        TriggerClientEvent('ox_lib:notify', source, {
+            title = _U('command_disabled_title'),
+            description = string.format(_U('command_disabled_description'), "/ems"),
+            type = 'error',
+            duration = 5000
+        })
+        return
+    end
+
+    if not handleCooldown(source, '/ems') then
+        return
+    end
+
+    local xPlayer = ESX.GetPlayerFromId(source)
+    local toSay = table.concat(args, ' ')
+
+    if containsBlacklistedWord(toSay) then
+        TriggerClientEvent('ox_lib:notify', source, {
+            title = Locale.blacklisted_word_title,
+            description = Locale.blacklisted_word_description,
+            type = 'error',
+            duration = 5000
+        })
+        return
+    end
+
+    if xPlayer.getJob().name == Config.ambulance then
+        TriggerClientEvent('rpchat:sendAmbulance', -1, source, GetPlayerName(source), toSay, {255, 255, 255})
+        local playerName = GetPlayerName(source)
+        local discordId = "Not connected"
+        local identifiers = GetPlayerIdentifiers(source)
+        for _, identifier in ipairs(identifiers) do
+            if string.match(identifier, "discord:") then
+                discordId = string.sub(identifier, 9)
+                break
+            end
+        end
+
+        local embed = {{
+            ["color"] = 16777215,  -- White color
+            ["timestamp"] = os.date("!%Y-%m-%dT%H:%M:%S"),
+            ["fields"] = {
+                { ["name"] = "Player", ["value"] = playerName },
+                { ["name"] = "Discord Nickname", ["value"] = (discordId ~= "Not connected") and ("<@" .. discordId .. ">") or "Not connected" },
+                { ["name"] = "Time", ["value"] = os.date("%H:%M:%S") },
+                { ["name"] = "Ambulance Message", ["value"] = toSay }
+            }
+        }}
+
+        local webhookURL = Config.DiscordWebhookURLs["ambulance"]
+        if webhookURL then
+            PerformHttpRequest(webhookURL, function(err, text, headers)
+                if err ~= 200 and err ~= 204 then
+                end
+            end, 'POST', json.encode({
+                username = "PITRS RPCHAT BOT",
+                avatar_url = "https://cdn.discordapp.com/attachments/1367682516244369508/1367682545948557312/150464632.png?ex=6816caa1&is=68157921&hm=9157e009449d8dd42d1c8f0203ef5f0921038ca2430708cc237821d0e921875e",
+                embeds = embed
+            }), { ['Content-Type'] = 'application/json' })
+        end
+    else
+        TriggerClientEvent('ox_lib:notify', source, {
+            title = _U('permission_denied_title'),
+            description = _U('permission_denied_description_ambulance'),
+            type = 'error',
+            duration = 5000
+        })
+    end
+end, false)
 -- Announcement
 RegisterCommand('announcement', function(source, args, raw)
     if not Config.AnnouncementsCommand then
@@ -373,9 +585,11 @@ RegisterCommand('announcement', function(source, args, raw)
     local playerGroup = xPlayer.getGroup()
 
     if not Config.AllowedGroups[playerGroup] then
-        TriggerClientEvent('chat:addMessage', source, {
-            template = '<div style="color: #FF3E32; margin: 0.05vw;"><i class="fas fa-exclamation"></i>  You do not have permission to use this command. <i class="fas fa-exclamation"></i></div>',
-            args = {}
+        TriggerClientEvent('ox_lib:notify', source, {
+            title = _U('permission_denied_title'),
+            description = _U('permission_denied_description_announcement'),
+            type = 'error',
+            duration = 5000
         })
         return
     end
@@ -391,8 +605,8 @@ RegisterCommand('announcement', function(source, args, raw)
     local message = table.concat(args, ' ')
     if containsBlacklistedWord(message) then
         TriggerClientEvent('ox_lib:notify', source, {
-            title = 'Blacklisted Word',
-            description = 'Your message contains a blacklisted word and was not sent.',
+            title = Locale.blacklisted_word_title,
+            description = Locale.blacklisted_word_description,
             type = 'error',
             duration = 5000 
         })
@@ -469,7 +683,12 @@ end)
 -- MSG
 RegisterCommand('msg', function(source, args, raw)
     if not Config.MsgCommand then
-        print('rpchat: The /msg command is disabled in the config.')
+        TriggerClientEvent('ox_lib:notify', source, {
+            title = Locale.command_disabled_title,
+            description = string.format(Locale.command_disabled_description, "/msg"),
+            type = 'error',
+            duration = 5000
+        })
         return
     end
     if source == 0 then
@@ -481,18 +700,22 @@ RegisterCommand('msg', function(source, args, raw)
     local playerGroup = xPlayer.getGroup()
 
     if not Config.AllowedGroups[playerGroup] then
-        TriggerClientEvent('chat:addMessage', source, {
-            template = '<div style="color: #FF3E32; margin: 0.05vw;"><i class="fas fa-exclamation"></i>  You do not have permission to use this command. <i class="fas fa-exclamation"></i></div>',
-            args = {}
+        TriggerClientEvent('ox_lib:notify', source, {
+            title = Locale.permission_denied_title,
+            description = Locale.permission_denied_description_generic,
+            type = 'error',
+            duration = 5000
         })
         return
     end
 
     local targetId = tonumber(args[1])
     if not targetId or not GetPlayerName(targetId) then
-        TriggerClientEvent('chat:addMessage', source, {
-            template = '<div style="color: #FF3E32; margin: 0.05vw;"><i class="fas fa-exclamation"></i>  Invalid player ID. <i class="fas fa-exclamation"></i></div>',
-            args = {}
+        TriggerClientEvent('ox_lib:notify', source, {
+            title = Locale.invalid_player_id_title,
+            description = Locale.invalid_player_id_description,
+            type = 'error',
+            duration = 5000
         })
         return
     end
@@ -501,8 +724,8 @@ RegisterCommand('msg', function(source, args, raw)
     local message = table.concat(args, ' ')
     if containsBlacklistedWord(message) then
         TriggerClientEvent('ox_lib:notify', source, {
-            title = 'Blacklisted Word',
-            description = 'Your message contains a blacklisted word and was not sent.',
+            title = Locale.blacklisted_word_title,
+            description = Locale.blacklisted_word_description,
             type = 'error',
             duration = 5000
         })
@@ -573,7 +796,12 @@ end)
 -- DOC
 RegisterCommand('doc', function(source, args, rawCommand)
     if not Config.DocCommand then
-        print('rpchat: The /doc command is disabled in the config.')
+        TriggerClientEvent('ox_lib:notify', source, {
+            title = 'Command Disabled',
+            description = 'The /doc command is currently disabled.',
+            type = 'error',
+            duration = 5000
+        })
         return
     end
     if source == 0 then
@@ -622,8 +850,11 @@ RegisterCommand("staff", function(source, args, rawCommand)
     local xPlayer = ESX.GetPlayerFromId(source)
     local playerGroup = xPlayer.getGroup()
     if not Config.AllowedGroups[playerGroup] then
-        TriggerClientEvent('chat:addMessage', source, {
-            args = { "^1SYSTEM", "You do not have permission to use this command." }
+        TriggerClientEvent('ox_lib:notify', source, {
+            title = Locale.permission_denied_title,
+            description = Locale.permission_denied_description_generic,
+            type = 'error',
+            duration = 5000
         })
         return
     end
