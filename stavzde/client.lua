@@ -13,8 +13,8 @@ end)
 
 local displayedMessages = {}
 
-TriggerEvent('chat:addSuggestion', '/zde', 'Přidá zde zprávu/Odebere zprávu, která je zde.', {})
-TriggerEvent('chat:addSuggestion', '/stav', 'Přidá zprávu, která u vás bude viset, slouží pro zobrazení vašeho stavu, pokud není v normálu.', {})
+TriggerEvent('chat:addSuggestion', '/zde', 'Add a message here/Remove a message that is here.', {})
+TriggerEvent('chat:addSuggestion', '/stav', 'Adds a message that will be displayed on your profile to show your status if it is not normal.', {})
 
 RegisterCommand('zde', function(source, args, rawCommand)
     if playerLoaded then
@@ -32,7 +32,7 @@ RegisterCommand('zde', function(source, args, rawCommand)
             end
 
             if playerMessages > 5 then
-                exports['mythic_notify']:DoHudText('inform', 'Již nemůžeš umístit další zprávu zde. Překročil bys limit.')
+                exports['mythic_notify']:DoHudText('inform', 'You cannot post another message here. You would exceed the limit.')
             else
                 local msg = ''
                 for i = 1,#args do
@@ -48,12 +48,12 @@ RegisterCommand('zde', function(source, args, rawCommand)
 
         elseif displayedMessages[roundedCoords].owner == GetPlayerServerId(PlayerId()) then
             TriggerServerEvent('chat:removeDisplayedMessage', roundedCoords)
-            exports['mythic_notify']:DoHudText('inform', 'Rušíš zobrazování textu zde.')
+            exports['mythic_notify']:DoHudText('inform', 'You are disabling text display here.')
         else
-            exports['mythic_notify']:DoHudText('inform', 'Zde již je text.')
+            exports['mythic_notify']:DoHudText('inform', 'Here is the text.')
         end
     else
-        exports['mythic_notify']:DoHudText('inform', 'Musíš být spawnutý pro napsání /zde.')
+        exports['mythic_notify']:DoHudText('inform', 'You must be spawned to write /here.')
     end
     
 end, false)
