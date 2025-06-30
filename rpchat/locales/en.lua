@@ -8,12 +8,14 @@ Locale['blacklisted_word_description'] = 'Your message contains a blacklisted wo
 
 Locale['command_disabled_title'] = 'Command Disabled'
 Locale['command_disabled_description'] = 'The %s command is currently disabled.'
+Locale['command_disabled_description_oocstaff'] = 'The /oocstaff command is currently disabled.'
 
 Locale['permission_denied_title'] = 'Permission Denied'
 Locale['permission_denied_description_police'] = 'You must be a police officer to use this command.'
 Locale['permission_denied_description_sheriff'] = 'You must be a sheriff to use this command.'
 Locale['permission_denied_description_ambulance'] = 'You must be an ambulance worker to use this command.'
 Locale['permission_denied_description_generic'] = 'You do not have permission to use this command.'
+Locale['permission_denied_description_oocstaff'] = 'You are not allowed to use this command.'
 
 Locale['invalid_player_id_title'] = 'Invalid Player ID'
 Locale['invalid_player_id_description'] = 'The specified player ID is invalid.'

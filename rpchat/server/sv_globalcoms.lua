@@ -4,7 +4,7 @@ local lastCommand = {}
 local Config = {}
 
 local Locales = {}
-local currentLocale = "cs" -- default locale
+local currentLocale = "en" 
 
 local function loadLocale()
     local localeFile = LoadResourceFile(GetCurrentResourceName(), 'locales/' .. currentLocale .. '.lua')
@@ -109,7 +109,8 @@ AddEventHandler('chatMessage', function(source, name, message)
         if not handleCooldown(source, 'local chat') then
             return
         end
-        TriggerClientEvent('rpchat:sendLocalOOC', -1, source, name, message, {30, 144, 255})
+        local playerName = GetPlayerNameWithVIP(source)
+        TriggerClientEvent('rpchat:sendLocalOOC', -1, source, playerName, message, {30, 144, 255})
 
         local webhookURL = Config.DiscordWebhookURLs["local_chat"]
         local discordId
@@ -194,7 +195,7 @@ RegisterCommand('me', function(source, args, raw)
     if not handleCooldown(source, '/me') then
         return
     end
-    local playerName = GetPlayerName(source)
+    local playerName = GetPlayerNameWithVIP(source)
     TriggerClientEvent('rpchat:sendMe', -1, source, "ME", message, {168, 96, 202})
 
     local webhookURL = Config.DiscordWebhookURLs["me"]
@@ -282,8 +283,8 @@ RegisterCommand('do', function(source, args, raw)
     if not handleCooldown(source, '/do') then
         return
     end
-    local playerName = GetPlayerName(source)
-    TriggerClientEvent('rpchat:sendDo', -1, source, playerName, message, {0, 169, 211})
+local playerName = GetPlayerNameWithVIP(source)
+TriggerClientEvent('rpchat:sendDo', -1, source, playerName, message, {0, 169, 211})
 
     local webhookURL = Config.DiscordWebhookURLs["do"]
 
@@ -381,9 +382,9 @@ RegisterCommand('lssd', function(source, args, rawCommand)
         return
     end
 
-    if xPlayer.getJob().name == Config.sheriff then
-        TriggerClientEvent('rpchat:sendSheriff', -1, source, GetPlayerName(source), toSay, {0, 169, 211})
-        local playerName = GetPlayerName(source)
+if xPlayer.getJob().name == Config.sheriff then
+    TriggerClientEvent('rpchat:sendSheriff', -1, source, GetPlayerNameWithVIP(source), toSay, {0, 169, 211})
+    local playerName = GetPlayerNameWithVIP(source)
         local discordId = "Not connected"
         local identifiers = GetPlayerIdentifiers(source)
         for _, identifier in ipairs(identifiers) do
@@ -457,7 +458,7 @@ RegisterCommand('lspd', function(source, args, rawCommand)
     end
 
     if xPlayer.getJob().name == Config.police then
-        local playerName = GetPlayerName(source)
+        local playerName = GetPlayerNameWithVIP(source)
         local discordId = "Not connected"
         local identifiers = GetPlayerIdentifiers(source)
         for _, identifier in ipairs(identifiers) do
@@ -467,10 +468,8 @@ RegisterCommand('lspd', function(source, args, rawCommand)
             end
         end
 
-        TriggerClientEvent('rpchat:sendPolice', -1, source, playerName, toSay, {0, 169, 211})
-
         local embed = {{
-            ["color"] = 56828,
+            ["color"] = 3447003,
             ["timestamp"] = os.date("!%Y-%m-%dT%H:%M:%S"),
             ["fields"] = {
                 { ["name"] = "Player", ["value"] = playerName },
@@ -480,7 +479,7 @@ RegisterCommand('lspd', function(source, args, rawCommand)
             }
         }}
 
-        local webhookURL = Config.DiscordWebhookURLs["police"]
+        local webhookURL = Config.DiscordWebhookURLs["lspd"]
         if webhookURL then
             PerformHttpRequest(webhookURL, function(err, text, headers)
                 if err ~= 200 and err ~= 204 then
@@ -500,6 +499,7 @@ RegisterCommand('lspd', function(source, args, rawCommand)
         })
     end
 end, false)
+
 
 -- Ambulance
 RegisterCommand('ems', function(source, args, rawCommand)
@@ -530,9 +530,9 @@ RegisterCommand('ems', function(source, args, rawCommand)
         return
     end
 
-    if xPlayer.getJob().name == Config.ambulance then
-        TriggerClientEvent('rpchat:sendAmbulance', -1, source, GetPlayerName(source), toSay, {255, 255, 255})
-        local playerName = GetPlayerName(source)
+if xPlayer.getJob().name == Config.ambulance then
+    TriggerClientEvent('rpchat:sendAmbulance', -1, source, GetPlayerNameWithVIP(source), toSay, {255, 255, 255})
+    local playerName = GetPlayerNameWithVIP(source)
         local discordId = "Not connected"
         local identifiers = GetPlayerIdentifiers(source)
         for _, identifier in ipairs(identifiers) do
@@ -613,8 +613,8 @@ RegisterCommand('announcement', function(source, args, raw)
         return
     end
 
-    local playerName = GetPlayerName(source)
-    local webhookURL = Config.DiscordWebhookURLs["announcement"]
+local playerName = GetPlayerNameWithVIP(source)
+local webhookURL = Config.DiscordWebhookURLs["announcement"]
 
     local discordId
     local identifiers = GetPlayerIdentifiers(source)
@@ -732,8 +732,8 @@ RegisterCommand('msg', function(source, args, raw)
         return
     end
 
-    local senderName = GetPlayerName(source)
-    local targetName = GetPlayerName(targetId)
+local senderName = GetPlayerNameWithVIP(source)
+local targetName = GetPlayerNameWithVIP(targetId)
     local webhookURL = Config.DiscordWebhookURLs["msg"]
 
     if webhookURL then
@@ -757,7 +757,7 @@ RegisterCommand('try', function(source, args, rawCommand)
     if not Config.TryCommand then return end  -- Pokud je příkaz vypnutý v configu, nepokračuje
 
     local result = math.random(1, 2)
-    local playerName = GetPlayerName(source)
+    local playerName = GetPlayerNameWithVIP(source)
     local response = (result == 1) and "Ano" or "Ne"
     local color = (result == 1) and "rgba(0, 255, 0, 0.4)" or "rgba(255, 0, 0, 0.4)"
     local discordColor = (result == 1) and 65280 or 16711680
@@ -860,8 +860,8 @@ RegisterCommand("staff", function(source, args, rawCommand)
     end
 
     local message = table.concat(args, " ")
-    local senderName = GetPlayerName(source)
-    for _, playerId in ipairs(GetPlayers()) do
+local senderName = GetPlayerNameWithVIP(source)
+for _, playerId in ipairs(GetPlayers()) do
         local target = ESX.GetPlayerFromId(tonumber(playerId))
         if target and Config.AllowedGroups[target.getGroup()] then
             TriggerClientEvent("rpchat:receiveStaffMessage", target.source, senderName, message)
@@ -910,3 +910,88 @@ AddEventHandler('rpchat:chat', function(job, msg)
     }
     TriggerClientEvent('rpchat:Send', -1, messageFull, job)
 end)
+-- OOC STAFF
+RegisterCommand('oocstaff', function(source, args, rawCommand)
+    if not Config.OocStaffCommand then
+        TriggerClientEvent('ox_lib:notify', source, {
+            title = _U('command_disabled_title'),
+            description = _U('command_disabled_description_oocstaff'),
+            type = 'error',
+            duration = 5000
+        })
+        return
+    end
+    local xPlayer = ESX.GetPlayerFromId(source)
+    local playerGroup = xPlayer and xPlayer.getGroup and xPlayer:getGroup() or nil
+    if not playerGroup or not Config.AllowedGroups[playerGroup] then
+        TriggerClientEvent('ox_lib:notify', source, {
+            title = _U('permission_denied_title'),
+            description = _U('permission_denied_description_oocstaff'),
+            type = 'error',
+            duration = 5000
+        })
+        return
+    end
+    local message = table.concat(args, ' ')
+    if message == '' then return end
+    local playerName = GetPlayerNameWithVIP(source)
+    TriggerClientEvent('rpchat:sendLocalOOCStaff', -1, source, playerName, message)
+    local webhookURL = Config.DiscordWebhookURLs["local_chat"]
+    local discordId
+    local identifiers = GetPlayerIdentifiers(source)
+    for _, identifier in ipairs(identifiers) do
+        if string.match(identifier, "discord:") then
+            discordId = string.sub(identifier, 9)
+            break
+        end
+    end
+    if not discordId then
+        discordId = "Not connected"
+    end
+    local embedConfig = {
+        color = {
+            ["local_chat"] = 16776960,
+        },
+        translation = {
+            player = "Player",
+            discordNickname = "Discord Nickname",
+            time = "Time",
+            message = "Message"
+        }
+    }
+    local embed = {
+        {
+            ["color"] = embedConfig.color["local_chat"],
+            ["timestamp"] = os.date("!%Y-%m-%dT%H:%M:%S"),
+            ["fields"] = {
+                {
+                    ["name"] = embedConfig.translation.player,
+                    ["value"] = playerName
+                },
+                {
+                    ["name"] = embedConfig.translation.discordNickname,
+                    ["value"] = (discordId ~= "Not connected") and ("<@" .. discordId .. ">") or "Not connected"
+                },
+                {
+                    ["name"] = embedConfig.translation.time,
+                    ["value"] = os.date("%H:%M:%S")
+                },
+                {
+                    ["name"] = embedConfig.translation.message,
+                    ["value"] = message
+                }
+            }
+        }
+    }
+    if webhookURL then
+        PerformHttpRequest(webhookURL, function(err, text, headers)
+            if err ~= 200 and err ~= 204 then
+            end
+        end, 'POST', json.encode({
+            username = "Pitrs RP CHAT",
+            avatar_url = "https://cdn.discordapp.com/attachments/1367682516244369508/1367682545948557312/150464632.png",
+            embeds = embed
+        }), { ['Content-Type'] = 'application/json' })
+    end
+end, false)
+

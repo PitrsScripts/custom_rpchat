@@ -1,5 +1,6 @@
 local ESX = nil
 local textOffset = 0
+local playerLicense = nil
 ------------------------------------------------------------------------------------------------
 --------------ESX-------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------
@@ -9,7 +10,7 @@ function debugPrint(msg)
     end
 end
 Citizen.CreateThread(function()
-    while ESX == nil do
+    while ESX == nil do 
         ESX = exports["es_extended"]:getSharedObject()
         Citizen.Wait(0)
     end
@@ -29,6 +30,36 @@ Citizen.CreateThread(function()
         textOffset = 0
     end
 end)
+
+------------------------------------------------------------------------------------------------
+--------------VIPSystem-------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------
+Citizen.CreateThread(function()
+    TriggerServerEvent('rpchat:requestPlayerLicense')
+end)
+
+RegisterNetEvent('rpchat:receivePlayerLicense', function(license)
+    playerLicense = license
+end)
+
+function IsPlayerVIP()
+    if not Config.VIPSystem then return false end
+    if not playerLicense then return false end
+    for _, vip in ipairs(Config.VIPLicenses) do
+        if vip == playerLicense then
+            return true
+        end
+    end
+    return false
+end
+
+function GetDisplayName(playerId)
+    local name = GetPlayerName(playerId)
+    if playerId == PlayerId() and IsPlayerVIP() then
+        return '⭐ ' .. name
+    end
+    return name
+end
 ------------------------------------------------------------------------------------------------
 --------------ME--------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------
@@ -59,7 +90,7 @@ RegisterNetEvent('rpchat:sendMe', function(playerId, title, message, color)
             end)
             
 
-            local playerName = GetPlayerName(target) 
+            local playerName = GetDisplayName(target) 
             TriggerEvent('chat:addMessage', { 
                 template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 5px; color: white;"> <span style="background-color: rgb(168, 96, 202); border-radius: 5px; padding: 2px 4px; color: black;">ME</span> ' .. playerName .. ' - <span style="color: white;">'.. message ..'</span></div>',
                 args = { "[ME] - " .. playerName, message }
@@ -130,7 +161,7 @@ RegisterNetEvent('rpchat:sendDo', function(playerId, title, message, color)
                     end
                 end
             end)
-            local playerName = GetPlayerName(target)
+            local playerName = GetDisplayName(target)
             TriggerEvent('chat:addMessage', {
                 template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 5px; color: white;"> <span style="background-color: rgb(0, 169, 211); border-radius: 5px; padding: 2px 4px; color: black;">DO</span> ' .. playerName .. ' - <span style="color: white;">'.. message ..'</span></div>',
                 args = { "[DO] - " .. playerName, message }
@@ -166,7 +197,7 @@ RegisterNetEvent('rpchat:sendLocalOOC', function(playerId, title, message, color
         local sourcePed, targetPed = PlayerPedId(), GetPlayerPed(target)
         local sourceCoords, targetCoords = GetEntityCoords(sourcePed), GetEntityCoords(targetPed)
         if targetPed == source or #(sourceCoords - targetCoords) < Config.CommandsDistance then
-            local playerName = GetPlayerName(target)
+            local playerName = GetDisplayName(target)
             TriggerEvent('chat:addMessage', {
                 template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 5px; color: white;"> <span style="background-color: rgb(243, 243, 53); border-radius: 5px; padding: 2px 4px; color: black;">L-OOC</span> ' .. playerName .. ' - <span style="color: white;">' .. message .. '</span></div>',
                 args = { "L-OOC - " .. playerName, message }
@@ -175,10 +206,30 @@ RegisterNetEvent('rpchat:sendLocalOOC', function(playerId, title, message, color
     end
 end)
 
+RegisterNetEvent('rpchat:sendLocalOOCStaff', function(playerId, playerName, message)
+    local source = PlayerId()
+    local target = GetPlayerFromServerId(playerId)
+    if target ~= -1 then
+        local sourcePed, targetPed = PlayerPedId(), GetPlayerPed(target)
+        local sourceCoords, targetCoords = GetEntityCoords(sourcePed), GetEntityCoords(targetPed)
+        if targetPed == source or #(sourceCoords - targetCoords) < Config.CommandsDistance then
+            TriggerEvent('chat:addMessage', {
+                template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 5px; color: white;">'
+                    .. '<span style="background-color: red; border-radius: 5px; padding: 2px 4px; color: black; margin-right: 5px;">ADMIN</span>'
+                    .. '<span style="background-color: rgb(243, 243, 53); border-radius: 5px; padding: 2px 4px; color: black;">L-OOC</span> '
+                    .. playerName .. ' - <span style="color: white;">' .. message .. '</span></div>',
+                args = { "L-OOC - " .. playerName, message }
+            })
+        end
+    end
+end)
 ------------------------------------------------------------------------------------------------
 ---------------TRY------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------
 RegisterNetEvent('rpchat:showTryMessage', function(playerName, response, bgColor)
+    if playerName == GetPlayerName(PlayerId()) and IsPlayerVIP() then
+        playerName = '⭐ ' .. playerName
+    end
     local playerPed = PlayerPedId()
     local playerCoords = GetEntityCoords(playerPed)
     local targetPed = PlayerPedId() 
@@ -290,12 +341,12 @@ function DrawText3DMe(x, y, z, text, color)
     if onScreen then
         SetTextScale(0.35, 0.35)
         SetTextFont(16)
-        SetTextProportional(1)
-        SetTextCentre(1)
+        SetTextProportional(true)
+        SetTextCentre(true)
 
         BeginTextCommandWidth("STRING")
         AddTextComponentString(text)
-        local textWidth = EndTextCommandGetWidth(1) 
+        local textWidth = EndTextCommandGetWidth(true)
 
         local bgWidth = textWidth + 0.010
         local bgHeight = 0.027
@@ -312,12 +363,12 @@ function DrawText3DDo(x, y, z, text, color)
     if onScreen then
         SetTextScale(0.35, 0.35)
         SetTextFont(16)
-        SetTextProportional(1)
+        SetTextProportional(true)
         SetTextCentre(true)
 
         BeginTextCommandWidth("STRING")
         AddTextComponentString(text)
-        local textWidth = EndTextCommandGetWidth(1)
+        local textWidth = EndTextCommandGetWidth(true)
         local bgWidth = textWidth + 0.010
         local bgHeight = 0.027
         SetTextEntry("STRING")
@@ -337,10 +388,10 @@ function DrawText3DDoc(x, y, z, text, color)
         local offsetX = 0.005 
         SetTextScale(0.35, 0.35)
         SetTextFont(16)
-        SetTextProportional(1)
+        SetTextProportional(true)
         SetTextColour(color[1], color[2], color[3], color[4])
         SetTextEntry("STRING")
-        SetTextCentre(1)
+        SetTextCentre(true)
         AddTextComponentString(text)
         DrawText(_x + offsetX, _y)
         DrawRect(_x + offsetX, _y + 0.012, bgWidth, bgHeight, 0, 0, 0, 150)

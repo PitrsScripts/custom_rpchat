@@ -69,3 +69,32 @@ function GetJobName(source)
     end
 end
 
+function GetPlayerNameWithVIP(source)
+    local name = GetPlayerName(source)
+    if not Config.VIPSystem then return name end
+    local identifiers = GetPlayerIdentifiers(source)
+    for _, identifier in ipairs(identifiers) do
+        if string.sub(identifier, 1, 8) == "license:" then
+            local license = string.sub(identifier, 9)
+            for _, vip in ipairs(Config.VIPLicenses or {}) do
+                if vip == license then
+                    return "⭐ " .. name
+                end
+            end
+        end
+    end
+    return name
+end
+
+RegisterNetEvent('rpchat:requestPlayerLicense')
+AddEventHandler('rpchat:requestPlayerLicense', function()
+    local src = source
+    local license = nil
+    for k, v in ipairs(GetPlayerIdentifiers(src)) do
+        if string.sub(v, 1, string.len("license:")) == "license:" then
+            license = string.sub(v, 9)
+            break
+        end
+    end
+    TriggerClientEvent('rpchat:receivePlayerLicense', src, license)
+end)

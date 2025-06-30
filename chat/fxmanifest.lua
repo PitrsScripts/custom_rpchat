@@ -10,7 +10,6 @@ files {
     'html/index.html',
     'html/index.css',
     'html/config.default.js',
-    'html/config.js',
     'html/App.js',
     'html/Message.js',
     'html/Suggestions.js',
@@ -18,6 +17,5 @@ files {
     'html/vendor/flexboxgrid.6.3.1.min.css',
     'html/vendor/animate.3.5.2.min.css',
     'html/vendor/latofonts.css',
-    'html/franklin.ttf',
     'html/BoxedRound.ttf',
   }
