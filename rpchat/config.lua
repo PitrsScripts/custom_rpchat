@@ -5,7 +5,9 @@ Config.Locale = "en" -- en,cs
 
 -- [Blacklisted World]
 Config.Blacklisted = { 
- "negr"
+ "negr",
+ "nigr"
+ --  ""
 }
 
 
