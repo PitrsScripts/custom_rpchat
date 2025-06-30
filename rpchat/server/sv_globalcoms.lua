@@ -94,13 +94,18 @@ local function containsBlacklistedWord(message)
     return false
 end
 
+-- GetPlayerNameWithVIP
+function GetPlayerNameWithVIP(source)
+    return GetPlayerName(source) or ("ID: " .. tostring(source))
+end
+
 AddEventHandler('chatMessage', function(source, name, message)
     if string.sub(message, 1, string.len('/')) ~= '/' then
         CancelEvent()
         if containsBlacklistedWord(message) then
             TriggerClientEvent('ox_lib:notify', source, {
-                title = Locale.blacklisted_word_title,
-                description = Locale.blacklisted_word_description,
+                title = _U('blacklisted_word_title'),
+                description = _U('blacklisted_word_description'),
                 type = 'error',
                 duration = 5000
             })
@@ -173,25 +178,26 @@ AddEventHandler('chatMessage', function(source, name, message)
         end
     end
 end)
+
 -- ME
 RegisterCommand('me', function(source, args, raw)
     if source == 0 then
         return
     end
-        if not Config.MeCommand then
-            return
-        end
-        local message = table.concat(args, ' ')
+    if not Config.MeCommand then
+        return
+    end
+    local message = table.concat(args, ' ')
 
-        if containsBlacklistedWord(message) then
-            TriggerClientEvent('ox_lib:notify', source, {
-                title = Locale.blacklisted_word_title,
-                description = Locale.blacklisted_word_description,
-                type = 'error',
-                duration = 5000
-            })
-            return
-        end
+    if containsBlacklistedWord(message) then
+        TriggerClientEvent('ox_lib:notify', source, {
+            title = _U('blacklisted_word_title'),
+            description = _U('blacklisted_word_description'),
+            type = 'error',
+            duration = 5000
+        })
+        return
+    end
     if not handleCooldown(source, '/me') then
         return
     end
@@ -258,7 +264,8 @@ RegisterCommand('me', function(source, args, raw)
             embeds = embed
         }), { ['Content-Type'] = 'application/json' })
     end
-end)
+end, false)
+
 -- DO 
 RegisterCommand('do', function(source, args, raw)
     if source == 0 then
@@ -272,8 +279,8 @@ RegisterCommand('do', function(source, args, raw)
     local message = table.concat(args, ' ')
     if containsBlacklistedWord(message) then
         TriggerClientEvent('ox_lib:notify', source, {
-            title = Locale.blacklisted_word_title,
-            description = Locale.blacklisted_word_description,
+            title = _U('blacklisted_word_title'),
+            description = _U('blacklisted_word_description'),
             type = 'error',
             duration = 5000
         })
@@ -350,8 +357,7 @@ TriggerClientEvent('rpchat:sendDo', -1, source, playerName, message, {0, 169, 21
             embeds = embed
         }), { ['Content-Type'] = 'application/json' })
     end
-end)
-
+end, false)
 
 -- Sheriff
 RegisterCommand('lssd', function(source, args, rawCommand)
@@ -374,8 +380,8 @@ RegisterCommand('lssd', function(source, args, rawCommand)
     
     if containsBlacklistedWord(toSay) then
         TriggerClientEvent('ox_lib:notify', source, {
-            title = Locale.blacklisted_word_title,
-            description = Locale.blacklisted_word_description,
+            title = _U('blacklisted_word_title'),
+            description = _U('blacklisted_word_description'),
             type = 'error',
             duration = 5000 
         })
@@ -449,8 +455,8 @@ RegisterCommand('lspd', function(source, args, rawCommand)
 
     if containsBlacklistedWord(toSay) then
         TriggerClientEvent('ox_lib:notify', source, {
-            title = Locale.blacklisted_word_title,
-            description = Locale.blacklisted_word_description,
+            title = _U('blacklisted_word_title'),
+            description = _U('blacklisted_word_description'),
             type = 'error',
             duration = 5000
         })
@@ -522,8 +528,8 @@ RegisterCommand('ems', function(source, args, rawCommand)
 
     if containsBlacklistedWord(toSay) then
         TriggerClientEvent('ox_lib:notify', source, {
-            title = Locale.blacklisted_word_title,
-            description = Locale.blacklisted_word_description,
+            title = _U('blacklisted_word_title'),
+            description = _U('blacklisted_word_description'),
             type = 'error',
             duration = 5000
         })
@@ -605,8 +611,8 @@ RegisterCommand('announcement', function(source, args, raw)
     local message = table.concat(args, ' ')
     if containsBlacklistedWord(message) then
         TriggerClientEvent('ox_lib:notify', source, {
-            title = Locale.blacklisted_word_title,
-            description = Locale.blacklisted_word_description,
+            title = _U('blacklisted_word_title'),
+            description = _U('blacklisted_word_description'),
             type = 'error',
             duration = 5000 
         })
@@ -679,13 +685,14 @@ local webhookURL = Config.DiscordWebhookURLs["announcement"]
     end
 
     TriggerClientEvent('rpchat:sendAnnouncement', -1, source, "Announcement", message, {255, 0, 0})
-end)
+end, false)
+
 -- MSG
 RegisterCommand('msg', function(source, args, raw)
     if not Config.MsgCommand then
         TriggerClientEvent('ox_lib:notify', source, {
-            title = Locale.command_disabled_title,
-            description = string.format(Locale.command_disabled_description, "/msg"),
+            title = _U('command_disabled_title'),
+            description = string.format(_U('command_disabled_description'), "/msg"),
             type = 'error',
             duration = 5000
         })
@@ -701,8 +708,8 @@ RegisterCommand('msg', function(source, args, raw)
 
     if not Config.AllowedGroups[playerGroup] then
         TriggerClientEvent('ox_lib:notify', source, {
-            title = Locale.permission_denied_title,
-            description = Locale.permission_denied_description_generic,
+            title = _U('permission_denied_title'),
+            description = _U('permission_denied_description_generic'),
             type = 'error',
             duration = 5000
         })
@@ -712,8 +719,8 @@ RegisterCommand('msg', function(source, args, raw)
     local targetId = tonumber(args[1])
     if not targetId or not GetPlayerName(targetId) then
         TriggerClientEvent('ox_lib:notify', source, {
-            title = Locale.invalid_player_id_title,
-            description = Locale.invalid_player_id_description,
+            title = _U('invalid_player_id_title'),
+            description = _U('invalid_player_id_description'),
             type = 'error',
             duration = 5000
         })
@@ -724,8 +731,8 @@ RegisterCommand('msg', function(source, args, raw)
     local message = table.concat(args, ' ')
     if containsBlacklistedWord(message) then
         TriggerClientEvent('ox_lib:notify', source, {
-            title = Locale.blacklisted_word_title,
-            description = Locale.blacklisted_word_description,
+            title = _U('blacklisted_word_title'),
+            description = _U('blacklisted_word_description'),
             type = 'error',
             duration = 5000
         })
@@ -751,7 +758,8 @@ local targetName = GetPlayerNameWithVIP(targetId)
     end
 
     TriggerClientEvent('rpchat:sendPrivateMessage', targetId, source, message)
-end)
+end, false)
+
 -- TRY
 RegisterCommand('try', function(source, args, rawCommand)
     if not Config.TryCommand then return end  -- Pokud je příkaz vypnutý v configu, nepokračuje
@@ -792,7 +800,8 @@ RegisterCommand('try', function(source, args, rawCommand)
             embeds = embed
         }), { ['Content-Type'] = 'application/json' })
     end
-end)
+end, false)
+
 -- DOC
 RegisterCommand('doc', function(source, args, rawCommand)
     if not Config.DocCommand then
@@ -813,7 +822,10 @@ RegisterCommand('doc', function(source, args, rawCommand)
     local target = 20
 
     if args[1] then
-        target = tonumber(args[1])
+        local num = tonumber(args[1])
+        if num then
+            target = num
+        end
         if target > 50 then
             TriggerClientEvent('ox_lib:notify', source, {
                 title = _U('doc_max_allowed_title'),
@@ -842,6 +854,7 @@ RegisterCommand('doc', function(source, args, rawCommand)
     end
     TriggerClientEvent('rpchat:sendDocMessage', source, count, target)
 end, false)
+
 -- STAFF
 RegisterCommand("staff", function(source, args, rawCommand)
     if not Config.StaffCommand then
@@ -851,8 +864,8 @@ RegisterCommand("staff", function(source, args, rawCommand)
     local playerGroup = xPlayer.getGroup()
     if not Config.AllowedGroups[playerGroup] then
         TriggerClientEvent('ox_lib:notify', source, {
-            title = Locale.permission_denied_title,
-            description = Locale.permission_denied_description_generic,
+            title = _U('permission_denied_title'),
+            description = _U('permission_denied_description_generic'),
             type = 'error',
             duration = 5000
         })
@@ -896,6 +909,7 @@ for _, playerId in ipairs(GetPlayers()) do
         }), { ['Content-Type'] = 'application/json' })
     end
 end, false)
+
 -- AUTO MESSAGE CHAT
 RegisterServerEvent('rpchat:chat')
 AddEventHandler('rpchat:chat', function(job, msg)
@@ -910,6 +924,7 @@ AddEventHandler('rpchat:chat', function(job, msg)
     }
     TriggerClientEvent('rpchat:Send', -1, messageFull, job)
 end)
+
 -- OOC STAFF
 RegisterCommand('oocstaff', function(source, args, rawCommand)
     if not Config.OocStaffCommand then
