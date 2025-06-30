@@ -8,7 +8,7 @@ Config.Blacklisted = {
  "negr"
 }
 
--- Other config settings can be added here as needed
+
 
 -- [Discord Logs]
 Config.DiscordWebhookURLs = {
