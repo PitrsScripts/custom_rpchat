@@ -69,6 +69,6 @@ Config.police = 'police' -- /lspd
 -- [VIP System]
 Config.VIPSystem = false -- If false, VIP system is disabled
 Config.VIPLicenses = {
-   -- "license", -- Example license
+   -- "license", -- fivem license
    -- "license" 
 }
