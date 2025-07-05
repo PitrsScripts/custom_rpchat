@@ -13,7 +13,7 @@ Whether you're typing out actions with /me, describing the world with /do, or co
 
 * /police, /sheriff, /ambulance
 
-* /ooc, /staff, /announcement, /msg
+* /ooc, /oocstaff, /staff, /announcement, /msg
 
 * Distinct visual styles for each message type
 
