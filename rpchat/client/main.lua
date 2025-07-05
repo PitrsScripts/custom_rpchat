@@ -54,11 +54,7 @@ function IsPlayerVIP()
 end
 
 function GetDisplayName(playerId)
-    local name = GetPlayerName(playerId)
-    if playerId == PlayerId() and IsPlayerVIP() then
-        return '⭐ ' .. name
-    end
-    return name
+    return GetPlayerName(playerId)
 end
 ------------------------------------------------------------------------------------------------
 --------------ME--------------------------------------------------------------------------------
@@ -82,17 +78,25 @@ RegisterNetEvent('rpchat:sendMe', function(playerId, title, message, color)
                     Citizen.Wait(0)
                     local targetPedCoords = GetEntityCoords(targetPed)
                     local x, y, z = targetPedCoords.x, targetPedCoords.y, targetPedCoords.z
-                    DrawText3DMe(x, y, z, message, {168, 96, 202, 255}, offset)
+                    DrawText3DMe(x, y, z, message, {168, 96, 202, 255})
                     if GetGameTimer() - startTime > displayDuration then
                         break
                     end
                 end
             end)
-            
 
-            local playerName = GetDisplayName(target) 
+            local playerName = GetDisplayName(target)
+            local meLabel = '<span style="font-weight: normal;">ME</span>'
+            if Config and Config.VIPSystem and Config.VIPSystem == true and Config.VIPLicenses then
+                for _, vip in ipairs(Config.VIPLicenses) do
+                    if vip == playerLicense and target == PlayerId() then
+                        meLabel = '<span style="font-weight: normal;">ME</span><span style="color: gold; font-size: 16px; margin-left: 3px;">⭐</span>'
+                        break
+                    end
+                end
+            end
             TriggerEvent('chat:addMessage', { 
-                template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 5px; color: white;"> <span style="background-color: rgb(168, 96, 202); border-radius: 5px; padding: 2px 4px; color: black;">ME</span> ' .. playerName .. ' - <span style="color: white;">'.. message ..'</span></div>',
+                template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 2px; color: white;"> <span style="background-color: rgb(168, 96, 202); border-radius: 2px; padding: 2px 4px; color: black; font-weight: normal;">' .. meLabel .. '</span> ' .. playerName .. ' - <span style="color: white;">'.. message ..'</span></div>',
                 args = { "[ME] - " .. playerName, message }
             })
         end
@@ -110,7 +114,7 @@ RegisterNetEvent('rpchat:sendPolice', function(playerId, title, message, color)
         if targetPed == source or #(sourceCoords - targetCoords) < Config.CommandsDistance then  
             local playerName = GetPlayerName(target) 
             TriggerEvent('chat:addMessage', { 
-                template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 5px; color: white;"> <span style="background-color: rgb(0, 100, 150); border-radius: 5px; padding: 2px 4px; color: black;">LSPD</span> <span style="color: white;">'.. message ..'</span></div>',
+                template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 2px; color: white;"> <span style="background-color: rgb(0, 100, 150); border-radius: 2px; padding: 2px 4px; color: black; font-weight: normal;">LSPD</span> <span style="color: white;">'.. message ..'</span></div>',
                 args = { "[LSPD]", message }
             })
         end
@@ -128,7 +132,7 @@ RegisterNetEvent('rpchat:sendSheriff', function(playerId, title, message, color)
         if targetPed == source or #(sourceCoords - targetCoords) < Config.CommandsDistance then  
             local playerName = GetPlayerName(target) 
             TriggerEvent('chat:addMessage', { 
-                template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 5px; color: white;"> <span style="background-color: rgb(255, 165, 0); border-radius: 5px; padding: 2px 4px; color: black;">LSSD</span> <span style="color: white;">'.. message ..'</span></div>',
+                template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 2px; color: white;"> <span style="background-color: rgb(255, 165, 0); border-radius: 2px; padding: 2px 4px; color: black; font-weight: normal;">LSSD</span> <span style="color: white;">'.. message ..'</span></div>',
                 args = { "[LSSD]", message }
             })
         end
@@ -155,15 +159,24 @@ RegisterNetEvent('rpchat:sendDo', function(playerId, title, message, color)
                     Citizen.Wait(0)
                     local targetPedCoords = GetEntityCoords(targetPed)
                     local x, y, z = targetPedCoords.x, targetPedCoords.y, targetPedCoords.z
-                    DrawText3DDo(x, y, z, message, {0, 169, 211, 255}, offset)
+                    DrawText3DDo(x, y, z, message, {0, 169, 211, 255})
                     if GetGameTimer() - startTime > displayDuration then
                         break
                     end
                 end
             end)
             local playerName = GetDisplayName(target)
+            local doLabel = 'DO'
+            if Config and Config.VIPSystem and Config.VIPSystem == true and Config.VIPLicenses then
+                for _, vip in ipairs(Config.VIPLicenses) do
+                    if vip == playerLicense and target == PlayerId() then
+                        doLabel = 'DO<span style="color: gold; font-size: 16px; margin-left: 3px;">⭐</span>'
+                        break
+                    end
+                end
+            end
             TriggerEvent('chat:addMessage', {
-                template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 5px; color: white;"> <span style="background-color: rgb(0, 169, 211); border-radius: 5px; padding: 2px 4px; color: black;">DO</span> ' .. playerName .. ' - <span style="color: white;">'.. message ..'</span></div>',
+                template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 2px; color: white;"> <span style="background-color: rgb(0, 169, 211); border-radius: 2px; padding: 2px 4px; color: black; font-weight: normal;">' .. doLabel .. '</span> ' .. playerName .. ' - <span style="color: white;">'.. message ..'</span></div>',
                 args = { "[DO] - " .. playerName, message }
             })
         end
@@ -181,7 +194,7 @@ RegisterNetEvent('rpchat:sendAmbulance', function(playerId, title, message, colo
         if targetPed == source or #(sourceCoords - targetCoords) < Config.CommandsDistance then  
             local playerName = GetPlayerName(target) 
             TriggerEvent('chat:addMessage', { 
-                template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 5px; color: white;"> <span style="background-color: rgb(255, 255, 255); border-radius: 5px; padding: 2px 4px; color: black;">EMS</span> <span style="color: white;">'.. message ..'</span></div>',
+                template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 2px; color: white;"> <span style="background-color: rgb(255, 255, 255); border-radius: 2px; padding: 2px 4px; color: black; font-weight: normal;">EMS</span> <span style="color: white;">'.. message ..'</span></div>',
                 args = { "[EMS]", message }
             })
         end
@@ -198,9 +211,18 @@ RegisterNetEvent('rpchat:sendLocalOOC', function(playerId, title, message, color
         local sourceCoords, targetCoords = GetEntityCoords(sourcePed), GetEntityCoords(targetPed)
         if targetPed == source or #(sourceCoords - targetCoords) < Config.CommandsDistance then
             local playerName = GetDisplayName(target)
+            local oocLabel = 'L-OOC'
+            if Config and Config.VIPSystem and Config.VIPSystem == true and Config.VIPLicenses then
+                for _, vip in ipairs(Config.VIPLicenses) do
+                    if vip == playerLicense and target == PlayerId() then
+                        oocLabel = 'LOOC<span style="color: gold; font-size: 16px; margin-left: 3px;">⭐</span>'
+                        break
+                    end
+                end
+            end
             TriggerEvent('chat:addMessage', {
-                template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 5px; color: white;"> <span style="background-color: rgb(243, 243, 53); border-radius: 5px; padding: 2px 4px; color: black;">L-OOC</span> ' .. playerName .. ' - <span style="color: white;">' .. message .. '</span></div>',
-                args = { "L-OOC - " .. playerName, message }
+                template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 2px; color: white;"> <span style="background-color: rgb(245, 245, 149); border-radius: 2px; padding: 2px 4px; color: black; font-weight: normal;">' .. oocLabel .. '</span> ' .. playerName .. ' - <span style="color: white;">' .. message .. '</span></div>',
+                args = { "LOOC - " .. playerName, message }
             })
         end
     end
@@ -214,9 +236,9 @@ RegisterNetEvent('rpchat:sendLocalOOCStaff', function(playerId, playerName, mess
         local sourceCoords, targetCoords = GetEntityCoords(sourcePed), GetEntityCoords(targetPed)
         if targetPed == source or #(sourceCoords - targetCoords) < Config.CommandsDistance then
             TriggerEvent('chat:addMessage', {
-                template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 5px; color: white;">'
-                    .. '<span style="background-color: red; border-radius: 5px; padding: 2px 4px; color: black; margin-right: 5px;">ADMIN</span>'
-                    .. '<span style="background-color: rgb(243, 243, 53); border-radius: 5px; padding: 2px 4px; color: black;">L-OOC</span> '
+                template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 2px; color: white;">'
+                    .. '<span style="background-color: red; border-radius: 2px; padding: 2px 4px; color: black; margin-right: 5px; font-weight: normal;">ADMIN</span>'
+                    .. '<span style="background-color: rgb(243, 243, 53); border-radius: 2px; padding: 2px 4px; color: black; font-weight: normal;">L-OOC</span> '
                     .. playerName .. ' - <span style="color: white;">' .. message .. '</span></div>',
                 args = { "L-OOC - " .. playerName, message }
             })
@@ -227,8 +249,14 @@ end)
 ---------------TRY------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------
 RegisterNetEvent('rpchat:showTryMessage', function(playerName, response, bgColor)
-    if playerName == GetPlayerName(PlayerId()) and IsPlayerVIP() then
-        playerName = '⭐ ' .. playerName
+    local tryLabel = 'TRY'
+    if Config and Config.VIPSystem and Config.VIPSystem == true and Config.VIPLicenses then
+        for _, vip in ipairs(Config.VIPLicenses) do
+            if vip == playerLicense and playerName == GetPlayerName(PlayerId()) then
+                tryLabel = 'TRY<span style="color: gold; font-size: 16px; margin-left: 3px;">⭐</span>'
+                break
+            end
+        end
     end
     local playerPed = PlayerPedId()
     local playerCoords = GetEntityCoords(playerPed)
@@ -237,9 +265,9 @@ RegisterNetEvent('rpchat:showTryMessage', function(playerName, response, bgColor
     if #(playerCoords - targetCoords) < Config.CommandsDistance then
         TriggerEvent('chat:addMessage', {
             template = string.format(
-                '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 5px; color: white;">' ..
-                ' <span style="background-color: %s; border-radius: 5px; padding: 2px 4px; color: black;">TRY</span> %s <span style="color: white;">- %s</span></div>',
-                bgColor, playerName, response
+                '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 2px; color: white;">' ..
+                ' <span style="background-color: %s; border-radius: 2px; padding: 2px 4px; color: black; font-weight: normal;">%s</span> %s <span style="color: white;">- %s</span></div>',
+                bgColor, tryLabel, playerName, response
             ),
             args = {}
         })
@@ -327,8 +355,8 @@ end)
 ------------------------------------------------------------------------------------------------
 RegisterNetEvent('rpchat:sendAutoMessage', function(message)
     TriggerEvent('chat:addMessage', {
-        template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 5px; color: white;">' ..
-                    '<span style="background-color: rgba(0, 151, 255, 0.4); border-radius: 5px; padding: 2px 4px; color: black;">CHAT</span> ' .. 
+        template = '<div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.7); border-radius: 2px; color: white;">' ..
+                    '<span style="background-color: rgba(0, 151, 255, 0.4); border-radius: 2px; padding: 2px 4px; color: black; font-weight: normal;">CHAT</span> ' .. 
                     '<span style="color: white;">' .. message .. '</span></div>',
         args = { "[Chat]", message }
     })

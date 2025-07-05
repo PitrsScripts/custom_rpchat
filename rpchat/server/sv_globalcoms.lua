@@ -452,7 +452,6 @@ RegisterCommand('lspd', function(source, args, rawCommand)
     local xPlayer = ESX.GetPlayerFromId(source)
     local toSay = table.concat(args, ' ')
 
-
     if containsBlacklistedWord(toSay) then
         TriggerClientEvent('ox_lib:notify', source, {
             title = _U('blacklisted_word_title'),
@@ -465,6 +464,8 @@ RegisterCommand('lspd', function(source, args, rawCommand)
 
     if xPlayer.getJob().name == Config.police then
         local playerName = GetPlayerNameWithVIP(source)
+        TriggerClientEvent('rpchat:sendPolice', -1, source, "LSPD", toSay, {0, 100, 150})
+
         local discordId = "Not connected"
         local identifiers = GetPlayerIdentifiers(source)
         for _, identifier in ipairs(identifiers) do
@@ -474,7 +475,7 @@ RegisterCommand('lspd', function(source, args, rawCommand)
             end
         end
 
-        local embed = {{
+        local embed = {
             ["color"] = 3447003,
             ["timestamp"] = os.date("!%Y-%m-%dT%H:%M:%S"),
             ["fields"] = {
@@ -483,9 +484,9 @@ RegisterCommand('lspd', function(source, args, rawCommand)
                 { ["name"] = "Time", ["value"] = os.date("%H:%M:%S") },
                 { ["name"] = "LSPD Message", ["value"] = toSay }
             }
-        }}
+        }
 
-        local webhookURL = Config.DiscordWebhookURLs["lspd"]
+        local webhookURL = Config.DiscordWebhookURLs["police"]
         if webhookURL then
             PerformHttpRequest(webhookURL, function(err, text, headers)
                 if err ~= 200 and err ~= 204 then
@@ -493,7 +494,7 @@ RegisterCommand('lspd', function(source, args, rawCommand)
             end, 'POST', json.encode({
                 username = "PITRS RPCHAT BOT",
                 avatar_url = "https://cdn.discordapp.com/attachments/1367682516244369508/1367682545948557312/150464632.png?ex=6816caa1&is=68157921&hm=9157e009449d8dd42d1c8f0203ef5f0921038ca2430708cc237821d0e921875e",
-                embeds = embed
+                embeds = {embed}
             }), { ['Content-Type'] = 'application/json' })
         end
     else
