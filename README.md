@@ -4,6 +4,11 @@ pitrs-rpchat is a modern and immersive roleplay chat system designed to enhance 
 
 Whether you're typing out actions with /me, describing the world with /do, or coordinating as police or EMS, RPChat ensures that every message feels in-character and immersive.
 
+
+<img width="667" height="246" alt="{76C358A2-6602-49E8-8A55-07C04DB46D20}" src="https://github.com/user-attachments/assets/b8d43375-a656-4745-8bfe-b6bb0fa6fea2" />
+
+
+
 ### ✨ Features
 ## 🗣️ Immersive Roleplay Commands
  
