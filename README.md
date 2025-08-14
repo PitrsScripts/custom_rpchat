@@ -11,7 +11,7 @@ Whether you're typing out actions with /me, describing the world with /do, or co
 ### REQUIMENTS
 Go to the server.cfg add line 
 * set resources_useSystemChat false
-
+* The need to have webhooks set up
 
 
 ### ✨ Features
