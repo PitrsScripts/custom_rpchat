@@ -1,4 +1,5 @@
 local ESX = nil
+local MySQL = exports.oxmysql
 local lastCommand = {} 
 
 local Config = {}
@@ -31,25 +32,31 @@ local function loadLocale()
     end
 end
 
--- Load config.lua as a global table
-local configFile = LoadResourceFile(GetCurrentResourceName(), 'config.lua')
-if configFile then
-    local env = {}
-    local chunk, err = load(configFile, 'config', 't', env)
-    if chunk then
-        local ok, err = pcall(chunk)
-        if ok and env.Config then
-            Config = env.Config
-            currentLocale = Config.Locale or currentLocale
+local function loadConfig()
+    local configFile = LoadResourceFile(GetCurrentResourceName(), 'config.lua')
+    if configFile then
+        local env = {Config = {}}
+        local chunk, err = load(configFile, 'config', 't', env)
+        if chunk then
+            local ok, result = pcall(chunk)
+            if ok and env.Config then
+                for k, v in pairs(env.Config) do
+                    Config[k] = v
+                end
+                currentLocale = Config.Locale or currentLocale
+                print("[RPCHAT] Config loaded. CharacterName: " .. tostring(Config.CharacterName))
+            else
+                print("Failed to execute config chunk: " .. tostring(result))
+            end
         else
-            print("Failed to execute config chunk or Config table missing: " .. tostring(err))
+            print("Failed to load config chunk: " .. tostring(err))
         end
     else
-        print("Failed to load config chunk: " .. tostring(err))
+        print("Config file not found")
     end
-else
-    print("Config file not found")
 end
+
+loadConfig()
 
 loadLocale()
 
@@ -96,6 +103,21 @@ end
 
 -- GetPlayerNameWithVIP
 function GetPlayerNameWithVIP(source)
+    if Config.CharacterName then
+        local xPlayer = ESX.GetPlayerFromId(source)
+        if xPlayer then
+            local identifier = xPlayer.identifier
+            local result = exports.oxmysql:executeSync('SELECT firstname, lastname FROM users WHERE identifier = ?', {identifier})
+            if result and result[1] then
+                result = result[1]
+            end
+            if result and result.firstname and result.lastname and result.firstname ~= "" and result.lastname ~= "" then
+                local firstInitial = string.sub(result.firstname, 1, 1):upper()
+                local lastInitial = string.sub(result.lastname, 1, 1):upper()
+                return firstInitial .. "." .. lastInitial
+            end
+        end
+    end
     return GetPlayerName(source) or ("ID: " .. tostring(source))
 end
 
@@ -202,7 +224,7 @@ RegisterCommand('me', function(source, args, raw)
         return
     end
     local playerName = GetPlayerNameWithVIP(source)
-    TriggerClientEvent('rpchat:sendMe', -1, source, "ME", message, {168, 96, 202})
+    TriggerClientEvent('rpchat:sendMe', -1, source, playerName, message, {168, 96, 202})
 
     local webhookURL = Config.DiscordWebhookURLs["me"]
     local discordId
@@ -290,8 +312,8 @@ RegisterCommand('do', function(source, args, raw)
     if not handleCooldown(source, '/do') then
         return
     end
-local playerName = GetPlayerNameWithVIP(source)
-TriggerClientEvent('rpchat:sendDo', -1, source, playerName, message, {0, 169, 211})
+    local playerName = GetPlayerNameWithVIP(source)
+    TriggerClientEvent('rpchat:sendDo', -1, source, playerName, message, {0, 169, 211})
 
     local webhookURL = Config.DiscordWebhookURLs["do"]
 
