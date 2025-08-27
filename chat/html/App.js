@@ -222,8 +222,11 @@ window.APP = {
     },
     resize() {
       const input = this.$refs.input;
-      input.style.height = '5px';
-      input.style.height = `${input.scrollHeight + 2}px`;
+      if (input) {
+        input.style.height = '30px'; // Reset to base height
+        const newHeight = Math.min(input.scrollHeight + 2, 60); // Limit max height to 60px
+        input.style.height = `${newHeight}px`;
+      }
     },
     send(e) {
       if(this.message !== '') {
