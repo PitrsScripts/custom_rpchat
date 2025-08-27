@@ -6,6 +6,7 @@ Whether you're typing out actions with /me, describing the world with /do, or co
 
 
 <img width="667" height="246" alt="{76C358A2-6602-49E8-8A55-07C04DB46D20}" src="https://github.com/user-attachments/assets/b8d43375-a656-4745-8bfe-b6bb0fa6fea2" />
+<img width="432" height="213" alt="image" src="https://github.com/user-attachments/assets/987e20cb-2c05-40f4-b139-addc6cba29c9" />
 
 
 ### REQUIMENTS
