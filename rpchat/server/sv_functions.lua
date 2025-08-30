@@ -69,6 +69,22 @@ function GetJobName(source)
     end
 end
 
+function IsPlayerVIP(source)
+    if not Config.VIPSystem then return false end
+    local identifiers = GetPlayerIdentifiers(source)
+    for _, identifier in ipairs(identifiers) do
+        if string.sub(identifier, 1, 8) == "license:" then
+            local license = string.sub(identifier, 9)
+            for _, vip in ipairs(Config.VIPLicenses or {}) do
+                if vip == license then
+                    return true
+                end
+            end
+        end
+    end
+    return false
+end
+
 function GetPlayerNameWithVIP(source)
     local name = GetPlayerName(source)
     if not Config.VIPSystem then return name end

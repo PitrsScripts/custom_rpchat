@@ -59,7 +59,7 @@ end
 ------------------------------------------------------------------------------------------------
 --------------ME--------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------
-RegisterNetEvent('rpchat:sendMe', function(playerId, playerName, message, color)
+RegisterNetEvent('rpchat:sendMe', function(playerId, playerName, message, color, isVIP)
     local source = PlayerId()
     local target = GetPlayerFromServerId(playerId)
     if target ~= -1 then
@@ -86,7 +86,7 @@ RegisterNetEvent('rpchat:sendMe', function(playerId, playerName, message, color)
             end)
 
             local meLabel = '<span style="font-weight: 600; font-family: Poppins, sans-serif !important;">ME</span>'
-            if IsPlayerVIP() then
+            if isVIP then
                 meLabel = '<span style="font-weight: 600; font-family: Poppins, sans-serif !important;">ME</span><span style="color: gold; font-size: 16px; margin-left: 3px; font-family: Poppins, sans-serif !important;">⭐</span>'
             end
             TriggerEvent('chat:addMessage', { 
@@ -135,7 +135,7 @@ end)
 ------------------------------------------------------------------------------------------------
 ----------------DO------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------
-RegisterNetEvent('rpchat:sendDo', function(playerId, playerName, message, color)
+RegisterNetEvent('rpchat:sendDo', function(playerId, playerName, message, color, isVIP)
     local source = PlayerId()
     local target = GetPlayerFromServerId(playerId)
     if target ~= -1 then
@@ -160,7 +160,7 @@ RegisterNetEvent('rpchat:sendDo', function(playerId, playerName, message, color)
                 end
             end)
             local doLabel = 'DO'
-            if IsPlayerVIP() then
+            if isVIP then
                 doLabel = 'DO<span style="color: gold; font-size: 16px; margin-left: 3px;">⭐</span>'
             end
             TriggerEvent('chat:addMessage', {
@@ -191,7 +191,7 @@ end)
 ------------------------------------------------------------------------------------------------
 ---------------OOC------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------
-RegisterNetEvent('rpchat:sendLocalOOC', function(playerId, title, message, color)
+RegisterNetEvent('rpchat:sendLocalOOC', function(playerId, title, message, color, isVIP)
     local source = PlayerId()
     local target = GetPlayerFromServerId(playerId)
     if target ~= -1 then
@@ -200,7 +200,7 @@ RegisterNetEvent('rpchat:sendLocalOOC', function(playerId, title, message, color
         if targetPed == source or #(sourceCoords - targetCoords) < Config.CommandsDistance then
             local playerName = GetDisplayName(target)
             local oocLabel = 'L-OOC'
-            if IsPlayerVIP() then
+            if isVIP then
                 oocLabel = 'L-OOC<span style="color: gold; font-size: 16px; margin-left: 3px;">⭐</span>'
             end
             TriggerEvent('chat:addMessage', {
@@ -231,9 +231,9 @@ end)
 ------------------------------------------------------------------------------------------------
 ---------------TRY------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------
-RegisterNetEvent('rpchat:showTryMessage', function(playerName, response, bgColor)
+RegisterNetEvent('rpchat:showTryMessage', function(playerName, response, bgColor, isVIP)
     local tryLabel = 'TRY'
-    if IsPlayerVIP() then
+    if isVIP then
         tryLabel = 'TRY<span style="color: gold; font-size: 16px; margin-left: 3px;">⭐</span>'
     end
     local playerPed = PlayerPedId()

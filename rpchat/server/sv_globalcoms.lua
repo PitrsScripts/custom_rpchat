@@ -137,7 +137,8 @@ AddEventHandler('chatMessage', function(source, name, message)
             return
         end
         local playerName = GetPlayerNameWithVIP(source)
-        TriggerClientEvent('rpchat:sendLocalOOC', -1, source, playerName, message, {30, 144, 255})
+        local isVIP = IsPlayerVIP(source)
+        TriggerClientEvent('rpchat:sendLocalOOC', -1, source, playerName, message, {30, 144, 255}, isVIP)
 
         local webhookURL = Config.DiscordWebhookURLs["local_chat"]
         local discordId
@@ -224,7 +225,8 @@ RegisterCommand('me', function(source, args, raw)
         return
     end
     local playerName = GetPlayerNameWithVIP(source)
-    TriggerClientEvent('rpchat:sendMe', -1, source, playerName, message, {168, 96, 202})
+    local isVIP = IsPlayerVIP(source)
+    TriggerClientEvent('rpchat:sendMe', -1, source, playerName, message, {168, 96, 202}, isVIP)
 
     local webhookURL = Config.DiscordWebhookURLs["me"]
     local discordId
@@ -313,7 +315,8 @@ RegisterCommand('do', function(source, args, raw)
         return
     end
     local playerName = GetPlayerNameWithVIP(source)
-    TriggerClientEvent('rpchat:sendDo', -1, source, playerName, message, {0, 169, 211})
+    local isVIP = IsPlayerVIP(source)
+    TriggerClientEvent('rpchat:sendDo', -1, source, playerName, message, {0, 169, 211}, isVIP)
 
     local webhookURL = Config.DiscordWebhookURLs["do"]
 
@@ -789,11 +792,12 @@ RegisterCommand('try', function(source, args, rawCommand)
 
     local result = math.random(1, 2)
     local playerName = GetPlayerNameWithVIP(source)
+    local isVIP = IsPlayerVIP(source)
     local response = (result == 1) and "Ano" or "Ne"
     local color = (result == 1) and "rgba(0, 255, 0, 0.4)" or "rgba(255, 0, 0, 0.4)"
     local discordColor = (result == 1) and 65280 or 16711680
 
-    TriggerClientEvent('rpchat:showTryMessage', source, playerName, response, color)
+    TriggerClientEvent('rpchat:showTryMessage', source, playerName, response, color, isVIP)
 
     local discordId
     local identifiers = GetPlayerIdentifiers(source)
