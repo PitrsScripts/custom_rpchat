@@ -70,3 +70,16 @@ Config.VIPLicenses = {
     "c71fb5a960492ca93db1229ee72d4bedff6de23c", -- Example license
    -- "license" 
 }
+
+-- [Commands]
+-- /me
+-- /do
+-- /doc
+-- /try
+-- /staff
+-- /lspd
+-- /lssd
+-- /ems
+-- /oocstaff
+-- /announcement
+-- /msg
