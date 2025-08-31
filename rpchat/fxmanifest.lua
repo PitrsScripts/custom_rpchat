@@ -23,6 +23,15 @@ client_scripts {
 	'client/*.lua',
 }
 
+despencies {
+    'ox_lib',
+    'oxmysql',
+    'es_extended',
+    'async',
+}
+
+
+
 
 
 
