@@ -114,3 +114,12 @@ AddEventHandler('rpchat:requestPlayerLicense', function()
     end
     TriggerClientEvent('rpchat:receivePlayerLicense', src, license)
 end)
+
+-- Funkce pro získání reálného času
+RegisterNetEvent('rpchat:requestRealTime')
+AddEventHandler('rpchat:requestRealTime', function()
+    local src = source
+    local realTime = os.date('*t')
+    local timeString = string.format('[%02d:%02d]', realTime.hour, realTime.min)
+    TriggerClientEvent('rpchat:receiveRealTime', src, timeString)
+end)

@@ -122,7 +122,27 @@ function GetPlayerNameWithVIP(source)
 end
 
 AddEventHandler('chatMessage', function(source, name, message)
-    if string.sub(message, 1, string.len('/')) ~= '/' then
+    if string.sub(message, 1, 1) == '/' then
+        local command = string.match(message, "^/(%w+)")
+        if command then
+            local validCommands = {"me", "do", "lssd", "lspd", "ems", "announcement", "msg", "try", "doc", "staff", "oocstaff"}
+            local isValid = false
+            for _, cmd in ipairs(validCommands) do
+                if cmd == command then
+                    isValid = true
+                    break
+                end
+            end
+            if not isValid then
+                local timeSpan = '<span style="float: right; color: rgba(255, 255, 255, 0.6); font-size: 12px; font-family: Poppins, sans-serif;">[' .. os.date('%H:%M') .. ']</span>'
+                TriggerClientEvent('chat:addMessage', source, {
+                    template = '<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"><div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.5); border-radius: 10px; color: white; font-family: Poppins, sans-serif; position: relative;"> <span style="background-color: rgb(255, 0, 0); border-radius: 10px; padding: 2px 4px; color: white; font-weight: 600; font-family: Poppins, sans-serif;">CHYBA</span> <span style="color: white; font-family: Poppins, sans-serif;">- neplatný příkaz</span>' .. timeSpan .. '</div>',
+                    args = {}
+                })
+            end
+        end
+        CancelEvent()
+    else
         CancelEvent()
         if containsBlacklistedWord(message) then
             TriggerClientEvent('ox_lib:notify', source, {
