@@ -53,8 +53,35 @@
   margin: 0.2%;
   text-shadow: 1px 1px black;
   overflow-x: hidden;
-  overflow-y: auto; /* Allow scrolling for messages */
+  overflow-y: hidden; /* Hide scrollbar */
   max-height: 280px; /* Limit message area height */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.chat-messages::-webkit-scrollbar {
+  display: none !important; /* Chrome, Safari, Opera */
+}
+
+/* Skrytí všech možných scroll elementů */
+* {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+*::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.chat-window *::-webkit-scrollbar {
+  display: none !important;
+}
+
+.chat-window * {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
 }
 
 .chat-input {
@@ -109,7 +136,8 @@
 }
 
 textarea {
-  font-family: BoxedRound;
+  /* Změna: Použit 'Poppins' – moderní, čitelný font vhodný pro UI a textové vstupy */
+  font-family: 'Poppins', sans-serif; 
   font-size: 1.5vh;
   box-sizing: border-box;
   padding: 1%;
@@ -126,7 +154,6 @@ textarea {
   transition: background-color 0.2s ease;
   margin-left: 3.0%;
 }
-
 
 
 

@@ -200,6 +200,9 @@ window.APP = {
       if (e.which === 38 || e.which === 40) {
         e.preventDefault();
         this.moveOldMessageIndex(e.which === 38);
+      } else if (e.which === 9) { // TAB key
+        e.preventDefault();
+        this.moveOldMessageIndex(true);
       } else if (e.which == 33) {
         var buf = document.getElementsByClassName('chat-messages')[0];
         buf.scrollTop = buf.scrollTop - 100;

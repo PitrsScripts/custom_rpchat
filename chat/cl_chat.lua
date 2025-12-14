@@ -164,18 +164,28 @@ local function refreshThemes()
   })
 end
 
-AddEventHandler('onClientResourceStart', function(resName)
-  Wait(_s)
+-- Debounced refresh - prevents spam when multiple resources start/stop
+local refreshPending = false
 
-  refreshCommands()
-  refreshThemes()
+local function scheduleRefresh()
+  if refreshPending then return end
+  refreshPending = true
+  
+  SetTimeout(2000, function()
+    refreshPending = false
+    if chatLoaded then
+      refreshCommands()
+      refreshThemes()
+    end
+  end)
+end
+
+AddEventHandler('onClientResourceStart', function(resName)
+  scheduleRefresh()
 end)
 
 AddEventHandler('onClientResourceStop', function(resName)
-  Wait(_s)
-
-  refreshCommands()
-  refreshThemes()
+  scheduleRefresh()
 end)
 
 RegisterNUICallback('loaded', function(data, cb)
@@ -189,52 +199,44 @@ RegisterNUICallback('loaded', function(data, cb)
   cb('ok')
 end)
 
-Citizen.CreateThread(function()
-    while true do
-        for id = 0, 255 do
-            if GetPlayerPed(-1) then
-                x1, y1, z1 = table.unpack(GetEntityCoords(GetPlayerPed(-1), true))
-                distance = math.floor(GetDistanceBetweenCoords(x1,  y1,  z1,  x2,  y2,  z2,  true))
-            end
-        end
-        Citizen.Wait(1000)
-    end
-end)
+-- Chat input using keymapping instead of polling
+RegisterCommand('_openChat', function()
+  if not chatInputActive then
+    chatInputActive = true
+    chatInputActivating = true
+    
+    SendNUIMessage({
+      type = 'ON_OPEN'
+    })
+    
+    -- Wait for key release then focus
+    CreateThread(function()
+      while IsControlPressed(0, 245) do
+        Wait(0)
+      end
+      SetNuiFocus(true, true)
+      chatInputActivating = false
+    end)
+  end
+end, false)
 
-Citizen.CreateThread(function()
+RegisterKeyMapping('_openChat', 'Open Chat', 'keyboard', 't')
+
+CreateThread(function()
   SetTextChatEnabled(false)
   SetNuiFocus(false)
+  TriggerEvent('chat:addSuggestion', '/_openChat', 'Open chat (internal)', {})
+end)
 
+-- Screen state check (less frequent)
+CreateThread(function()
   while true do
-    Wait(s)
-
-    if not chatInputActive then
-      if IsControlPressed(0, 245) --[[ INPUT_MP_TEXT_CHAT_ALL ]] then
-        chatInputActive = true
-        chatInputActivating = true
-
-        SendNUIMessage({
-          type = 'ON_OPEN'
-        })
-      end
-    end
-
-    if chatInputActivating then
-      if not IsControlPressed(0, 245) then
-        SetNuiFocus(true)
-
-        chatInputActivating = false
-      end
-    end
-
+    Wait(500)
+    
     if chatLoaded then
-      local shouldBeHidden = false
+      local shouldBeHidden = IsScreenFadedOut() or IsPauseMenuActive()
 
-      if IsScreenFadedOut() or IsPauseMenuActive() then
-        shouldBeHidden = true
-      end
-
-      if (shouldBeHidden and not chatHidden) or (not shouldBeHidden and chatHidden) then
+      if shouldBeHidden ~= chatHidden then
         chatHidden = shouldBeHidden
 
         SendNUIMessage({
