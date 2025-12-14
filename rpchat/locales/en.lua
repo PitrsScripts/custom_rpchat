@@ -57,4 +57,6 @@ Locale['doc_command_disabled_description'] = 'The /doc command is currently disa
 Locale['doc_max_allowed_title'] = 'Error'
 Locale['doc_max_allowed_description'] = 'The maximum allowed amount is 50.'
 
+Locale['invalid_command'] = 'Error - invalid command'
+
 return Locale

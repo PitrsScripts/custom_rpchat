@@ -42,4 +42,6 @@ Locale['doc_command_disabled_description'] = 'Příkaz /doc je momentálně zak�
 Locale['doc_max_allowed_title'] = 'Chyba'
 Locale['doc_max_allowed_description'] = 'Maximální povolené množství je 50.'
 
+Locale['invalid_command'] = 'Chyba - neplatný příkaz'
+
 return Locale
