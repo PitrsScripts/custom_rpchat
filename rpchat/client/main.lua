@@ -133,7 +133,7 @@ RegisterNetEvent('rpchat:sendMe', function(playerId, playerName, message, color,
             end
             local timeSpan = GetTimeSpan()
             TriggerEvent('chat:addMessage', { 
-                template = '<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"><style>* { font-family: Poppins, sans-serif !important; }</style><div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.5); border-radius: 10px; color: white; font-family: Poppins, sans-serif !important; position: relative;"> <span style="background-color: rgb(168, 96, 202); border-radius: 10px; padding: 2px 4px; color: white; font-weight: 600; font-family: Poppins, sans-serif !important;">' .. meLabel .. '</span> ' .. playerName .. ' - <span style="color: white; font-family: Poppins, sans-serif !important;">'.. message ..'</span>' .. timeSpan .. '</div>',
+                template = '<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"><style>* { font-family: Poppins, sans-serif !important; }</style><div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.5); border-radius: 10px; color: white; font-family: Poppins, sans-serif !important; position: relative;"> <span style="background-color: rgb(168, 96, 202); border-radius: 10px; padding: 2px 4px; color: white; font-weight: 600; font-family: Poppins, sans-serif !important;">' .. meLabel .. '</span> ' .. playerName .. ' - <span style="color: white; font-family: Poppins, sans-serif !important; word-wrap: break-word; white-space: pre-wrap;">{1}</span>' .. timeSpan .. '</div>',
                 args = { "[ME] - " .. playerName, message }
             })
         end
@@ -152,7 +152,7 @@ RegisterNetEvent('rpchat:sendPolice', function(playerId, title, message, color)
             local playerName = GetPlayerName(target)
             local timeSpan = GetTimeSpan()
             TriggerEvent('chat:addMessage', { 
-                template = '<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"><div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.5); border-radius: 10px; color: white; font-family: Poppins, sans-serif; position: relative;"> <span style="background-color: rgb(0, 100, 150); border-radius: 10px; padding: 2px 4px; color: white; font-weight: 600; font-family: Poppins, sans-serif;">LSPD</span> <span style="color: white; font-family: Poppins, sans-serif;">'.. message ..'</span>' .. timeSpan .. '</div>',
+                template = '<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"><div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.5); border-radius: 10px; color: white; font-family: Poppins, sans-serif; position: relative;"> <span style="background-color: rgb(0, 100, 150); border-radius: 10px; padding: 2px 4px; color: white; font-weight: 600; font-family: Poppins, sans-serif;">LSPD</span> <span style="color: white; font-family: Poppins, sans-serif; word-wrap: break-word; white-space: pre-wrap;">{1}</span>' .. timeSpan .. '</div>',
                 args = { "[LSPD]", message }
             })
         end
@@ -171,7 +171,7 @@ RegisterNetEvent('rpchat:sendSheriff', function(playerId, title, message, color)
             local playerName = GetPlayerName(target)
             local timeSpan = GetTimeSpan()
             TriggerEvent('chat:addMessage', { 
-                template = '<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"><div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.5); border-radius: 10px; color: white; font-family: Poppins, sans-serif; position: relative;"> <span style="background-color: rgb(255, 165, 0); border-radius: 10px; padding: 2px 4px; color: white; font-weight: 600; font-family: Poppins, sans-serif;">LSSD</span> <span style="color: white; font-family: Poppins, sans-serif;">'.. message ..'</span>' .. timeSpan .. '</div>',
+                template = '<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"><div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.5); border-radius: 10px; color: white; font-family: Poppins, sans-serif; position: relative;"> <span style="background-color: rgb(255, 165, 0); border-radius: 10px; padding: 2px 4px; color: white; font-weight: 600; font-family: Poppins, sans-serif;">LSSD</span> <span style="color: white; font-family: Poppins, sans-serif; word-wrap: break-word; white-space: pre-wrap;">{1}</span>' .. timeSpan .. '</div>',
                 args = { "[LSSD]", message }
             })
         end
@@ -210,7 +210,7 @@ RegisterNetEvent('rpchat:sendDo', function(playerId, playerName, message, color,
             end
             local timeSpan = GetTimeSpan()
             TriggerEvent('chat:addMessage', {
-                template = '<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"><div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.5); border-radius: 10px; color: white; font-family: Poppins, sans-serif; position: relative;"> <span style="background-color: rgb(0, 169, 211); border-radius: 10px; padding: 2px 4px; color: white; font-weight: 600; font-family: Poppins, sans-serif;">' .. doLabel .. '</span> ' .. playerName .. ' - <span style="color: white; font-family: Poppins, sans-serif;">'.. message ..'</span>' .. timeSpan .. '</div>',
+                template = '<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"><div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.5); border-radius: 10px; color: white; font-family: Poppins, sans-serif; position: relative;"> <span style="background-color: rgb(0, 169, 211); border-radius: 10px; padding: 2px 4px; color: white; font-weight: 600; font-family: Poppins, sans-serif;">' .. doLabel .. '</span> ' .. playerName .. ' - <span style="color: white; font-family: Poppins, sans-serif; word-wrap: break-word; white-space: pre-wrap;">{1}</span>' .. timeSpan .. '</div>',
                 args = { "[DO] - " .. playerName, message }
             })
         end
@@ -229,7 +229,7 @@ RegisterNetEvent('rpchat:sendAmbulance', function(playerId, title, message, colo
             local playerName = GetPlayerName(target)
             local timeSpan = GetTimeSpan()
             TriggerEvent('chat:addMessage', { 
-                template = '<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"><div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.5); border-radius: 10px; color: white; font-family: Poppins, sans-serif; position: relative;"> <span style="background-color: rgb(255, 255, 255); border-radius: 10px; padding: 2px 4px; color: black; font-weight: 600; font-family: Poppins, sans-serif;">EMS</span> <span style="color: white; font-family: Poppins, sans-serif;">'.. message ..'</span>' .. timeSpan .. '</div>',
+                template = '<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"><div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.5); border-radius: 10px; color: white; font-family: Poppins, sans-serif; position: relative;"> <span style="background-color: rgb(255, 255, 255); border-radius: 10px; padding: 2px 4px; color: black; font-weight: 600; font-family: Poppins, sans-serif;">EMS</span> <span style="color: white; font-family: Poppins, sans-serif; word-wrap: break-word; white-space: pre-wrap;">{1}</span>' .. timeSpan .. '</div>',
                 args = { "[EMS]", message }
             })
         end
@@ -252,7 +252,7 @@ RegisterNetEvent('rpchat:sendLocalOOC', function(playerId, title, message, color
             end
             local timeSpan = GetTimeSpan()
             TriggerEvent('chat:addMessage', {
-                template = '<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"><div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.5); border-radius: 10px; color: white; font-family: Poppins, sans-serif; position: relative;"> <span style="background-color: #737373; border-radius: 10px; padding: 2px 4px; color: white; font-weight: 600; font-family: Poppins, sans-serif;">' .. oocLabel .. '</span> ' .. playerName .. ' - <span style="color: white; font-family: Poppins, sans-serif;">' .. message .. '</span>' .. timeSpan .. '</div>',
+                template = '<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"><div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.5); border-radius: 10px; color: white; font-family: Poppins, sans-serif; position: relative;"> <span style="background-color: #737373; border-radius: 10px; padding: 2px 4px; color: white; font-weight: 600; font-family: Poppins, sans-serif;">' .. oocLabel .. '</span> ' .. playerName .. ' - <span style="color: white; font-family: Poppins, sans-serif; word-wrap: break-word; white-space: pre-wrap;">{1}</span>' .. timeSpan .. '</div>',
                 args = { "L-OOC - " .. playerName, message }
             })
         end
@@ -271,7 +271,7 @@ RegisterNetEvent('rpchat:sendLocalOOCStaff', function(playerId, playerName, mess
                 template = '<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"><div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.5); border-radius: 10px; color: white; font-family: Poppins, sans-serif; position: relative;">'
                     .. '<span style="background-color: red; border-radius: 10px; padding: 2px 4px; color: white; margin-right: 5px; font-weight: 600; font-family: Poppins, sans-serif;">ADMIN</span>'
                     .. '<span style="background-color: #737373; border-radius: 10px; padding: 2px 4px; color: white; font-weight: 600; font-family: Poppins, sans-serif;">L-OOC</span> '
-                    .. playerName .. ' - <span style="color: white; font-family: Poppins, sans-serif;">' .. message .. '</span>' .. timeSpan .. '</div>',
+                    .. playerName .. ' - <span style="color: white; font-family: Poppins, sans-serif; word-wrap: break-word; white-space: pre-wrap;">{1}</span>' .. timeSpan .. '</div>',
                 args = { "L-OOC - " .. playerName, message }
             })
         end
@@ -355,7 +355,7 @@ RegisterNetEvent("rpchat:receiveStaffMessage", function(senderName, message)
                     color: white;
                     font-weight: 600;
                     font-family: Poppins, sans-serif;
-                ">STAFF</span> {0} - <span style="color: white; font-family: Poppins, sans-serif;">{1}</span>]] .. timeSpan .. [[
+                ">STAFF</span> {0} - <span style="color: white; font-family: Poppins, sans-serif; word-wrap: break-word; white-space: pre-wrap;">{1}</span>]] .. timeSpan .. [[
             </div>
         ]],
         args = { senderName, message }
@@ -370,7 +370,7 @@ RegisterNetEvent('rpchat:sendAnnouncement', function(playerId, title, message, c
         TriggerEvent('chat:addMessage', {
             template = '<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"><div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.5); border-radius: 10px; color: white; font-family: Poppins, sans-serif; position: relative;">' ..
                         '<span style="background-color: rgba(255, 0, 0, 0.8); border-radius: 10px; padding: 2px 4px; color: white; font-weight: 600; font-family: Poppins, sans-serif;">Announcement</span> ' ..
-                        '<span style="color: white; font-family: Poppins, sans-serif;">' .. message .. '</span>' .. timeSpan .. '</div>',
+                        '<span style="color: white; font-family: Poppins, sans-serif; word-wrap: break-word; white-space: pre-wrap;">{1}</span>' .. timeSpan .. '</div>',
             args = { message }
         })
     end
@@ -381,7 +381,7 @@ RegisterNetEvent('rpchat:sendPrivateMessage', function(senderId, message)
     TriggerEvent('chat:addMessage', {
         template = '<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"><div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.5); border-radius: 10px; color: white; font-family: Poppins, sans-serif; position: relative;">' ..
                     '<span style="background-color: rgba(0, 255, 0, 0.8); border-radius: 10px; padding: 2px 4px; color: white; font-weight: 600; font-family: Poppins, sans-serif;">MSG</span> ' ..
-                    '<span style="color: white; font-family: Poppins, sans-serif;">' .. senderName .. '- ' .. message .. '</span>' .. timeSpan .. '</div>',
+                    '<span style="color: white; font-family: Poppins, sans-serif;">' .. senderName .. '- <span style="word-wrap: break-word; white-space: pre-wrap;">{1}</span></span>' .. timeSpan .. '</div>',
         args = { senderName, message }
     })
 end)
@@ -393,7 +393,7 @@ RegisterNetEvent('rpchat:sendAutoMessage', function(message)
     TriggerEvent('chat:addMessage', {
         template = '<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"><div style="margin-bottom: 5px; padding: 10px; background-color: rgba(10, 10, 10, 0.5); border-radius: 10px; color: white; font-family: Poppins, sans-serif; position: relative;">' ..
                     '<span style="background-color: rgba(0, 151, 255, 0.4); border-radius: 10px; padding: 2px 4px; color: white; font-weight: 600; font-family: Poppins, sans-serif;">CHAT</span> ' .. 
-                    '<span style="color: white; font-family: Poppins, sans-serif;">' .. message .. '</span>' .. timeSpan .. '</div>',
+                    '<span style="color: white; font-family: Poppins, sans-serif; word-wrap: break-word; white-space: pre-wrap;">{1}</span>' .. timeSpan .. '</div>',
         args = { "[Chat]", message }
     })
 end)
@@ -401,7 +401,7 @@ end)
 --------------DRAW TEXT-------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------
 function DrawText3DMe(x, y, z, text, color)
-    local onScreen, _x, _y = World3dToScreen2d(x, y, z + 1.2) 
+    local onScreen, _x, _y = World3dToScreen2d(x, y, z + 1.0) 
     if onScreen then
         SetTextScale(0.35, 0.35)
         SetTextFont(16)
@@ -423,7 +423,7 @@ function DrawText3DMe(x, y, z, text, color)
 end
 
 function DrawText3DDo(x, y, z, text, color)
-    local onScreen, _x, _y = World3dToScreen2d(x, y, z + 1.2)
+    local onScreen, _x, _y = World3dToScreen2d(x, y, z + 1.0)
     if onScreen then
         SetTextScale(0.35, 0.35)
         SetTextFont(16)
