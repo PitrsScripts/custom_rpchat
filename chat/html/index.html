@@ -8,6 +8,12 @@
   <script src="https://kit.fontawesome.com/71ec5dd735.js" crossorigin="anonymous"></script>
   <!-- <link href="vendor/animate.3.5.2.min.css" rel="stylesheet"></link> -->
   <link href="index.css" rel="stylesheet"></link>
+  <style>
+    .chat-input textarea {
+      max-height: 35px;
+      overflow-y: auto;
+    }
+  </style>
 
   <script src="vendor/vue.2.3.3.min.js" type="text/javascript"></script>
   <script src="config.default.js" type="text/javascript"></script>
@@ -100,6 +106,18 @@
     request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
     request.send(data);
   }
+
+  // Reset textarea height on chat open
+  window.addEventListener('message', function(event) {
+    if (event.data.type === 'ON_OPEN') {
+      setTimeout(() => {
+        const textarea = document.querySelector('.chat-input textarea');
+        if (textarea) {
+          textarea.style.height = 'auto';
+        }
+      }, 0);
+    }
+  });
 
   const instance = new Vue({
     el: '#app',
