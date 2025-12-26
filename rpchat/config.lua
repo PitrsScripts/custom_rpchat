@@ -1,7 +1,11 @@
 Config = {}
 
-
+-- [Locales]
 Config.Locale = "cs" -- en,cs
+
+-- [Character Name Display]
+Config.CharacterName = true -- true = show character name initials (R.E), false = show full name
+
 
 -- [Blacklisted World]
 Config.Blacklisted = { 
