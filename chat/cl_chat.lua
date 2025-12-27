@@ -2,6 +2,7 @@ local chatInputActive = false
 local chatInputActivating = false
 local chatHidden = true
 local chatLoaded = false
+local chatVisible = true
 s = 100
 _s = 2000
 RegisterNetEvent('chatMessage')
@@ -226,15 +227,22 @@ CreateThread(function()
   SetTextChatEnabled(false)
   SetNuiFocus(false)
   TriggerEvent('chat:addSuggestion', '/_openChat', 'Open chat (internal)', {})
+    TriggerEvent('chat:addSuggestion', '/_toggleChat', 'Toggle chat visibility (internal)', {})
 end)
 
--- Screen state check (less frequent)
+RegisterCommand('_toggleChat', function()
+    chatVisible = not chatVisible
+end, false)
+
+RegisterKeyMapping('_toggleChat', 'Toggle Chat Visibility', 'keyboard', 'n')
+
+
 CreateThread(function()
   while true do
     Wait(500)
     
     if chatLoaded then
-      local shouldBeHidden = IsScreenFadedOut() or IsPauseMenuActive()
+      local shouldBeHidden = IsScreenFadedOut() or IsPauseMenuActive() or not chatVisible
 
       if shouldBeHidden ~= chatHidden then
         chatHidden = shouldBeHidden
