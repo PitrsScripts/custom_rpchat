@@ -342,7 +342,7 @@ RegisterNetEvent("rpchat:receiveStaffMessage", function(senderName, message)
             <div style="
                 margin-bottom: 5px;
                 padding: 10px;
-                background-color:  rgba(10, 10, 10, 0.7);
+                background-color: rgba(10, 10, 10, 0.5);
                 border-radius: 10px;
                 color: white;
                 font-family: Poppins, sans-serif;
