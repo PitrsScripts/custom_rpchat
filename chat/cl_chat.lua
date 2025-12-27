@@ -227,14 +227,14 @@ CreateThread(function()
   SetTextChatEnabled(false)
   SetNuiFocus(false)
   TriggerEvent('chat:addSuggestion', '/_openChat', 'Open chat (internal)', {})
-    TriggerEvent('chat:addSuggestion', '/_toggleChat', 'Toggle chat visibility (internal)', {})
+    TriggerEvent('chat:addSuggestion', '/chat', 'Toggle chat visibility', {})
 end)
 
-RegisterCommand('_toggleChat', function()
+RegisterCommand('chat', function()
     chatVisible = not chatVisible
 end, false)
 
-RegisterKeyMapping('_toggleChat', 'Toggle Chat Visibility', 'keyboard', 'n')
+RegisterKeyMapping('chat', 'Toggle Chat Visibility', 'keyboard', 'n')
 
 
 CreateThread(function()
