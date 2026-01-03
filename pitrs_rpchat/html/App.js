@@ -76,9 +76,13 @@ window.APP = {
     ON_MESSAGE({ message }) {
       const msg = Object.assign({}, message, { visible: true, id: Date.now() + Math.random() });
       this.messages.push(msg);
-      if (msg.isCommand) {
+      // Only auto-hide command messages if chat input is not active
+      if (msg.isCommand && !this.showInput) {
         setTimeout(() => {
-          this.$set(msg, 'visible', false);
+          // Check again if chat is still closed before hiding
+          if (!this.showInput) {
+            this.$set(msg, 'visible', false);
+          }
         }, 10000);
       }
     },
@@ -263,10 +267,14 @@ window.APP = {
       clearInterval(this.focusTimer);
       this.resetShowWindowTimer();
       // Restart fade for command messages when closing chat
+      const self = this;
       this.messages.forEach(msg => {
-        if (msg.isCommand) {
+        if (msg.isCommand && msg.visible) {
           setTimeout(() => {
-            this.$set(msg, 'visible', false);
+            // Check if chat is still closed before hiding
+            if (!self.showInput) {
+              self.$set(msg, 'visible', false);
+            }
           }, 10000);
         }
       });
