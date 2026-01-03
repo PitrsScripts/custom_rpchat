@@ -127,7 +127,7 @@ Config.DoDrawText = true -- true/false
 -- [VIP System]
 Config.VIPSystem = true -- If false, VIP system is disabled
 Config.VIPLicenses = {
-    "ea2fe5288f589adcfe03573b6b5edf251ad28960", -- Example license
+    "license", -- Example license
    -- "license" 
 }
 
