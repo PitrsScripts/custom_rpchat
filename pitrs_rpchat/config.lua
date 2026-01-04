@@ -4,7 +4,7 @@ Config = {}
 Config.Locale = "cs" -- en,cs,de,en,fr
 
 -- [Notifications]
-Config.Notifications = true       -- true/false ox_lib notifications for errors (cooldown, permissions, etc.)
+Config.Notifications = true   -- true/false ox_lib notifications for errors (cooldown, permissions, etc.)
 
 
 -- [Character Name Display]
@@ -44,7 +44,7 @@ Config.DiscordWebhookURLs = {
     ["zde"] = 'WEBHOOK', 
 }
 
--- 🕒 **AUTO MESSAGES** - Automatic messages settings
+-- [AUTO MESSAGES]
 Config.AutoMessages = false
 Config.AutoMessageInterval = 1 -- In minutes (for testing)
 Config.AutoMessagesList = { -- List of messages that will be sent randomly
@@ -82,6 +82,10 @@ Config.StavDistance = 8.0          -- Distance to see /stav status
 
 -- [Ad Command] 
 Config.AdPrice = 0             -- Price for /ad command
+Config.AdJobs = {"police", "mechanic"} -- Jobs allowed to use /ad (empty = all jobs)
+
+-- [Doc Command]
+Config.DocMaxCount = 50         -- Maximum count for /doc command
 
 -- [Jobs] 
 Config.JobAmbulance = 'ambulance' -- Job for the /ems command
@@ -97,35 +101,58 @@ Config.CommandDoc = 'doc'                  -- /doc - document command
 Config.CommandStav = 'stav'                -- /stav - status above head
 Config.CommandZde = 'zde'                  -- /zde - text at location
 
--- Communication Commands
+-- [Communication Commands]
 Config.CommandMsg = 'msg'                  -- /msg - private message
 Config.CommandAd = 'ad'                    -- /ad - advertisement
 Config.CommandTwt = 'twt'                  -- /twt - twitter
 Config.CommandAnnouncement = 'announcement' -- /announcement - server announcement
 
--- Job Commands
+-- [Job Commands]
 Config.CommandLspd = 'lspd'                -- /lspd - police chat
 Config.CommandLssd = 'lssd'                -- /lssd - sheriff chat
 Config.CommandEms = 'ems'                  -- /ems - ambulance chat
 
--- Staff Commands
+-- [Staff Commands]
 Config.CommandStaff = 'staff'              -- /staff - staff chat
 Config.CommandOocstaff = 'oocstaff'        -- /oocstaff - OOC staff chat
 
+-- [DrawText Settings]
+Config.DrawTextDistance = 20       -- Distance for DrawText visibility
+Config.MeDrawText = true           -- true/false DrawText for /me
+Config.DoDrawText = true           -- true/false DrawText for /do
+
 
 -- [DrawText Colors] 
-Config.MeDrawTextColor   = {168, 96, 202, 255}   -- Purple
+Config.MeDrawTextColor   = {168, 96, 202, 255}    -- Purple
 Config.DoDrawTextColor   = {0, 169, 211, 255}    -- Light Blue / Cyan
 Config.StavDrawTextColor = {255, 230, 0, 255}    -- Yellow
-Config.ZdeDrawTextColor  = {255, 230, 0, 255}    -- (Yellow
+Config.ZdeDrawTextColor  = {255, 230, 0, 255}    -- Yellow
+Config.DocDrawTextColor  = {255, 255, 255, 255}    -- White
 
+-- [Chat Message Colors]
+Config.ChatBackgroundColor = {10, 10, 10, 0.4} -- Chat background color 
+Config.MeColor = {168, 96, 202}              -- Purple
+Config.DoColor = {0, 169, 211}               -- Light Blue / Cyan
+Config.SheriffColor = {255, 165, 0}          -- Orange
+Config.PoliceColor = {0, 102, 255}           -- Blue
+Config.AmbulanceColor = {255, 0, 0}          -- Red
+Config.AdColor = {255, 215, 0}               -- Gold
+Config.AnnouncementColor = {255, 0, 0}       -- Red
+Config.TwtColor = {29, 161, 242}             -- Twitter Blue
+Config.StaffColor = {255, 165, 0}            -- Orange
+Config.OocStaffColor = {128, 128, 128}       -- Gray
+Config.TrySuccessColor = {0, 180, 0} -- Darker Green
+Config.TryFailColor = {180, 0, 0} -- Darker Red
 
--- [DrawText]
-Config.MeDrawText = true -- true/false 
-Config.DoDrawText = true -- true/false
+-- [DrawText Offsets]
+Config.MeDrawTextOffset = 1.1        -- Z offset for /me DrawText (on foot)
+Config.MeDrawTextOffsetVehicle = 0.7 -- Z offset for /me DrawText (in vehicle)
+Config.DoDrawTextOffset = 1.1       -- Z offset for /do DrawText (on foot)
+Config.DoDrawTextOffsetVehicle = 0.7 -- Z offset for /do DrawText (in vehicle)
+Config.DocDrawTextOffset = 1.1       -- Z offset for /doc DrawText
 
 -- [VIP System]
-Config.VIPSystem = true -- If false, VIP system is disabled
+Config.VIPSystem = false -- If false, VIP system is disabled
 Config.VIPLicenses = {
     "license", -- Example license
    -- "license" 

@@ -1,8 +1,6 @@
 local ESX = nil
 local MySQL = exports.oxmysql
-local lastCommand = {} 
-
-local Config = {}
+local lastCommand = {}
 
 local Locales = {}
 local currentLocale = "en" 
@@ -161,18 +159,40 @@ ESX.RegisterServerCallback('rpchat:getConfig', function(source, cb)
         VIPSystem = Config.VIPSystem,
         VIPLicenses = Config.VIPLicenses,
         CommandsDistance = Config.CommandsDistance,
+        DrawTextDistance = Config.DrawTextDistance,
+        ShowTimeInChat = Config.ShowTimeInChat,
+        ChatBackgroundColor = Config.ChatBackgroundColor,
         MeDrawText = Config.MeDrawText,
         DoDrawText = Config.DoDrawText,
         MeDrawTextColor = Config.MeDrawTextColor,
         DoDrawTextColor = Config.DoDrawTextColor,
         StavDrawTextColor = Config.StavDrawTextColor,
         ZdeDrawTextColor = Config.ZdeDrawTextColor,
+        DocDrawTextColor = Config.DocDrawTextColor,
         ZdeCommand = Config.ZdeCommand,
         StavCommand = Config.StavCommand,
         ZdeMaxMessages = Config.ZdeMaxMessages,
         ZdeDistance = Config.ZdeDistance,
         StavDistance = Config.StavDistance,
-        CommandZde = Config.CommandZde
+        CommandZde = Config.CommandZde,
+        MeColor = Config.MeColor,
+        DoColor = Config.DoColor,
+        SheriffColor = Config.SheriffColor,
+        PoliceColor = Config.PoliceColor,
+        AmbulanceColor = Config.AmbulanceColor,
+        AdColor = Config.AdColor,
+        AnnouncementColor = Config.AnnouncementColor,
+        TwtColor = Config.TwtColor,
+        DocColor = Config.DocColor,
+        StaffColor = Config.StaffColor,
+        OocStaffColor = Config.OocStaffColor,
+        TrySuccessColor = Config.TrySuccessColor,
+        TryFailColor = Config.TryFailColor,
+        MeDrawTextOffset = Config.MeDrawTextOffset,
+        MeDrawTextOffsetVehicle = Config.MeDrawTextOffsetVehicle,
+        DoDrawTextOffset = Config.DoDrawTextOffset,
+        DoDrawTextOffsetVehicle = Config.DoDrawTextOffsetVehicle,
+        DocDrawTextOffset = Config.DocDrawTextOffset
     })
 end)
 
@@ -359,7 +379,19 @@ RegisterCommand(Config.CommandMe or 'me', function(source, args, raw)
     end
     local playerName = GetPlayerNameWithVIP(source)
     local isVIP = IsPlayerVIP(source)
-    TriggerClientEvent('rpchat:sendMe', -1, source, playerName, message, {168, 96, 202}, isVIP)
+    local coords = GetEntityCoords(GetPlayerPed(source))
+    local players = {}
+    for _, playerId in ipairs(GetPlayers()) do
+        local ped = GetPlayerPed(playerId)
+        local playerCoords = GetEntityCoords(ped)
+        local dist = math.sqrt((coords.x - playerCoords.x)^2 + (coords.y - playerCoords.y)^2 + (coords.z - playerCoords.z)^2)
+        if dist <= Config.DrawTextDistance then
+            table.insert(players, playerId)
+        end
+    end
+    for i = 1, #players do
+        TriggerClientEvent('pitrs_rpchat:sendMeMessage', players[i], source, playerName, message, Config.MeDrawTextColor)
+    end
 
     local webhookURL = Config.DiscordWebhookURLs["me"]
     local discordId
@@ -451,7 +483,19 @@ RegisterCommand(Config.CommandDo or 'do', function(source, args, raw)
     end
     local playerName = GetPlayerNameWithVIP(source)
     local isVIP = IsPlayerVIP(source)
-    TriggerClientEvent('rpchat:sendDo', -1, source, playerName, message, {0, 169, 211}, isVIP)
+    local coords = GetEntityCoords(GetPlayerPed(source))
+    local players = {}
+    for _, playerId in ipairs(GetPlayers()) do
+        local ped = GetPlayerPed(playerId)
+        local playerCoords = GetEntityCoords(ped)
+        local dist = math.sqrt((coords.x - playerCoords.x)^2 + (coords.y - playerCoords.y)^2 + (coords.z - playerCoords.z)^2)
+        if dist <= Config.DrawTextDistance then
+            table.insert(players, playerId)
+        end
+    end
+    for i = 1, #players do
+        TriggerClientEvent('pitrs_rpchat:sendDoMessage', players[i], source, playerName, message, Config.DoDrawTextColor)
+    end
 
     local webhookURL = Config.DiscordWebhookURLs["do"]
 
@@ -553,7 +597,7 @@ RegisterCommand(Config.CommandLssd or 'lssd', function(source, args, rawCommand)
     end
 
 if xPlayer.getJob().name == Config.JobSheriff then
-    TriggerClientEvent('rpchat:sendSheriff', -1, source, GetPlayerNameWithVIP(source), toSay, {0, 169, 211})
+    TriggerClientEvent('rpchat:sendSheriff', -1, source, GetPlayerNameWithVIP(source), toSay, Config.SheriffColor)
     local playerName = GetPlayerNameWithVIP(source)
         local discordId = "Not connected"
         local identifiers = GetPlayerIdentifiers(source)
@@ -634,7 +678,7 @@ RegisterCommand(Config.CommandLspd or 'lspd', function(source, args, rawCommand)
 
     if xPlayer.getJob().name == Config.JobPolice then
         local playerName = GetPlayerNameWithVIP(source)
-        TriggerClientEvent('rpchat:sendPolice', -1, source, "LSPD", toSay, {0, 100, 150})
+        TriggerClientEvent('rpchat:sendPolice', -1, source, "LSPD", toSay, Config.PoliceColor)
 
         local discordId = "Not connected"
         local identifiers = GetPlayerIdentifiers(source)
@@ -714,7 +758,7 @@ RegisterCommand(Config.CommandEms or 'ems', function(source, args, rawCommand)
     end
 
 if xPlayer.getJob().name == Config.JobAmbulance then
-    TriggerClientEvent('rpchat:sendAmbulance', -1, source, GetPlayerNameWithVIP(source), toSay, {255, 255, 255})
+    TriggerClientEvent('rpchat:sendAmbulance', -1, source, GetPlayerNameWithVIP(source), toSay, Config.AmbulanceColor)
     local playerName = GetPlayerNameWithVIP(source)
         local discordId = "Not connected"
         local identifiers = GetPlayerIdentifiers(source)
@@ -867,7 +911,7 @@ local webhookURL = Config.DiscordWebhookURLs["announcement"]
         }), { ['Content-Type'] = 'application/json' })
     end
 
-    TriggerClientEvent('rpchat:sendAnnouncement', -1, source, "Announcement", message, {255, 0, 0})
+    TriggerClientEvent('rpchat:sendAnnouncement', -1, source, "Announcement", message, Config.AnnouncementColor)
 end, false)
 
 -- MSG
@@ -959,7 +1003,7 @@ RegisterCommand(Config.CommandTry or 'try', function(source, args, rawCommand)
     local playerName = GetPlayerNameWithVIP(source)
     local isVIP = IsPlayerVIP(source)
     local response = (result == 1) and "Ano" or "Ne"
-    local color = (result == 1) and "rgba(0, 255, 0, 0.4)" or "rgba(255, 0, 0, 0.4)"
+    local color = (result == 1) and string.format('rgb(%d, %d, %d)', Config.TrySuccessColor[1], Config.TrySuccessColor[2], Config.TrySuccessColor[3]) or string.format('rgb(%d, %d, %d)', Config.TryFailColor[1], Config.TryFailColor[2], Config.TryFailColor[3])
     local discordColor = (result == 1) and 65280 or 16711680
 
     TriggerClientEvent('rpchat:showTryMessage', source, playerName, response, color, isVIP)
@@ -1020,7 +1064,7 @@ RegisterCommand(Config.CommandDoc or 'doc', function(source, args, rawCommand)
         if num then
             target = num
         end
-        if target > 50 then
+        if target > Config.DocMaxCount then
             if Config.Notifications then
                 TriggerClientEvent('ox_lib:notify', source, {
                     title = _U('doc_max_allowed_title'),
@@ -1048,7 +1092,19 @@ RegisterCommand(Config.CommandDoc or 'doc', function(source, args, rawCommand)
             }
         }), { ['Content-Type'] = 'application/json' })
     end
-    TriggerClientEvent('rpchat:sendDocMessage', source, count, target)
+    local coords = GetEntityCoords(GetPlayerPed(source))
+    local players = {}
+    for _, playerId in ipairs(GetPlayers()) do
+        local ped = GetPlayerPed(playerId)
+        local playerCoords = GetEntityCoords(ped)
+        local dist = math.sqrt((coords.x - playerCoords.x)^2 + (coords.y - playerCoords.y)^2 + (coords.z - playerCoords.z)^2)
+        if dist <= Config.DrawTextDistance then
+            table.insert(players, playerId)
+        end
+    end
+    for i = 1, #players do
+        TriggerClientEvent('pitrs_rpchat:sendDocMessage', players[i], source, count, target, Config.DocDrawTextColor)
+    end
 end, false)
 
 -- STAFF
@@ -1074,7 +1130,7 @@ local isVIP = IsPlayerVIP(source)
 for _, playerId in ipairs(GetPlayers()) do
         local target = ESX.GetPlayerFromId(tonumber(playerId))
         if target and Config.AllowedGroups[target.getGroup()] then
-            TriggerClientEvent("rpchat:receiveStaffMessage", target.source, senderName, message, isVIP)
+            TriggerClientEvent("rpchat:receiveStaffMessage", target.source, senderName, message, isVIP, Config.StaffColor)
         end
     end
     local discordId = "Not connected"
@@ -1147,7 +1203,7 @@ RegisterCommand(Config.CommandOocstaff or 'oocstaff', function(source, args, raw
     local message = table.concat(args, ' ')
     if message == '' then return end
     local playerName = GetPlayerNameWithVIP(source)
-    TriggerClientEvent('rpchat:sendLocalOOCStaff', -1, source, playerName, message)
+    TriggerClientEvent('rpchat:sendLocalOOCStaff', -1, source, playerName, message, Config.OocStaffColor)
     local webhookURL = Config.DiscordWebhookURLs["local_chat"]
     local discordId
     local identifiers = GetPlayerIdentifiers(source)
@@ -1230,6 +1286,18 @@ RegisterCommand(Config.CommandAd or 'ad', function(source, args, raw)
         return
     end
     local xPlayer = ESX.GetPlayerFromId(source)
+    if #Config.AdJobs > 0 then
+        local hasJob = false
+        for _, job in ipairs(Config.AdJobs) do
+            if xPlayer.job.name == job then
+                hasJob = true
+                break
+            end
+        end
+        if not hasJob then
+            return
+        end
+    end
     if Config.AdPrice > 0 then
         if xPlayer.getMoney() < Config.AdPrice then
             TriggerClientEvent('ox_lib:notify', source, {
@@ -1249,7 +1317,7 @@ RegisterCommand(Config.CommandAd or 'ad', function(source, args, raw)
         })
     end
     local playerName = GetPlayerNameWithVIP(source)
-    TriggerClientEvent('rpchat:sendAd', -1, source, playerName, message, {255, 255, 0})
+    TriggerClientEvent('rpchat:sendAd', -1, source, playerName, message, Config.AdColor)
 
     local webhookURL = Config.DiscordWebhookURLs["ad"]
     local discordId
@@ -1380,7 +1448,7 @@ RegisterCommand(Config.CommandTwt or 'twt', function(source, args, raw)
             embeds = embed
         }), { ['Content-Type'] = 'application/json' })
     end
-    TriggerClientEvent('rpchat:sendTwt', -1, source, playerName, message)
+    TriggerClientEvent('rpchat:sendTwt', -1, source, playerName, message, Config.TwtColor)
 end, false)
 
 ------------------------------------------------------------------------------------------------
