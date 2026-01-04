@@ -132,6 +132,7 @@ Config.DocDrawTextColor  = {255, 255, 255, 255}    -- White
 -- [DrawText Background Colors]
 Config.MeDrawTextBgColor = {0, 0, 0, 100}         -- Background for /me 
 Config.DoDrawTextBgColor = {0, 0, 0, 100}         -- Background for /do 
+Config.DocDrawTextBgColor = {0, 0, 0, 100}        -- Background for /doc 
 
 -- [Chat Message Colors]
 Config.ChatBackgroundColor = {10, 10, 10, 0.4} -- Chat background color 

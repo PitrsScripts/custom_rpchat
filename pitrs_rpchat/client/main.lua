@@ -671,7 +671,7 @@ function DrawText3DDoc(x, y, z, text, color)
         SetTextCentre(true)
         AddTextComponentString(text)
         DrawText(_x + offsetX, _y)
-        DrawRect(_x + offsetX, _y + rectOffset, bgWidth, bgHeight, 0, 0, 0, 150)
+        DrawRect(_x + offsetX, _y + rectOffset, bgWidth, bgHeight, Config.DocDrawTextBgColor[1], Config.DocDrawTextBgColor[2], Config.DocDrawTextBgColor[3], Config.DocDrawTextBgColor[4])
     end
 end
 

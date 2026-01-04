@@ -168,6 +168,7 @@ ESX.RegisterServerCallback('rpchat:getConfig', function(source, cb)
         DoDrawTextColor = Config.DoDrawTextColor,
         MeDrawTextBgColor = Config.MeDrawTextBgColor,
         DoDrawTextBgColor = Config.DoDrawTextBgColor,
+        DocDrawTextBgColor = Config.DocDrawTextBgColor,
         StavDrawTextColor = Config.StavDrawTextColor,
         ZdeDrawTextColor = Config.ZdeDrawTextColor,
         DocDrawTextColor = Config.DocDrawTextColor,
