@@ -13,7 +13,7 @@ window.CONFIG = {
   suggestionLimit: 5,
   style: {
     background: 'rgba(0, 0, 0, 0)',
-    width: '28%',
-    height: '22%',
+    width: '28vw',
+    height: '22vh',
   }
 };

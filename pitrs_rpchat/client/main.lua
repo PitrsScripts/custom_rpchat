@@ -593,10 +593,18 @@ end)
 ------------------------------------------------------------------------------------------------
 --------------DRAW TEXT-------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------
+local function GetResolutionScale()
+    local _, screenY = GetActiveScreenResolution()
+    return screenY / 1080.0
+end
+
 function DrawText3DMe(x, y, z, text, color)
     local onScreen, _x, _y = World3dToScreen2d(x, y, z) 
     if onScreen then
-        SetTextScale(0.35, 0.35)
+        local scale = GetResolutionScale()
+        local textScale = 0.35 * scale
+        
+        SetTextScale(textScale, textScale)
         SetTextFont(16)
         SetTextProportional(true)
         SetTextCentre(true)
@@ -605,20 +613,25 @@ function DrawText3DMe(x, y, z, text, color)
         AddTextComponentString(text)
         local textWidth = EndTextCommandGetWidth(true)
 
-        local bgWidth = textWidth + 0.010
-        local bgHeight = 0.027
+        local bgWidth = textWidth + (0.010 * scale)
+        local bgHeight = 0.027 * scale
+        local rectOffset = 0.012 * scale
+        
         SetTextEntry("STRING")
         AddTextComponentString(text)
         SetTextColour(color[1], color[2], color[3], color[4])
         DrawText(_x, _y)
-        DrawRect(_x, _y + 0.012, bgWidth, bgHeight, Config.MeDrawTextBgColor[1], Config.MeDrawTextBgColor[2], Config.MeDrawTextBgColor[3], Config.MeDrawTextBgColor[4])
+        DrawRect(_x, _y + rectOffset, bgWidth, bgHeight, Config.MeDrawTextBgColor[1], Config.MeDrawTextBgColor[2], Config.MeDrawTextBgColor[3], Config.MeDrawTextBgColor[4])
     end
 end
 
 function DrawText3DDo(x, y, z, text, color)
     local onScreen, _x, _y = World3dToScreen2d(x, y, z)
     if onScreen then
-        SetTextScale(0.35, 0.35)
+        local scale = GetResolutionScale()
+        local textScale = 0.35 * scale
+        
+        SetTextScale(textScale, textScale)
         SetTextFont(16)
         SetTextProportional(true)
         SetTextCentre(true)
@@ -626,24 +639,31 @@ function DrawText3DDo(x, y, z, text, color)
         BeginTextCommandWidth("STRING")
         AddTextComponentString(text)
         local textWidth = EndTextCommandGetWidth(true)
-        local bgWidth = textWidth + 0.010
-        local bgHeight = 0.027
+        
+        local bgWidth = textWidth + (0.010 * scale)
+        local bgHeight = 0.027 * scale
+        local rectOffset = 0.012 * scale
+        
         SetTextEntry("STRING")
         AddTextComponentString(text)
         SetTextColour(color[1], color[2], color[3], color[4])
         DrawText(_x, _y)
-        DrawRect(_x, _y + 0.012, bgWidth, bgHeight, Config.DoDrawTextBgColor[1], Config.DoDrawTextBgColor[2], Config.DoDrawTextBgColor[3], Config.DoDrawTextBgColor[4])
+        DrawRect(_x, _y + rectOffset, bgWidth, bgHeight, Config.DoDrawTextBgColor[1], Config.DoDrawTextBgColor[2], Config.DoDrawTextBgColor[3], Config.DoDrawTextBgColor[4])
     end
 end
 
 function DrawText3DDoc(x, y, z, text, color)
     local onScreen, _x, _y = World3dToScreen2d(x, y, z)
     if onScreen then
+        local scale = GetResolutionScale()
+        local textScale = 0.35 * scale
         local textLength = string.len(text)
-        local bgWidth = 0.02 + (textLength / 250)
-        local bgHeight = 0.027
-        local offsetX = 0.005 
-        SetTextScale(0.35, 0.35)
+        local bgWidth = (0.02 + (textLength / 250)) * scale
+        local bgHeight = 0.027 * scale
+        local offsetX = 0.005 * scale
+        local rectOffset = 0.012 * scale
+        
+        SetTextScale(textScale, textScale)
         SetTextFont(16)
         SetTextProportional(true)
         SetTextColour(color[1], color[2], color[3], color[4])
@@ -651,7 +671,7 @@ function DrawText3DDoc(x, y, z, text, color)
         SetTextCentre(true)
         AddTextComponentString(text)
         DrawText(_x + offsetX, _y)
-        DrawRect(_x + offsetX, _y + 0.012, bgWidth, bgHeight, 0, 0, 0, 150)
+        DrawRect(_x + offsetX, _y + rectOffset, bgWidth, bgHeight, 0, 0, 0, 150)
     end
 end
 
@@ -825,8 +845,11 @@ end)
 function DrawText3DZde(x, y, z, text)
     local onScreen, _x, _y = World3dToScreen2d(x, y, z)
     if onScreen then
+        local scale = GetResolutionScale()
+        local textScale = 0.35 * scale
         local color = Config.ZdeDrawTextColor or {255, 230, 0, 255}
-        SetTextScale(0.35, 0.35)
+        
+        SetTextScale(textScale, textScale)
         SetTextFont(16)
         SetTextProportional(true)
         SetTextCentre(true)
@@ -835,21 +858,26 @@ function DrawText3DZde(x, y, z, text)
         AddTextComponentString(text)
         local textWidth = EndTextCommandGetWidth(true)
 
-        local bgWidth = textWidth + 0.010
-        local bgHeight = 0.027
+        local bgWidth = textWidth + (0.010 * scale)
+        local bgHeight = 0.027 * scale
+        local rectOffset = 0.012 * scale
+        
         SetTextEntry("STRING")
         AddTextComponentString(text)
         SetTextColour(color[1], color[2], color[3], color[4])
         DrawText(_x, _y)
-        DrawRect(_x, _y + 0.012, bgWidth, bgHeight, 0, 0, 0, 100)
+        DrawRect(_x, _y + rectOffset, bgWidth, bgHeight, 0, 0, 0, 100)
     end
 end
 
 function DrawText3DStav(x, y, z, text)
     local onScreen, _x, _y = World3dToScreen2d(x, y, z)
     if onScreen then
+        local scale = GetResolutionScale()
+        local textScale = 0.35 * scale
         local color = Config.StavDrawTextColor or {255, 230, 0, 255}
-        SetTextScale(0.35, 0.35)
+        
+        SetTextScale(textScale, textScale)
         SetTextFont(16)
         SetTextProportional(true)
         SetTextCentre(true)
@@ -858,13 +886,15 @@ function DrawText3DStav(x, y, z, text)
         AddTextComponentString(text)
         local textWidth = EndTextCommandGetWidth(true)
 
-        local bgWidth = textWidth + 0.010
-        local bgHeight = 0.027
+        local bgWidth = textWidth + (0.010 * scale)
+        local bgHeight = 0.027 * scale
+        local rectOffset = 0.012 * scale
+        
         SetTextEntry("STRING")
         AddTextComponentString(text)
         SetTextColour(color[1], color[2], color[3], color[4])
         DrawText(_x, _y)
-        DrawRect(_x, _y + 0.012, bgWidth, bgHeight, 0, 0, 0, 100)
+        DrawRect(_x, _y + rectOffset, bgWidth, bgHeight, 0, 0, 0, 100)
     end
 end
 
