@@ -68,6 +68,8 @@ Citizen.CreateThread(function()
         Config.DoDrawText = config.DoDrawText
         Config.MeDrawTextColor = config.MeDrawTextColor
         Config.DoDrawTextColor = config.DoDrawTextColor
+        Config.MeDrawTextBgColor = config.MeDrawTextBgColor
+        Config.DoDrawTextBgColor = config.DoDrawTextBgColor
         Config.StavDrawTextColor = config.StavDrawTextColor
         Config.ZdeDrawTextColor = config.ZdeDrawTextColor
         Config.DocDrawTextColor = config.DocDrawTextColor
@@ -609,7 +611,7 @@ function DrawText3DMe(x, y, z, text, color)
         AddTextComponentString(text)
         SetTextColour(color[1], color[2], color[3], color[4])
         DrawText(_x, _y)
-        DrawRect(_x, _y + 0.012, bgWidth, bgHeight, 0, 0, 0, 100)
+        DrawRect(_x, _y + 0.012, bgWidth, bgHeight, Config.MeDrawTextBgColor[1], Config.MeDrawTextBgColor[2], Config.MeDrawTextBgColor[3], Config.MeDrawTextBgColor[4])
     end
 end
 
@@ -630,7 +632,7 @@ function DrawText3DDo(x, y, z, text, color)
         AddTextComponentString(text)
         SetTextColour(color[1], color[2], color[3], color[4])
         DrawText(_x, _y)
-        DrawRect(_x, _y + 0.012, bgWidth, bgHeight, 0, 0, 0, 100)
+        DrawRect(_x, _y + 0.012, bgWidth, bgHeight, Config.DoDrawTextBgColor[1], Config.DoDrawTextBgColor[2], Config.DoDrawTextBgColor[3], Config.DoDrawTextBgColor[4])
     end
 end
 

@@ -129,6 +129,10 @@ Config.StavDrawTextColor = {255, 230, 0, 255}    -- Yellow
 Config.ZdeDrawTextColor  = {255, 230, 0, 255}    -- Yellow
 Config.DocDrawTextColor  = {255, 255, 255, 255}    -- White
 
+-- [DrawText Background Colors]
+Config.MeDrawTextBgColor = {0, 0, 0, 100}         -- Background for /me 
+Config.DoDrawTextBgColor = {0, 0, 0, 100}         -- Background for /do 
+
 -- [Chat Message Colors]
 Config.ChatBackgroundColor = {10, 10, 10, 0.4} -- Chat background color 
 Config.MeColor = {168, 96, 202}              -- Purple
