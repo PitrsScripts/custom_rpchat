@@ -209,7 +209,7 @@ window.APP = {
       }, CONFIG.fadeTimeout);
     },
     keyUp() {
-      this.resize();
+      // Resize disabled to keep consistent height
     },
     keyDown(e) {
       if (e.which === 38 || e.which === 40) {
@@ -239,12 +239,7 @@ window.APP = {
       }
     },
     resize() {
-      const input = this.$refs.input;
-      if (input) {
-        input.style.height = '30px'; // Reset to base height
-        const newHeight = Math.min(input.scrollHeight + 2, 60); // Limit max height to 60px
-        input.style.height = `${newHeight}px`;
-      }
+      // Disabled - keep fixed height
     },
     send(e) {
       if(this.message !== '') {

@@ -62,10 +62,10 @@
 }
 
 .chat-messages::-webkit-scrollbar {
-  display: none !important; /* Chrome, Safari, Opera */
+  display: none !important; /
 }
 
-/* Skrytí všech možných scroll elementů */
+
 * {
   scrollbar-width: none !important;
   -ms-overflow-style: none !important;
@@ -91,10 +91,10 @@
   font-size: 0.9vw;
   position: absolute;
   border-radius: 0.4vw;
-  top: 30%;
-  left: 0.8%;
-  width: 25%;
-  max-width: 52vw;
+  top: 24vh;
+  left: calc(1.3% - 11px);
+  width: 28vw;
+  max-width: 40vw;
   box-sizing: border-box;
   padding: 0px;
 }
@@ -145,7 +145,7 @@ textarea {
   padding-left: 1.6vw;
   color: white;
   text-shadow: 0.05vw 0.05vw 0.05vw black;
-  background-color: rgba(10, 10, 10, 0.7);
+  background-color: rgba(10, 10, 10, 0.5);
   width: 80%;
   border-width: 0;
   height: 1.8vw;
@@ -160,7 +160,7 @@ textarea {
 
 
 textarea:focus {
-  background-color: rgba(10, 10, 10, 0.7);
+  background-color: rgba(10, 10, 10, 0.5);
   outline: none;
   color: white;
 }
