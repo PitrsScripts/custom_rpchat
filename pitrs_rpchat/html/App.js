@@ -62,6 +62,9 @@ window.APP = {
       this.messages.forEach(msg => {
         this.$set(msg, 'visible', true);
       });
+      this.$nextTick(() => {
+        this.$refs.messages.scrollTop = this.$refs.messages.scrollHeight;
+      });
       if (this.showWindowTimer) {
         clearTimeout(this.showWindowTimer);
       }
