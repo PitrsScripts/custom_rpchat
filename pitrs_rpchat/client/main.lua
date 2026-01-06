@@ -70,6 +70,7 @@ Citizen.CreateThread(function()
         Config.DoDrawTextColor = config.DoDrawTextColor
         Config.MeDrawTextBgColor = config.MeDrawTextBgColor
         Config.DoDrawTextBgColor = config.DoDrawTextBgColor
+        Config.DocDrawTextBgColor = config.DocDrawTextBgColor
         Config.StavDrawTextColor = config.StavDrawTextColor
         Config.ZdeDrawTextColor = config.ZdeDrawTextColor
         Config.DocDrawTextColor = config.DocDrawTextColor
