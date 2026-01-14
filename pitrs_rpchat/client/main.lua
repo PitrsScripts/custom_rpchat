@@ -474,19 +474,13 @@ RegisterNetEvent('rpchat:showTryMessage', function(playerName, response, bgColor
     if isVIP then
         tryLabel = 'TRY<span style="color: gold; font-size: 16px; margin-left: 3px;">⭐</span>'
     end
-    local playerPed = PlayerPedId()
-    local playerCoords = GetEntityCoords(playerPed)
-    local targetPed = PlayerPedId() 
-    local targetCoords = GetEntityCoords(targetPed)
-    if #(playerCoords - targetCoords) < Config.CommandsDistance then
-        local timeSpan = GetTimeSpan()
-        TriggerEvent('chat:addMessage', {
-            template = '<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"><div style="margin-bottom: 5px; padding: 10px; background-color: ' .. getChatBackground() .. '; border-radius: 10px; color: white; font-family: Poppins, sans-serif; position: relative;">' ..
-                ' <span style="background-color: ' .. bgColor .. '; border-radius: 10px; padding: 2px 4px; color: white; font-weight: 600; font-family: Poppins, sans-serif;">' .. tryLabel .. '</span> ' .. playerName .. ' <span style="color: white; font-family: Poppins, sans-serif;">- ' .. response .. '</span>' .. timeSpan .. '</div>',
-            args = {},
-            isCommand = true
-        })
-    end
+    local timeSpan = GetTimeSpan()
+    TriggerEvent('chat:addMessage', {
+        template = '<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"><div style="margin-bottom: 5px; padding: 10px; background-color: ' .. getChatBackground() .. '; border-radius: 10px; color: white; font-family: Poppins, sans-serif; position: relative;">' ..
+            ' <span style="background-color: ' .. bgColor .. '; border-radius: 10px; padding: 2px 4px; color: white; font-weight: 600; font-family: Poppins, sans-serif;">' .. tryLabel .. '</span> ' .. playerName .. ' <span style="color: white; font-family: Poppins, sans-serif;">- ' .. response .. '</span>' .. timeSpan .. '</div>',
+        args = {},
+        isCommand = true
+    })
 end)
 ------------------------------------------------------------------------------------------------
 ---------------DOC------------------------------------------------------------------------------

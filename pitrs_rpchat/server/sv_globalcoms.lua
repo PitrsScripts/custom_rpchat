@@ -1009,7 +1009,7 @@ RegisterCommand(Config.CommandTry or 'try', function(source, args, rawCommand)
     local color = (result == 1) and string.format('rgb(%d, %d, %d)', Config.TrySuccessColor[1], Config.TrySuccessColor[2], Config.TrySuccessColor[3]) or string.format('rgb(%d, %d, %d)', Config.TryFailColor[1], Config.TryFailColor[2], Config.TryFailColor[3])
     local discordColor = (result == 1) and 65280 or 16711680
 
-    TriggerClientEvent('rpchat:showTryMessage', source, playerName, response, color, isVIP)
+    TriggerClientEvent('rpchat:showTryMessage', -1, playerName, response, color, isVIP)
 
     local discordId
     local identifiers = GetPlayerIdentifiers(source)
