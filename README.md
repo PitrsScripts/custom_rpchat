@@ -64,12 +64,15 @@ Go to the server.cfg add line
 
 *  Customizable staff roles and job names (e.g., ambulance, police, sheriff)
 
+
 ### 📦 Resource Info
 
 |||
 | --- | --- |
+| **Framework**|ESX|
 |**Code is accessible**|Yes|
 |**Subscription-based**|No|
 |**Lines (approximately)**|~1418|
-|**Requirements**|ox_lib|
+|**Requirements**|ox_lib,oxmysql|
 |**Support**|Yes|
+
