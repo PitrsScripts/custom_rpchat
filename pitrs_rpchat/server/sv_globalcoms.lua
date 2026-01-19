@@ -1009,7 +1009,17 @@ RegisterCommand(Config.CommandTry or 'try', function(source, args, rawCommand)
     local color = (result == 1) and string.format('rgb(%d, %d, %d)', Config.TrySuccessColor[1], Config.TrySuccessColor[2], Config.TrySuccessColor[3]) or string.format('rgb(%d, %d, %d)', Config.TryFailColor[1], Config.TryFailColor[2], Config.TryFailColor[3])
     local discordColor = (result == 1) and 65280 or 16711680
 
-    TriggerClientEvent('rpchat:showTryMessage', -1, playerName, response, color, isVIP)
+    local coords = GetEntityCoords(GetPlayerPed(source))
+    local players = {}
+    for _, playerId in ipairs(GetPlayers()) do
+        local playerCoords = GetEntityCoords(GetPlayerPed(playerId))
+        if #(coords - playerCoords) <= Config.CommandsDistance then
+            table.insert(players, playerId)
+        end
+    end
+    for i = 1, #players do
+        TriggerClientEvent('rpchat:showTryMessage', players[i], playerName, response, color, isVIP)
+    end
 
     local discordId
     local identifiers = GetPlayerIdentifiers(source)

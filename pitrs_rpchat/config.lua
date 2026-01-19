@@ -56,7 +56,7 @@ Config.AutoMessagesList = { -- List of messages that will be sent randomly
 
 
 -- [Chat Commands]
-Config.CommandsDistance = 20       -- Distance Show commands
+Config.CommandsDistance = 10      -- Distance Show commands
 Config.CommandCooldown = 0         -- Cooldown Commands seconds
 Config.OocCommand = true           -- true/false 
 Config.MeCommand = true            -- true/false /me
