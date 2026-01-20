@@ -272,41 +272,23 @@ end)
 --------------POLICE----------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------
 RegisterNetEvent('rpchat:sendPolice', function(playerId, title, message, color)
-    local source = PlayerId()
-    local target = GetPlayerFromServerId(playerId)
-    if target ~= -1 then
-        local sourcePed, targetPed = PlayerPedId(), GetPlayerPed(target)
-        local sourceCoords, targetCoords = GetEntityCoords(sourcePed), GetEntityCoords(targetPed)
-        if targetPed == source or #(sourceCoords - targetCoords) < Config.CommandsDistance then  
-            local playerName = GetPlayerName(target)
-            local timeSpan = GetTimeSpan()
-            TriggerEvent('chat:addMessage', { 
-                template = '<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"><div style="margin-bottom: 5px; padding: 10px; background-color: ' .. getChatBackground() .. '; border-radius: 10px; color: white; font-family: Poppins, sans-serif; position: relative;"> <span style="background-color: rgb(' .. Config.PoliceColor[1] .. ', ' .. Config.PoliceColor[2] .. ', ' .. Config.PoliceColor[3] .. '); border-radius: 10px; padding: 2px 4px; color: white; font-weight: 600; font-family: Poppins, sans-serif;">LSPD</span> <span style="color: white; font-family: Poppins, sans-serif; word-wrap: break-word; white-space: pre-wrap;">{1}</span>' .. timeSpan .. '</div>',
-                args = { "[LSPD]", message },
-                isCommand = true
-            })
-        end
-    end
+    local timeSpan = GetTimeSpan()
+    TriggerEvent('chat:addMessage', { 
+        template = '<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"><div style="margin-bottom: 5px; padding: 10px; background-color: ' .. getChatBackground() .. '; border-radius: 10px; color: white; font-family: Poppins, sans-serif; position: relative;"> <span style="background-color: rgb(' .. Config.PoliceColor[1] .. ', ' .. Config.PoliceColor[2] .. ', ' .. Config.PoliceColor[3] .. '); border-radius: 10px; padding: 2px 4px; color: white; font-weight: 600; font-family: Poppins, sans-serif;">LSPD</span> <span style="color: white; font-family: Poppins, sans-serif; word-wrap: break-word; white-space: pre-wrap;">{0}</span>' .. timeSpan .. '</div>',
+        args = { message },
+        isCommand = true
+    })
 end)
 ------------------------------------------------------------------------------------------------
 --------------SHERIFF---------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------
 RegisterNetEvent('rpchat:sendSheriff', function(playerId, title, message, color)
-    local source = PlayerId()
-    local target = GetPlayerFromServerId(playerId)
-    if target ~= -1 then
-        local sourcePed, targetPed = PlayerPedId(), GetPlayerPed(target)
-        local sourceCoords, targetCoords = GetEntityCoords(sourcePed), GetEntityCoords(targetPed)
-        if targetPed == source or #(sourceCoords - targetCoords) < Config.CommandsDistance then  
-            local playerName = GetPlayerName(target)
-            local timeSpan = GetTimeSpan()
-            TriggerEvent('chat:addMessage', { 
-                template = '<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"><div style="margin-bottom: 5px; padding: 10px; background-color: ' .. getChatBackground() .. '; border-radius: 10px; color: white; font-family: Poppins, sans-serif; position: relative;"> <span style="background-color: rgb(' .. Config.SheriffColor[1] .. ', ' .. Config.SheriffColor[2] .. ', ' .. Config.SheriffColor[3] .. '); border-radius: 10px; padding: 2px 4px; color: white; font-weight: 600; font-family: Poppins, sans-serif;">LSSD</span> <span style="color: white; font-family: Poppins, sans-serif; word-wrap: break-word; white-space: pre-wrap;">{1}</span>' .. timeSpan .. '</div>',
-                args = { "[LSSD]", message },
-                isCommand = true
-            })
-        end
-    end
+    local timeSpan = GetTimeSpan()
+    TriggerEvent('chat:addMessage', { 
+        template = '<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"><div style="margin-bottom: 5px; padding: 10px; background-color: ' .. getChatBackground() .. '; border-radius: 10px; color: white; font-family: Poppins, sans-serif; position: relative;"> <span style="background-color: rgb(' .. Config.SheriffColor[1] .. ', ' .. Config.SheriffColor[2] .. ', ' .. Config.SheriffColor[3] .. '); border-radius: 10px; padding: 2px 4px; color: white; font-weight: 600; font-family: Poppins, sans-serif;">LSSD</span> <span style="color: white; font-family: Poppins, sans-serif; word-wrap: break-word; white-space: pre-wrap;">{0}</span>' .. timeSpan .. '</div>',
+        args = { message },
+        isCommand = true
+    })
 end)
 ------------------------------------------------------------------------------------------------
 ----------------DO------------------------------------------------------------------------------
@@ -406,21 +388,12 @@ end)
 --------------AMBULANCE-------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------
 RegisterNetEvent('rpchat:sendAmbulance', function(playerId, title, message, color)
-    local source = PlayerId()
-    local target = GetPlayerFromServerId(playerId)
-    if target ~= -1 then
-        local sourcePed, targetPed = PlayerPedId(), GetPlayerPed(target)
-        local sourceCoords, targetCoords = GetEntityCoords(sourcePed), GetEntityCoords(targetPed)
-        if targetPed == source or #(sourceCoords - targetCoords) < Config.CommandsDistance then  
-            local playerName = GetPlayerName(target)
-            local timeSpan = GetTimeSpan()
-            TriggerEvent('chat:addMessage', { 
-                template = '<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"><div style="margin-bottom: 5px; padding: 10px; background-color: ' .. getChatBackground() .. '; border-radius: 10px; color: white; font-family: Poppins, sans-serif; position: relative;"> <span style="background-color: rgb(' .. Config.AmbulanceColor[1] .. ', ' .. Config.AmbulanceColor[2] .. ', ' .. Config.AmbulanceColor[3] .. '); border-radius: 10px; padding: 2px 4px; color: white; font-weight: 600; font-family: Poppins, sans-serif;">EMS</span> <span style="color: white; font-family: Poppins, sans-serif; word-wrap: break-word; white-space: pre-wrap;">{1}</span>' .. timeSpan .. '</div>',
-                args = { "[EMS]", message },
-                isCommand = true
-            })
-        end
-    end
+    local timeSpan = GetTimeSpan()
+    TriggerEvent('chat:addMessage', { 
+        template = '<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"><div style="margin-bottom: 5px; padding: 10px; background-color: ' .. getChatBackground() .. '; border-radius: 10px; color: white; font-family: Poppins, sans-serif; position: relative;"> <span style="background-color: rgb(' .. Config.AmbulanceColor[1] .. ', ' .. Config.AmbulanceColor[2] .. ', ' .. Config.AmbulanceColor[3] .. '); border-radius: 10px; padding: 2px 4px; color: white; font-weight: 600; font-family: Poppins, sans-serif;">EMS</span> <span style="color: white; font-family: Poppins, sans-serif; word-wrap: break-word; white-space: pre-wrap;">{0}</span>' .. timeSpan .. '</div>',
+        args = { message },
+        isCommand = true
+    })
 end)
 ------------------------------------------------------------------------------------------------
 ---------------OOC------------------------------------------------------------------------------
