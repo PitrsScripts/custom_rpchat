@@ -14,6 +14,8 @@ Go to the server.cfg add line
 ❗* set resources_useSystemChat false ❗
 ❗* The need to have webhooks set up ❗
 
+https://github.com/esx-framework/async
+
 
 ### ✨ Features
 ## 🗣️ Immersive Roleplay Commands
